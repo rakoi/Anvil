@@ -1,18 +1,18 @@
 package com.anvil.rakoi.anvil.security;
 
+import java.util.Arrays;
 import java.util.Collection;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.anvil.rakoi.anvil.entities.User;
 
 public class MyUserDetails implements UserDetails {
-	
+
 	public User user;
-	
-	
-	 
+
 	public MyUserDetails(User user) {
 		super();
 		this.user = user;
@@ -20,8 +20,8 @@ public class MyUserDetails implements UserDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		
-		return new GrantedAuthority(new SimpleAuthority(user.getRoles()t));
+
+		return Arrays.asList(new SimpleGrantedAuthority(user.getRoles()));
 	}
 
 	@Override
@@ -31,13 +31,13 @@ public class MyUserDetails implements UserDetails {
 
 	@Override
 	public String getUsername() {
-		
+
 		return user.getUsername();
 	}
 
 	@Override
 	public boolean isAccountNonExpired() {
-	
+
 		return true;
 	}
 
@@ -49,13 +49,13 @@ public class MyUserDetails implements UserDetails {
 
 	@Override
 	public boolean isCredentialsNonExpired() {
-		
+
 		return true;
 	}
 
 	@Override
 	public boolean isEnabled() {
-		
+
 		return true;
 	}
 
