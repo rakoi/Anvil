@@ -1,9 +1,16 @@
 package com.anvil.rakoi.anvil.entities;
 
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import javax.persistence.*;
 
 @Entity
 public class User {
@@ -15,11 +22,26 @@ public class User {
 	public String username;
 	public String password;
 	public boolean active;
-	public String roles;
 	
 	
-	public void setRoles(String roles) {
+	@JsonManagedReference 
+	@ElementCollection(targetClass=Role.class)
+	@JoinTable(name = "user_role",joinColumns = @JoinColumn(name = "user_id"),inverseJoinColumns = @JoinColumn(name = "role_id"))
+    public Set<Role> roles;
+	
+	
+	
+	public User(int id, String email, String username, String password, boolean active, Set<Role> roles) {
+		super();
+		this.id = id;
+		this.email = email;
+		this.username = username;
+		this.password = password;
+		this.active = active;
 		this.roles = roles;
+	}
+	public User() {
+		super();
 	}
 	public int getId() {
 		return id;
@@ -51,15 +73,20 @@ public class User {
 		return "User [id=" + id + ", email=" + email + ", password=" + password + ", active=" + active + ", roles="
 				+ roles + "]";
 	}
-	public String getRoles() {
-		return roles;
-	}
+	
 	public String getUsername() {
 		return username;
 	}
 	public void setUsername(String username) {
 		this.username = username;
 	}
+	public Set<Role> getRoles() {
+		return roles;
+	}
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
+	
 	
 	
 	

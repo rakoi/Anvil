@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.anvil.rakoi.anvil.entities.User;
@@ -19,18 +21,24 @@ public class UserServiceImp implements UserServiceInterface {
 	@Override
 	public User findById(int id) {
 		
-		return userRepository.getOne(id);
+		return userRepository.findById(id).get();
 	}
 
 	@Override
-	public List<User> getAllUsers() {
+	public Page<User> getAllUsers(Pageable pageable) {
 	
-		return userRepository.findAll();
+		return  userRepository.findAll(pageable);
 	}
 
 	@Override
 	public Optional<User> getUserByUsername(String username) {
 		return userRepository.getUserByUsername(username);
+	}
+
+	@Override
+	public List<User> getAllUsers() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
