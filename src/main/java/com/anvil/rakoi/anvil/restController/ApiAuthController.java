@@ -39,9 +39,12 @@ public class ApiAuthController {
 			
 			final String jwt=jwtUtil.generateToken(userdetails);
 			
+			System.out.println(userdetails);
 			return ResponseEntity.ok(new AuthenticationResponse(jwt));
 			
 		}catch(Exception e) {
+			
+			System.out.println("The error is "+e);
 			throw new Exception("Incorrect username password");
 		}
 		
