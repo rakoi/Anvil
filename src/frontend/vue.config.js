@@ -1,4 +1,5 @@
   
+alert("LUO BOIS") 
 // vue.config.js
 module.exports = {
     // https://cli.vuejs.org/config/#devserver-proxy

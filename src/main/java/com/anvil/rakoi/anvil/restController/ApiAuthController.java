@@ -1,11 +1,13 @@
 package com.anvil.rakoi.anvil.restController;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,6 +19,7 @@ import com.anvil.rakoi.anvil.security.MyDetailsService;
 import com.anvil.rakoi.anvil.util.JwtUtil;
 
 @RestController
+@RequestMapping("/api")
 public class ApiAuthController {
 	
 	@Autowired
@@ -26,6 +29,8 @@ public class ApiAuthController {
 	@Autowired
 	public JwtUtil jwtUtil;
 	
+	
+	@CrossOrigin
 	@RequestMapping(value="/authenticate"
 			+ "",method=RequestMethod.POST)
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception{
@@ -44,8 +49,12 @@ public class ApiAuthController {
 			
 		}catch(Exception e) {
 			
-		
-			throw new Exception("Incorrect username password");
+			JSONObject obj=new JSONObject();  
+			  obj.put("error","Incorrect Credentials");
+			
+			return ResponseEntity.ok(obj);
+			//throw new Exception("Incorrect username password");
+			
 		}
 		
 		
