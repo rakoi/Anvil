@@ -273,6 +273,7 @@
               href="#"
               data-toggle="modal"
               data-target="#logoutModal"
+              @click="logout()"
             >
               <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
               Logout
@@ -286,15 +287,20 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 export default {
   name: "TopBar",
-  computed: mapGetters(["getLoggedInStatus"]),
+  computed: mapGetters(["getloggedIn"]),
   methods: {
-    ...mapActions(["sendToLoginPage"]),
-  },
+    ...mapActions(["sendToLoginPage","logoutUser"]),
+    logout() {
+     this.logoutUser();
+      this.$router.push({ name: '/Login' })
+    },
   created() {
-    this.sendToLoginPage();
+    if (this.getloggedIn == false || this.getloggedIn == null) {
+      this.$router.push({ name: "/Login" });
+    }
   },
 };
 </script>

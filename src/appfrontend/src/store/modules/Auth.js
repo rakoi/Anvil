@@ -1,39 +1,66 @@
 import axios from 'axios';
 
 const state = {
-    loggedIn: null,
-    jwt:'',
+    loggedIn:null,
+    jwt:null,
 }
 const getters = {
-    getLoggedInStatus: state => state.loggedIn
+    
+    getloggedIn:(state)=>state.loggedIn
+
+
 };
+
+
 const actions = {
-    sendToLoginPage() {
-        if (state.loggedIn == false) {
-            window.location.href = "/login"
-        }
-    },
-    async logIn({commit}, credentials) {
+   async logIn({commit}, credentials) {
 
-
+        
         const response= await axios.post("http://localhost:8010/api/authenticate", {
             'username': credentials.username,
             'password': credentials.password,
         });
         var jwt = response.data.jwt;
+        
       
         localStorage.setItem('anvil_token', jwt);
-        commit('setLogedIn',true)
-        if(jwt){
-            window.location='/';
-        }
-     //   window.location='/';
-        
-     return response;
+      
+     
+
+        //update on validate token
+        commit('setLoggedIn',true);
+
+        commit('setJwt',jwt);
+
+        return response;
+    
+    },
+
+    sendToLoginPage(){
+
+        alert(state.loggedIn);
+
+
+    },
+    logoutUser({commit}){
+
+      
+        commit('setLoggedIn',false);
+        commit('setJwt',null);
+
     }
+
+    
 };
 const mutations = {
-    setLogedIn:(state,status)=>(state.loggedIn=status)
+
+    setLoggedIn:(state,loggedIn)=>(state.loggedIn=loggedIn),
+  
+    setJwt:(state,token)=>{
+        state.jwt=token
+        
+    },
+   
 }
 
 export default {

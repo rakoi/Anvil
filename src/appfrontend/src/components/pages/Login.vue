@@ -69,10 +69,10 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapActions,mapGetters } from "vuex";
 export default {
   name: "Login",
-  computed: mapGetters(["getLoggedInStatus"]),
+  computed: mapGetters(["getloggedIn"]),
   data() {
     return {
       username: "brianrakoi",
@@ -83,7 +83,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["sendToLoginPage", "logIn"]),
+    ...mapActions(["logIn"]),
     loginUser(e) {
       e.preventDefault();
       if (
@@ -109,11 +109,21 @@ export default {
             this.feedback = response.data.error;
           } else {
             this.feedback = "";
+
+            if(this.getloggedIn){
+                this.$router.push({ name: '/Dashboard' })
+            }
+           
           }
         });
 
       }
     },
   },
+  created(){
+   if(this.getloggedIn==true){
+       this.$router.push({ name: '/Dashboard' })
+   }
+  }
 };
 </script>

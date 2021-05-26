@@ -9,10 +9,12 @@ const router=new VueRouter({
     routes:[
         {
             path:'/login',
+            name:'/Login',
             component:Login
         },
         {
             path:'/',
+            name:'/Dashboard',
             component:Dashboard
         }
     ]
