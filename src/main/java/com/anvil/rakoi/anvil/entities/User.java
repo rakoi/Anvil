@@ -31,8 +31,9 @@ public class User {
 	
 	@OneToOne(mappedBy="user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	public Vehicle vehicle;
-	
-	
+
+
+
 	
 	public User(int id, String email, String username, String password, boolean active, Set<Role> roles) {
 		super();
@@ -92,10 +93,16 @@ public class User {
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
-	
-	
-	
-	
-	
 
+	public boolean isActive() {
+		return active;
+	}
+
+	public Vehicle getVehicle() {
+		return vehicle;
+	}
+
+	public void setVehicle(Vehicle vehicle) {
+		this.vehicle = vehicle;
+	}
 }

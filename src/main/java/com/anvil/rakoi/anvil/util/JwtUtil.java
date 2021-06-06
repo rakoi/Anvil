@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+import com.anvil.rakoi.anvil.entities.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -56,6 +57,11 @@ public class JwtUtil {
 		//System.out.println("Expired Status is "+isTokenExpired(token));
 		//return (username.equals(userDetails.getAuthorities()) && !isTokenExpired(token));
 		return true;
+	}
+
+	public User getUser(String token){
+		String username=extractUsername(token);
+		return null;
 	}
 	
 	

@@ -197,7 +197,7 @@
           <div class="bg-white py-2 collapse-inner rounded">
 
             <h6 class="collapse-header">Parcels</h6>
-            <a class="collapse-item" href="Send.html">New</a>
+            <a class="collapse-item" href="/parcel/new">New</a>
             <a class="collapse-item" href="parcels.html">All parcels</a>
 
 

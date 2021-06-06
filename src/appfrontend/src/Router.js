@@ -1,7 +1,7 @@
 import VueRouter from "vue-router";
 import Login from './components/pages/Login.vue'
 import Dashboard from './components/pages/Dashboard.vue'
-
+import NewParcel from './components/pages/NewParcel.vue'
 
 const router=new VueRouter({
 
@@ -16,6 +16,11 @@ const router=new VueRouter({
             path:'/',
             name:'/Dashboard',
             component:Dashboard
+        },
+        {
+            path:'/parcel/new',
+            name:'/newparcel',
+            component:NewParcel
         }
     ]
 

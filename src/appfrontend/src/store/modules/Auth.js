@@ -3,11 +3,12 @@ import axios from 'axios';
 const state = {
     loggedIn:null,
     jwt:null,
+    user:{}
 }
 const getters = {
     
-    getloggedIn:(state)=>state.loggedIn
-
+    getloggedIn:(state)=>state.loggedIn,
+    getLoggedInUser:(state)=>state.user
 
 };
 
@@ -16,25 +17,53 @@ const actions = {
    async logIn({commit}, credentials) {
 
         
-        const response= await axios.post("http://localhost:8010/api/authenticate", {
+        const response= await axios.post("http://localhost:8096/api/authenticate", {
             'username': credentials.username,
             'password': credentials.password,
         });
         var jwt = response.data.jwt;
-        
+      
       
         localStorage.setItem('anvil_token', jwt);
       
+       
      
 
         //update on validate token
         commit('setLoggedIn',true);
 
         commit('setJwt',jwt);
-
+       
         return response;
     
     },
+
+    async getUser({commit}){
+          
+        
+        // const response=await axios.get('http://127.0.0.1:8096/api/getUserDetails');
+        // console.log(response.data)
+
+            let token=localStorage.getItem('anvil_token');
+            
+            const response=await axios.get("http://127.0.0.1:8096/api/getUserDetails",{
+                headers:{
+                    'Content-Type': 'application/json',
+                    "Authorization":`Bearer ${token}`,
+              
+                   
+                
+                }
+            });
+          
+            var user=response.data.user;
+          
+           commit('setUser',user);
+       
+    },
+
+
+    
 
     sendToLoginPage(){
 
@@ -60,6 +89,11 @@ const mutations = {
         state.jwt=token
         
     },
+    setUser:(state,user)=>{
+      
+        state.user=user;
+       
+    }
    
 }
 

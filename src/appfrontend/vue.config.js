@@ -2,10 +2,10 @@
 
 module.exports = {
     
-    // https://cli.vuejs.org/config/#devserver-proxy
+    
     devServer: {
-        port: 8030,
-     
+      // proxy: 'https://localhost:8096/',
+      port:'8030'
     }
     
 }
