@@ -37,7 +37,7 @@ public class UserServiceImp implements UserServiceInterface {
 
 	@Override
 	public List<User> getAllUsers() {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 

@@ -1,6 +1,7 @@
 package com.anvil.rakoi.anvil.restController;
 
 import com.anvil.rakoi.anvil.entities.User;
+import com.anvil.rakoi.anvil.services.ClientServiceImp;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +32,8 @@ public class ApiAuthController {
 	public MyDetailsService myDetailsService;
 	@Autowired
 	public JwtUtil jwtUtil;
+	@Autowired
+	ClientServiceImp clientServiceImp;
 	
 	
 
@@ -69,7 +72,7 @@ public class ApiAuthController {
 
 		Object user= SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-
+		clientServiceImp.getAllClients();
 		return ResponseEntity.ok(user);
 	}
 }

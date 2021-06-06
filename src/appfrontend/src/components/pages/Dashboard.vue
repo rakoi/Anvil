@@ -125,9 +125,10 @@ export default{
   },
     created() {
     this.user = this.getLoggedInUser;
+    
 
     this.tripcount = this.user.vehicle.trips.length;
-    console.log(this.user);
+   
   }
 }
 

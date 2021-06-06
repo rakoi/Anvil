@@ -32,6 +32,10 @@ public class User {
 	@OneToOne(mappedBy="user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	public Vehicle vehicle;
 
+	@ManyToOne
+	@JoinColumn(name="station_id", nullable=false)
+	private Station station;
+
 
 
 	
@@ -44,8 +48,28 @@ public class User {
 		this.active = active;
 		this.roles = roles;
 	}
-	
-	
+
+	public User(String email, String username, String password, boolean active, Set<Role> roles, Vehicle vehicle, Station station) {
+		this.email = email;
+		this.username = username;
+		this.password = password;
+		this.active = active;
+		this.roles = roles;
+		this.vehicle = vehicle;
+		this.station = station;
+	}
+
+	public User(int id, String email, String username, String password, boolean active, Set<Role> roles, Vehicle vehicle, Station station) {
+		this.id = id;
+		this.email = email;
+		this.username = username;
+		this.password = password;
+		this.active = active;
+		this.roles = roles;
+		this.vehicle = vehicle;
+		this.station = station;
+	}
+
 	public User() {
 		super();
 	}
@@ -104,5 +128,13 @@ public class User {
 
 	public void setVehicle(Vehicle vehicle) {
 		this.vehicle = vehicle;
+	}
+
+	public Station getStation() {
+		return station;
+	}
+
+	public void setStation(Station station) {
+		this.station = station;
 	}
 }

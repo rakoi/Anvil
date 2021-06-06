@@ -27,7 +27,7 @@ const actions = {
         localStorage.setItem('anvil_token', jwt);
       
        
-     
+    
 
         //update on validate token
         commit('setLoggedIn',true);
@@ -57,6 +57,9 @@ const actions = {
             });
           
             var user=response.data.user;
+            // console.log('user is');
+            // console.log(user);
+         
           
            commit('setUser',user);
        
