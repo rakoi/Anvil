@@ -34,7 +34,7 @@ public class ParcelRestController {
 			Parcel parcel= parcelServiceImpl.getParcelById(id);
 			return ResponseEntity.ok().body(parcel);
 		}catch(Exception e) {
-			System.out.println("HERE");
+
 			return ResponseEntity.notFound().build();
 		}
 		

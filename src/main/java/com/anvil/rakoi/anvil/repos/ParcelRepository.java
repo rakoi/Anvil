@@ -7,7 +7,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 import com.anvil.rakoi.anvil.entities.Parcel;
 
-public interface ParcelRepository extends PagingAndSortingRepository<Parcel,Integer> {
+public interface ParcelRepository extends  PagingAndSortingRepository<Parcel,Integer> {
 
 	
 

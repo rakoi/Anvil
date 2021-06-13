@@ -41,16 +41,24 @@ class AnvilApplicationTests {
 	}
 	@Test
 	void testAddClient(){
-		Client client=new Client(3,"James","Bond","jb@gmail.com","333333","076969688");
+		Client client=new Client ("James","Bond","jb@gmail.com","333333","076969688");
 		System.out.println(client.toString());
 		try{
-			clientRepository.findById(1);
+			clientServiceImp.addClient(client);
 		}catch (Exception e){
 			System.out.println(e.toString());
 		}
 
 	}
-	
+	@Test
+	void getClientByNumber(){
+		System.out.println(clientServiceImp.findByphone_number("0702164611"));
+	}
+
+	@Test
+	void searchByPhoneNumber(){
+		System.out.println(clientServiceImp.searchByPhoneNumber("07").size());
+	}
 
 
 }

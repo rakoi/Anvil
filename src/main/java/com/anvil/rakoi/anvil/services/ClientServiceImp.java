@@ -8,7 +8,9 @@ import org.springframework.data.domain.Pageable;
 
 import com.anvil.rakoi.anvil.entities.Client;
 import com.anvil.rakoi.anvil.repos.ClientRepository;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ClientServiceImp implements ClientServiceImpl {
 	
 	
@@ -45,5 +47,17 @@ public class ClientServiceImp implements ClientServiceImpl {
 		clientRepository.save(client);
 		
 	}
+
+	@Override
+	public Client findByphone_number(String phoneNumber) {
+		return clientRepository.findByPhone(phoneNumber);
+	}
+
+	@Override
+	public List<Client> searchByPhoneNumber(String phoneNumber) {
+
+		return clientRepository.findByPhoneContains(phoneNumber);
+	}
+
 
 }

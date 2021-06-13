@@ -59,14 +59,8 @@
                 </div>
                 <div class="col-md-6 mb-3">
                   <label for="sPhoneNumber">Phone Number</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="sPhoneNumber"
-                    name="sender.phone"
-                    value="+254"
-                    required="true"
-                  />
+                  <AutoComplete/>
+                
                   <div class="alert-danger" id="sPhoneValidation"></div>
                 </div>
               </div>
@@ -399,9 +393,11 @@
 
 <script>
 import appLayout from "../layout/appLayout";
+import AutoComplete from '../widgets/AutoComplete.vue'
 export default {
   components: {
     appLayout,
+    AutoComplete
   },
 };
 </script>
