@@ -4,7 +4,7 @@ module.exports = {
     
     
     devServer: {
-      // proxy: 'https://localhost:8096/',
+       proxy: 'https://localhost:8096',
       port:'8030'
     }
     

@@ -13,7 +13,8 @@
 </template>
 
 <script>
-import axios from 'axios';
+import {HTTP} from '../../common/http-common'
+
 export default {
 
     data(){
@@ -23,17 +24,15 @@ export default {
     },
     methods:{
         searchByNumber(){
+        
 
-            let token=localStorage.getItem('anvil_token');
-            axios.get(`http://127.0.0.1:8096/api/client/searchByPhone/${this.number}`,{
-                 headers:{
-                    'Content-Type': 'application/json',
-                    "Authorization":`Bearer ${token}`,
-              
-                   
-                
-                }
-            })
+
+        //let token=localStorage.getItem('anvil_token');
+          
+            
+            HTTP.get(
+                `client/searchByPhone/${this.number}`
+                )
             .then((resp)=>{
                 console.log(resp);
             }).catch((error)=>{

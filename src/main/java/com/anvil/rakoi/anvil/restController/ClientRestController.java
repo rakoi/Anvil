@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 
+@CrossOrigin(maxAge = 3600)
 @RestController
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/api/client")
 public class ClientRestController {
 
@@ -19,7 +19,7 @@ public class ClientRestController {
     ClientServiceImp clientService;
 
     @GetMapping("/findByPhone/{phone}")
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
+
     public ResponseEntity<Client> findClientByPhoneNumber(@PathVariable String phone){
         Client client= clientService.findByphone_number(phone);
 
@@ -32,8 +32,8 @@ public class ClientRestController {
 
     }
     @GetMapping("/searchByPhone/{phone}")
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
 
+    @CrossOrigin
     public ResponseEntity<List<Client>> searchByPhoneNumber(@PathVariable String phone){
 
 

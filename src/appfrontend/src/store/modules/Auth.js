@@ -43,6 +43,9 @@ const actions = {
         
         // const response=await axios.get('http://127.0.0.1:8096/api/getUserDetails');
         // console.log(response.data)
+        //console.log(HTTP);
+       
+    
 
             let token=localStorage.getItem('anvil_token');
             

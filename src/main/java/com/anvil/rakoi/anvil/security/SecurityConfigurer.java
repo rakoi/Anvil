@@ -35,8 +35,8 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-	
-		http.csrf().disable()
+
+		http.cors().configurationSource(corsConfigurationSource()).and().csrf().disable()
 					.authorizeRequests().antMatchers("/","/api/authenticate","/api/getUserDetails")
 					.permitAll().anyRequest().authenticated()
 					.and().sessionManagement()
@@ -45,6 +45,20 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 	
 	}
 
+	@Bean
+	CorsConfigurationSource corsConfigurationSource() {
+		CorsConfiguration configuration = new CorsConfiguration();
+		configuration.setAllowedOrigins(Arrays.asList("*"));
+		configuration.setAllowedMethods(Arrays.asList("GET","POST"));
+		//configuration.setAllowCredentials(true);
+		//the below three lines will add the relevant CORS response headers
+		configuration.addAllowedOrigin("*");
+		configuration.addAllowedHeader("*");
+		configuration.addAllowedMethod("*");
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", configuration);
+		return source;
+	}
 
 	@Bean
 	public PasswordEncoder getPasswordEncoder() {
@@ -57,19 +71,6 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 		return super.authenticationManagerBean();
 	}
 
-	@Bean
-	CorsConfigurationSource corsConfigurationSource() {
-		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.setAllowedOrigins(Arrays.asList("*"));
-		configuration.setAllowedMethods(Arrays.asList("*"));
-		configuration.setAllowCredentials(true);
-		//the below three lines will add the relevant CORS response headers
-		configuration.addAllowedOrigin("*");
-		configuration.addAllowedHeader("*");
-		configuration.addAllowedMethod("*");
-		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		source.registerCorsConfiguration("/**", configuration);
-		return source;
-	}
+
 
 }

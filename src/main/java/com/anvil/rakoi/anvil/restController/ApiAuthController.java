@@ -20,10 +20,10 @@ import com.anvil.rakoi.anvil.util.JwtUtil;
 import javax.servlet.http.HttpServletRequest;
 
 
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin(maxAge = 3600)
 @RestController
-
 @RequestMapping("/api")
+
 public class ApiAuthController {
 	
 	@Autowired
@@ -39,7 +39,7 @@ public class ApiAuthController {
 
 	@RequestMapping(value="/authenticate"
 			+ "",method=RequestMethod.POST)
-
+	@CrossOrigin
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception{
 		
 		try {
@@ -67,7 +67,6 @@ public class ApiAuthController {
 	}
 
 	@GetMapping(value = "/getUserDetails")
-	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	public ResponseEntity<?> getUserDetails(){
 
 		Object user= SecurityContextHolder.getContext().getAuthentication().getPrincipal();

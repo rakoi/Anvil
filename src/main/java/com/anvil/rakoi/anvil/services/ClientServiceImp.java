@@ -9,8 +9,10 @@ import org.springframework.data.domain.Pageable;
 import com.anvil.rakoi.anvil.entities.Client;
 import com.anvil.rakoi.anvil.repos.ClientRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 @Service
+
 public class ClientServiceImp implements ClientServiceImpl {
 	
 	
