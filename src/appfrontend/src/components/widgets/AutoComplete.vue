@@ -19,7 +19,8 @@ export default {
 
     data(){
         return{
-            number:'+2547'
+            number:'+2547',
+            phoneNumbers:null,
         }
     },
     methods:{
@@ -34,7 +35,9 @@ export default {
                 `client/searchByPhone/${this.number}`
                 )
             .then((resp)=>{
-                console.log(resp);
+                console.log(resp.data);
+                this.phoneNumbers=resp.data;
+
             }).catch((error)=>{
                 console.log(error);
             });
