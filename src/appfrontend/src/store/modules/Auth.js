@@ -79,7 +79,7 @@ const actions = {
     },
     logoutUser({commit}){
 
-      
+        localStorage.setItem('anvil_token','expired')
         commit('setLoggedIn',false);
         commit('setJwt',null);
 

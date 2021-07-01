@@ -305,7 +305,7 @@ export default {
     }
     this.getUser();
 
-    console.log(this.getLoggedInUser);
+   // console.log(this.getLoggedInUser);
     
   },
 };

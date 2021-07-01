@@ -92,8 +92,17 @@ public class Client {
 	public void setParcel(Set<Parcel> parcel) {
 		this.parcel = parcel;
 	}
-	
-	
-	
 
+	@Override
+	public String toString() {
+		return "Client{" +
+				"id=" + id +
+				", first_name='" + first_name + '\'' +
+				", last_name='" + last_name + '\'' +
+				", email='" + email + '\'' +
+				", id_number='" + id_number + '\'' +
+				", phone='" + phone + '\'' +
+				", parcel=" + parcel +
+				'}';
+	}
 }

@@ -84,7 +84,16 @@ public class Parcel {
 	
 	}
 
-
+	public Parcel(String origin, String destination, String description, String payment_method, int quantity, double amount_paid, double price, int kilograms) {
+		this.origin = origin;
+		this.destination = destination;
+		this.description = description;
+		this.payment_method = payment_method;
+		this.quantity = quantity;
+		this.amount_paid = amount_paid;
+		this.price = price;
+		this.kilograms = kilograms;
+	}
 
 	public int getId() {
 		return id;
@@ -158,7 +167,22 @@ public class Parcel {
 	public void setClient(Client client) {
 		this.client = client;
 	}
-	
-	
-	
+
+	@Override
+	public String toString() {
+		return "Parcel{" +
+				"id=" + id +
+				", client=" + client +
+				", trip=" + trip +
+				", origin='" + origin + '\'' +
+				", destination='" + destination + '\'' +
+				", description='" + description + '\'' +
+				", payment_method='" + payment_method + '\'' +
+				", quantity=" + quantity +
+				", amount_paid=" + amount_paid +
+				", price=" + price +
+				", kilograms=" + kilograms +
+				", timestamp='" + timestamp + '\'' +
+				'}';
+	}
 }

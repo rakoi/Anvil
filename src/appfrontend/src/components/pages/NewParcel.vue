@@ -13,9 +13,10 @@
               <div class="row">
                 <div class="col-md-12 mb-3">
                   <input
-                    type="hidden"
+                  
                     class="form-control"
                     name="sender.id"
+                    v-model="sender.id"
                     id="senderid"
                     placeholder="#"
                   />
@@ -28,6 +29,7 @@
                     class="form-control"
                     placeholder="First Name"
                     required="true"
+                    v-model="sender.first_name"
                   />
                  
                 </div>
@@ -39,6 +41,7 @@
                     name="sender.lname"
                     id="slastName"
                     placeholder="Last Name"
+                    v-model="sender.last_name"
                   />
                  
                 </div>
@@ -53,13 +56,16 @@
                     name="sender.email"
                     class="form-control"
                     id="semail"
+                    v-model="sender.email"
                     placeholder="you@example.com"
                   />
                
                 </div>
                 <div class="col-md-6 mb-3">
                   <label for="sPhoneNumber">Phone Number</label>
-                  <AutoComplete/>
+                  <AutoComplete
+                   v-on:childToParent="getSender"
+                  />
                 
                   <div class="alert-danger" id="sPhoneValidation"></div>
                 </div>
@@ -73,6 +79,7 @@
                   name="sender.address"
                   id="saddress"
                   placeholder="121212"
+                  v-model="sender.id_number"
                 />
               
               </div>
@@ -85,20 +92,17 @@
                     id="stown"
                     name="sender.town"
                     required="true"
+                    v-model="parcel.origin"
                   >
                     <option value="">Choose...</option>
-                    <option>Nairobi</option>
-                    <option>Mwea</option>
-                    <option>Embu</option>
-                    <option>Runyenjes</option>
-                    <option>Chuka</option>
-                    <option>Nkubu</option>
-                    <option>Meru</option>
-                    <option>Maua</option>
-                    <option>Isiolo</option>
-                    <option>Nanyuki</option>
-                    <option>Nyeri</option>
-                    <option>Karatina</option>
+                    <option value="Nairobi">Nairobi</option>
+                    <option value="Mwea">Mwea</option>
+                    <option value="Embu">Embu</option>
+                    <option value="Runyenjes">Runyenjes</option>
+                    <option value="Chuka">Chuka</option>
+                    <option value="Nkubu">Nkubu</option>
+                   
+                   
                   </select>
              
                 </div>
@@ -115,11 +119,12 @@
               </div>
               <div class="col-md-12 mb-3">
                 <input
-                  type="hidden"
+                
                   id="receverid"
                   name="reciever.id"  
                   class="form-control"
                   placeholder="#"
+                  v-model="receiver.id"
                 />
              
               </div>
@@ -133,6 +138,7 @@
                     id="rfirstName"
                     placeholder="First Name"
                     required="true"
+                       v-model="receiver.first_name"
                   />
                  
                 </div>
@@ -144,6 +150,7 @@
                     name="reciever.lname"
                     id="rlastName"
                     placeholder="Last Name"
+                       v-model="receiver.last_name"
                   />
                   <div class="invalid-feedback">
                     Valid last name is required.
@@ -161,20 +168,15 @@
                     id="remail"
                     placeholder="you@example.com"
                     name="reciever.email"
+                       v-model="receiver.email"
                   />
                
                 </div>
                 <div class="col-md-6 mb-3">
                   <label for="rPhoneNumber">Phone Number</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="rPhoneNumber"
-                    name="reciever.phone"
-                    value="+254"
-                    onkeyup="recieversphoneNoValidation()"
-                    required="true"
-                  />
+                <AutoComplete
+                   v-on:childToParent="getReceiver"
+                />
                  
                 </div>
               </div>
@@ -187,6 +189,7 @@
                   id="raddress"
                   placeholder="1234568"
                   name="reciever.address"
+                     v-model="receiver.phone"
                 />
                 
               </div>
@@ -199,20 +202,15 @@
                     name="reciever.town"
                     id="rtown"
                     required="true"
+                    v-model="parcel.destination"
                   >
                     <option value="">Choose...</option>
-                    <option>Nairobi</option>
-                    <option>Mwea</option>
-                    <option>Embu</option>
-                    <option>Runyenjes</option>
-                    <option>Chuka</option>
-                    <option>Nkubu</option>
-                    <option>Meru</option>
-                    <option>Maua</option>
-                    <option>Isiolo</option>
-                    <option>Nanyuki</option>
-                    <option>Nyeri</option>
-                    <option>Karatina</option>
+                    <option value="Nairobi">Nairobi</option>
+                    <option value="Mwea">Mwea</option>
+                    <option value="Embu">Embu</option>
+                    <option value="Runyenjes">Runyenjes</option>
+                    <option value="Chuka">Chuka</option>
+                    <option value="Nkubu">Nkubu</option>
                   </select>
                   <div class="invalid-feedback">
                     Please select a valid Town.
@@ -237,6 +235,7 @@
                   name="description"
                   id="sdescription"
                   placeholder="description"
+                   v-model="parcel.description"
                 />
                 <div class="invalid-feedback">
                   Please select a valid description.
@@ -248,9 +247,10 @@
                   <input
                     type="number"
                     class="form-control"
-                    name="weight"
+                    name="kilograms"
                     id="weight"
                     placeholder="11"
+                     v-model="parcel.kilograms"
                     required="true"
                   />
                   <div class="invalid-feedback">Valid weight is required.</div>
@@ -263,6 +263,7 @@
                     class="form-control"
                     placeholder="1"
                     id="quantity"
+                     v-model="parcel.quantity"
                     required="true"
                   />
                   <div class="invalid-feedback">Quantity required.</div>
@@ -277,6 +278,7 @@
                     placeholder="1"
                     required="true"
                     maxlength="5"
+                      v-model="parcel.price"
                   />
                   <div class="invalid-feedback">
                     Please the total amount charged.
@@ -292,6 +294,7 @@
                     placeholder="1"
                     required="true"
                     maxlength="5"
+                     v-model="parcel.amount_paid"
                   />
                 
                 </div>
@@ -304,6 +307,7 @@
                     name="collection_point"
                     placeholder="1"
                     required="true"
+                    
                     
                   />
                 
@@ -322,8 +326,9 @@
                     type="radio"
                     value="M-Pesa"
                     class="custom-control-input"
-                    checked
+                    
                     required
+                    @change="onChange($event)"
                   />
                   <label class="custom-control-label" for="credit">Mpesa</label>
                 </div>
@@ -335,6 +340,8 @@
                     type="radio"
                     class="custom-control-input"
                     required
+                   
+                    @change="onChange($event)"
                   />
                   <label class="custom-control-label" for="debit">Cash</label>
                 </div>
@@ -346,6 +353,10 @@
                     value="C.O.D"
                     class="custom-control-input"
                     required
+                    
+                    @change="onChange($event)"
+
+                    
                   />
                   <label class="custom-control-label" for="paypal"
                     >Cash On Delivery</label
@@ -359,6 +370,8 @@
                     value="invoice"
                     class="custom-control-input"
                     required
+                     
+                    @change="onChange($event)"
                   />
                   <label class="custom-control-label" for="invoice"
                     >Invoice</label
@@ -378,6 +391,7 @@
                 class="btn btn-primary btn-lg btn-block"
                 id="submit"
                 type="submit"
+                @click="saveParcel"
               >
                 Send Parcel
               </button>
@@ -394,10 +408,64 @@
 <script>
 import appLayout from "../layout/appLayout";
 import AutoComplete from '../widgets/AutoComplete.vue'
+import {mapActions} from 'vuex'
 export default {
   components: {
     appLayout,
     AutoComplete
   },
+  created(){
+      this.parcel.origin="Nairobi";
+      this.parcel.destination="Mwea";
+      this.parcel.kilograms=109;
+      this.parcel.amount_paid="200";
+      this.parcel.price="200"
+       this.parcel.description="TEST"
+  },
+  data(){
+    return{
+      sender:{},
+      receiver:{},
+      parcel:{},
+      payment_method:'',
+    }
+  },
+  methods:{
+    ...mapActions(["addParcel"]),
+    onChange(event){
+     var data = event.target.value;
+     this.payment_method=data;
+    
+     this.parcel.payment_method=data;
+      console.log(this.parcel);
+    },
+    getSender(value){
+      this.sender=value;
+    
+    },
+    getReceiver(value){
+      this.receiver=value
+    },
+    saveParcel(e){
+      e.preventDefault();
+     
+      
+      
+      let newParcel={
+        sender:this.sender,
+        reciever:this.receiver,
+        parcel:this.parcel
+      }
+
+      console.log(newParcel)
+
+   
+    this.addParcel(newParcel);
+
+
+
+    }
+
+  }
 };
 </script>
