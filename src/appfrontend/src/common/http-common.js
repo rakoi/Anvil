@@ -2,8 +2,8 @@ import axios from 'axios';
 
 if(localStorage.getItem('anvil_token')!='expired'){
     let token=localStorage.getItem('anvil_token');
-   
-    axios.defaults.headers.common = {'Authorization': `Bearer ${token}`}
+    console.log(token)
+     axios.defaults.headers.common = {'Authorization': `Bearer ${token}`}
 }
 
 

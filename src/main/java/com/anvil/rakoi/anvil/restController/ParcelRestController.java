@@ -2,8 +2,13 @@ package com.anvil.rakoi.anvil.restController;
 
 import com.anvil.rakoi.anvil.entities.Client;
 import com.anvil.rakoi.anvil.entities.SaveParcelEntity;
+import com.anvil.rakoi.anvil.services.ClientServiceImp;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,6 +22,7 @@ import com.anvil.rakoi.anvil.entities.User;
 import com.anvil.rakoi.anvil.services.ParcelServiceImpl;
 
 import java.io.DataInput;
+import java.util.List;
 
 @CrossOrigin(maxAge = 3600)
 @RestController
@@ -25,6 +31,8 @@ public class ParcelRestController {
 
 	@Autowired
 	ParcelServiceImpl parcelServiceImpl;
+	@Autowired
+	ClientServiceImp clientServiceImp;
 
 	@GetMapping("/all")
 	public Page<Parcel> getallParcels(Pageable pageable) {
@@ -53,11 +61,29 @@ public class ParcelRestController {
 
 	@PostMapping("/addParcel")
 	public ResponseEntity<?> addParcel(@RequestBody JSONObject saveParcelEntity) throws JsonProcessingException {
+		Gson gson = new Gson();
+		String parcelJson=new Gson().toJson(saveParcelEntity.get("parcel"));
+		Parcel parcel=gson.fromJson(parcelJson,Parcel.class);
 
-		//Gson gson= new Gson();
-		//Parcel parcel= (Parcel) saveParcelEntity.get("parcel");
+		String senderJson=new Gson().toJson(saveParcelEntity.get("sender"));
+		Client sender=gson.fromJson(senderJson,Client.class);
 
-		//System.out.println(parcel.toString());
+		String receiverJson=new Gson().toJson(saveParcelEntity.get("reciever"));
+		Client reciever=gson.fromJson(receiverJson,Client.class);
+		System.out.println(reciever);
+		if (reciever.getId()==0){
+			clientServiceImp.addClient(reciever);
+		}
+		if(sender.getId()==0){
+			clientServiceImp.addClient(sender);
+		}
+
+
+
+		System.out.println(sender);
+		System.out.print("hello");
+
+
 		return ResponseEntity.ok("Success");
 	}
 

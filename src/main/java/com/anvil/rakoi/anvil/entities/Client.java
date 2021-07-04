@@ -32,6 +32,12 @@ public class Client {
 	public Client() {
 		super();
 	}
+
+
+
+
+
+
 	public Client(int id, String first_name, String last_name, String email, String id_number, String phone) {
 		super();
 		this.id = id;

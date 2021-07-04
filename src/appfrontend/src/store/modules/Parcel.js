@@ -25,8 +25,6 @@ const actions = {
         .then((resp)=>{
             console.log(resp.data)
             commit('setAddParcel',resp.data);
-        }).error((error)=>{
-            console.log(error);
         });
     }
 

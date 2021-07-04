@@ -448,9 +448,19 @@ export default {
     },
     saveParcel(e){
       e.preventDefault();
-     
+      console.log(this.receiver.id);
+
+
       
-      
+      if(this.sender.id==null){
+          this.sender.id=0;
+      }
+
+      if(this.receiver.id==null){
+          this.receiver.id=0;
+      }
+
+
       let newParcel={
         sender:this.sender,
         reciever:this.receiver,
