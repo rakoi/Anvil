@@ -6,9 +6,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Parcel {
@@ -20,17 +17,17 @@ public class Parcel {
 	
 	
 	@ManyToOne
-	@JoinColumn(name="client_id")
-	public Client client;
+	@JoinColumn(name="reciever")
+	public Client reciever;
+
+	@ManyToOne
+	@JoinColumn(name="sender")
+	public Client sender;
 	
 	
 	@ManyToOne
 	@JoinColumn(name="trip_id")
 	public Trip trip;
-	
-	
-
-	
 	public String origin;
 	public String destination;
 	public String description;
@@ -40,13 +37,15 @@ public class Parcel {
 	public double price;
 	public int kilograms;
 	public String timestamp;
+
+	public Boolean collected;
 	
 	
-	public Parcel(int id, Client client, Trip trip, String origin, String destination, String description,
-			String payment_method, int quantity, double amount_paid, double price, int kilograms, String timeStamp) {
+	public Parcel(int id, Client reciever_id, Trip trip, String origin, String destination, String description,
+				  String payment_method, int quantity, double amount_paid, double price, int kilograms, String timeStamp) {
 		super();
 		this.id = id;
-		this.client = client;
+		this.reciever = reciever_id;
 		this.trip = trip;
 		this.origin = origin;
 		this.destination = destination;
@@ -57,6 +56,7 @@ public class Parcel {
 		this.price = price;
 		this.kilograms = kilograms;
 		this.timestamp = timeStamp;
+
 	}
 	
 	
@@ -77,11 +77,49 @@ public class Parcel {
 		this.timestamp = timeStamp;
 	}
 
+	public Parcel(int id, Client reciever, Client sender, Trip trip, String origin, String destination, String description, String payment_method, int quantity, double amount_paid, double price, int kilograms, String timestamp, Boolean collected) {
+		this.id = id;
+		this.reciever = reciever;
+		this.sender = sender;
+		this.trip = trip;
+		this.origin = origin;
+		this.destination = destination;
+		this.description = description;
+		this.payment_method = payment_method;
+		this.quantity = quantity;
+		this.amount_paid = amount_paid;
+		this.price = price;
+		this.kilograms = kilograms;
+		this.timestamp = timestamp;
+		this.collected = collected;
+	}
 
-	
+	public Boolean getCollected() {
+		return collected;
+	}
+
+	public void setCollected(Boolean collected) {
+		this.collected = collected;
+	}
 
 	public Parcel() {
 	
+	}
+
+	public Client getSender() {
+		return sender;
+	}
+
+	public void setSender(Client sender) {
+		this.sender = sender;
+	}
+
+	public String getTimestamp() {
+		return timestamp;
+	}
+
+	public void setTimestamp(String timestamp) {
+		this.timestamp = timestamp;
 	}
 
 	public Parcel(String origin, String destination, String description, String payment_method, int quantity, double amount_paid, double price, int kilograms) {
@@ -93,6 +131,7 @@ public class Parcel {
 		this.amount_paid = amount_paid;
 		this.price = price;
 		this.kilograms = kilograms;
+		this.collected=false;
 	}
 
 	public int getId() {
@@ -161,18 +200,35 @@ public class Parcel {
 	public void setTimeStamp(String timeStamp) {
 		this.timestamp = timeStamp;
 	}
-	public Client getClient() {
-		return client;
+	public Client getReciever() {
+		return reciever;
 	}
-	public void setClient(Client client) {
-		this.client = client;
+	public void setReciever(Client reciever) {
+		this.reciever = reciever;
+	}
+
+	public Parcel(Client reciever, Client sender, String origin, String destination, String description, String payment_method, int quantity, double amount_paid, double price, int kilograms, String timestamp) {
+		this.reciever = reciever;
+		this.sender = sender;
+		this.origin = origin;
+		this.destination = destination;
+		this.description = description;
+		this.payment_method = payment_method;
+		this.quantity = quantity;
+		this.amount_paid = amount_paid;
+		this.price = price;
+		this.kilograms = kilograms;
+		this.timestamp = timestamp;
+		this.collected=false;
+
 	}
 
 	@Override
 	public String toString() {
 		return "Parcel{" +
 				"id=" + id +
-				", client=" + client +
+				", reciever=" + reciever +
+				", sender=" + sender +
 				", trip=" + trip +
 				", origin='" + origin + '\'' +
 				", destination='" + destination + '\'' +

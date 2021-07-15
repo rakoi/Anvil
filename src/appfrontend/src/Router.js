@@ -2,6 +2,7 @@ import VueRouter from "vue-router";
 import Login from './components/pages/Login.vue'
 import Dashboard from './components/pages/Dashboard.vue'
 import NewParcel from './components/pages/NewParcel.vue'
+import AllParcels from './components/pages/allParcels'
 
 const router=new VueRouter({
 
@@ -21,7 +22,13 @@ const router=new VueRouter({
             path:'/parcel/new',
             name:'/newparcel',
             component:NewParcel
+        },
+        {
+            path:'/parcel/all',
+            name:'/allparcels',
+            component:AllParcels
         }
+        
     ]
 
 });

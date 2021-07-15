@@ -15,6 +15,7 @@
       @input="searchByNumber"
       @selected="selectHandler"
       @click="clickHandler"
+      @change="numberchanged"
     >
       <template slot-scope="{ suggestion }">
         <span class="my-suggestion-item"
@@ -34,15 +35,23 @@ export default {
     return {
       number: "+2547",
       phoneNumbers: null,
-      client:null,
+      client:{},
     };
   },
   methods: {
     clickHandler(item) {
       console.log(item);
     },
+    numberchanged(value){
+    console.log(value.target.value);
+      this.client.phone=this.number;
+       this.$emit('childToParent', this.client)
+      console.log(this.client)
+
+    },
     selectHandler(item) {
       let phone = item.item.phone;
+      
       this.client=item.item;
        this.$emit('childToParent', this.client)
       this.number = phone;

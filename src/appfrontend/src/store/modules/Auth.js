@@ -60,9 +60,7 @@ const actions = {
             });
           
             var user=response.data.user;
-            // console.log('user is');
-            // console.log(user);
-         
+           
           
            commit('setUser',user);
        

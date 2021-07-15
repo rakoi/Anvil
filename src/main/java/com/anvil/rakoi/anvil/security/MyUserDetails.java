@@ -59,4 +59,7 @@ public class MyUserDetails implements UserDetails {
 		return true;
 	}
 
+	public int getUserStation() {
+		return user.getStation().getId();
+	}
 }

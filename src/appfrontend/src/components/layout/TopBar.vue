@@ -281,8 +281,7 @@ export default {
   name: "TopBar",
   computed: {
     ...mapGetters(["getloggedIn","getLoggedInUser"]),
-  
-  
+
   },
   
 

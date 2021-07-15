@@ -147,7 +147,7 @@
 
             <h6 class="collapse-header">Parcels</h6>
             <a class="collapse-item" href="/parcel/new">New</a>
-            <a class="collapse-item" href="parcels.html">All parcels</a>
+            <a class="collapse-item" href="/parcel/all">All parcels</a>
 
 
           </div>

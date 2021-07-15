@@ -1,40 +1,84 @@
 
-import {HTTP} from '../../common/http-common'
+import { HTTP } from '../../common/http-common'
+import Vue from 'vue'
 const state = {
-    allparcels:[],
-    undeliveredParcels:[],
-    deliveredParcels:[],
+    incomingParcels: [],
+    undeliveredParcels: [],
+    sentParcels: [],
     addParcel: {}
 }
 
 const getters = {
-    getAllParcels: (state) => state.allparcels,
+    getIncomingParcels: (state) => state.incomingParcels,
     getUndeliveredParcels: (state) => state.undeliveredParcels,
     getDeliveredParcels: (state) => state.deliveredParcels,
+    getSentParcels: (state) => state.sentParcels
 
 }
 
 
 const actions = {
-   
-    async addParcel({commit},parcel){
-        
 
-        
-        await HTTP.post('/parcel/addParcel',parcel)
-        .then((resp)=>{
-            console.log(resp.data)
-            commit('setAddParcel',resp.data);
-        });
+    async fetchIncomingParcel({ commit }) {
+        await HTTP.get('/parcel/incoming').then((resp) => {
+           
+            commit('setIncomingParcel', resp.data)
+        })
+    },
+
+    
+
+
+    async fetchSentParcels({ commit }) {
+        await HTTP.get('/parcel/findByOrigin').then((resp) => {
+          
+            commit('setSentParcel', resp.data)
+        })
+    },
+
+    async fetchUndeliveredParcels({ commit }) {
+        await HTTP.get('/parcel/findUncollected').then((resp) => {
+                console.log(resp.data)
+                commit('setUncollected', resp.data)
+        })
+    },
+
+
+
+    async addParcel({ commit }, parcel) {
+
+
+
+        await HTTP.post('/parcel/addParcel', parcel)
+            .then((resp) => {
+                console.log(resp.data)
+
+                Vue.$toast.open({
+                    message: `Parcel ${resp.data.id} has been saved`,
+                    type: 'success',
+                    // all of other options may go here
+                });
+                commit('setAddParcel', resp.data);
+            }).catch((e) => {
+                console.log(e);
+                Vue.$toast.open({
+                    message: "Error saving parcel ",
+                    type: 'error',
+                    // all of other options may go here
+                });
+            });
     }
 
 }
 
 
 const mutations = {
-    setAddParcel:(state,addParcel)=>(state.addParcel=addParcel),
+    setAddParcel: (state, addParcel) => (state.addParcel = addParcel),
+    setIncomingParcel: (state, incomingParcels) => (state.incomingParcels = incomingParcels),
+    setSentParcel:(state,sent)=>(state.sentParcels=sent),
+    setUncollected:(state,undeliveredParcels)=>(state.undeliveredParcels=undeliveredParcels)
 }
 
-export default{
+export default {
     state, getters, actions, mutations
 }

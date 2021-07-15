@@ -20,9 +20,12 @@ public class Client {
 	public String phone;
 	
 	@JsonIgnore
-	@OneToMany(mappedBy="client",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+	@OneToMany(mappedBy= "reciever",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
 	public Set<Parcel> parcel=new HashSet<>();
-	
+
+	@JsonIgnore
+	@OneToMany(mappedBy= "sender",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+	public Set<Parcel> sentparcel=new HashSet<>();
 
 
 	
@@ -108,7 +111,7 @@ public class Client {
 				", email='" + email + '\'' +
 				", id_number='" + id_number + '\'' +
 				", phone='" + phone + '\'' +
-				", parcel=" + parcel +
+				", parcel is messed" + null +
 				'}';
 	}
 }

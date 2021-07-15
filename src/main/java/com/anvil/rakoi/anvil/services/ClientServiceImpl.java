@@ -15,7 +15,7 @@ public interface ClientServiceImpl  {
 	List<Client> getAllClients();
 	Page<Client> getAllClients(Pageable pageable);
 	void deleteClient(int id);
-	void addClient(Client client);
+	Client addClient(Client client);
 	Client findByphone_number(String phoneNumber);
 	List<Client> searchByPhoneNumber(String phoneNumber);
 	

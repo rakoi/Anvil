@@ -38,5 +38,15 @@ public class ParcelServiceImpl implements ParcellServiceInterface {
 		
 		return parcelRepository.findAll(pageable);
 	}
+	public Page<Parcel> findSentParcels(String origin,org.springframework.data.domain.Pageable pageable){
+		return  parcelRepository.findAllByOrigin(origin,pageable);
+	}
+
+	public Page<Parcel> findByDestination(String destination,org.springframework.data.domain.Pageable pageable){
+		return  parcelRepository.findAllByDestination(destination,pageable);
+	}
+	public Page<Parcel> findUncollected(String destination,org.springframework.data.domain.Pageable pageable){
+		return  parcelRepository.findAllByCollectedFalseAndOrigin(destination,pageable);
+	}
 
 }

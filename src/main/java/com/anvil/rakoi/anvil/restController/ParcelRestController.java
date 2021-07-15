@@ -2,6 +2,7 @@ package com.anvil.rakoi.anvil.restController;
 
 import com.anvil.rakoi.anvil.entities.Client;
 import com.anvil.rakoi.anvil.entities.SaveParcelEntity;
+import com.anvil.rakoi.anvil.security.MyUserDetails;
 import com.anvil.rakoi.anvil.services.ClientServiceImp;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -13,7 +14,11 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +27,11 @@ import com.anvil.rakoi.anvil.entities.User;
 import com.anvil.rakoi.anvil.services.ParcelServiceImpl;
 
 import java.io.DataInput;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin(maxAge = 3600)
 @RestController
@@ -33,6 +42,9 @@ public class ParcelRestController {
 	ParcelServiceImpl parcelServiceImpl;
 	@Autowired
 	ClientServiceImp clientServiceImp;
+	@Autowired
+	ParcelServiceImpl parcelService;
+
 
 	@GetMapping("/all")
 	public Page<Parcel> getallParcels(Pageable pageable) {
@@ -56,7 +68,41 @@ public class ParcelRestController {
 	@GetMapping("/deleteParcel/{id}")
 	public ResponseEntity<?> deleteParcel(@PathVariable("id") int id) {
 		parcelServiceImpl.DeleteParcel(id);
-		return ResponseEntity.ok("Success");
+		return new ResponseEntity<>("Success",HttpStatus.OK);
+	}
+	@GetMapping("/findByOrigin")
+	public ResponseEntity<?> findByOrigin(Pageable pageable) {
+
+		Object principal =(UserDetails) SecurityContextHolder. getContext(). getAuthentication(). getPrincipal();
+		MyUserDetails userDetails = (MyUserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String station=String.valueOf(userDetails.getUserStation());
+
+		Page<Parcel> outgoing = parcelServiceImpl.findSentParcels(station, pageable);
+
+		return new ResponseEntity<>(outgoing,HttpStatus.OK);
+	}
+	@GetMapping("/findUncollected")
+	public ResponseEntity<?> findUncollected(Pageable pageable) {
+
+		Object principal =(UserDetails) SecurityContextHolder. getContext(). getAuthentication(). getPrincipal();
+		MyUserDetails userDetails = (MyUserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String station=String.valueOf(userDetails.getUserStation());
+
+		Page<Parcel> uncollected = parcelServiceImpl.findUncollected(station, pageable);
+
+		return new ResponseEntity<>(uncollected,HttpStatus.OK);
+	}
+
+	@GetMapping("/incoming")
+	public ResponseEntity<?> getincoming(Pageable pageable) {
+
+		Object principal =(UserDetails) SecurityContextHolder. getContext(). getAuthentication(). getPrincipal();
+		MyUserDetails userDetails = (MyUserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String station=String.valueOf(userDetails.getUserStation());
+
+		Page<Parcel> incoming = parcelServiceImpl.findByDestination(station, pageable);
+
+		return new ResponseEntity<>(incoming,HttpStatus.OK);
 	}
 
 	@PostMapping("/addParcel")
@@ -70,21 +116,27 @@ public class ParcelRestController {
 
 		String receiverJson=new Gson().toJson(saveParcelEntity.get("reciever"));
 		Client reciever=gson.fromJson(receiverJson,Client.class);
-		System.out.println(reciever);
+
 		if (reciever.getId()==0){
-			clientServiceImp.addClient(reciever);
+			 reciever=	clientServiceImp.addClient(reciever);
+
 		}
 		if(sender.getId()==0){
-			clientServiceImp.addClient(sender);
+			sender=clientServiceImp.addClient(sender);
 		}
 
+		parcel.setSender(sender);
+		parcel.setReciever(reciever);
+
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+		LocalDateTime now = LocalDateTime.now();
+		parcel.setTimestamp(dtf.format(now));
+
+		Parcel savedParcel =parcelService.SaveParcel(parcel);
 
 
-		System.out.println(sender);
-		System.out.print("hello");
 
-
-		return ResponseEntity.ok("Success");
+		return new ResponseEntity<>(savedParcel,  HttpStatus.OK);
 	}
 
 }
