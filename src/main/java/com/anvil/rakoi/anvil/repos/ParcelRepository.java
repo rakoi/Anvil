@@ -1,5 +1,6 @@
 package com.anvil.rakoi.anvil.repos;
 
+import com.anvil.rakoi.anvil.entities.Station;
 import org.springframework.data.domain.Pageable;
 import java.util.List;
 
@@ -10,8 +11,8 @@ import com.anvil.rakoi.anvil.entities.Parcel;
 
 public interface ParcelRepository extends  PagingAndSortingRepository<Parcel,Integer> {
 
-	    Page<Parcel> findAllByOrigin(String origin,Pageable pageable);
-		Page<Parcel>  findAllByDestination(String origin,Pageable pageable);
-		Page<Parcel> findAllByCollectedFalseAndOrigin(String destination, Pageable pageable);
+	    Page<Parcel> findAllByOrigin(Station origin,Pageable pageable);
+		Page<Parcel>  findAllByDestination(Station origin, Pageable pageable);
+		Page<Parcel> findAllByCollectedFalseAndDestination(Station destination, Pageable pageable);
 
 }

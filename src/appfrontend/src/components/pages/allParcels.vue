@@ -10,24 +10,24 @@
         </li>
         <hr>
         <li>
-          <a data-toggle="tab" href="#undelivered">Undelivered Parcels</a>
+          <a data-toggle="tab" href="#undelivered">UnCollected Parcels</a>
         </li>
       </ul>
 
       <div class="tab-content">
         <div id="home" class="tab-pane fade active">
-             <p>incoming</p>
-          <ParcelDataTable v-bind:data="this.getIncomingParcels()" />
+            
+          <ParcelDataTable v-bind:url="incomingUrl" />
         </div>
 
           <div id="sent" class="tab-pane fade active">
-             <p>Sent</p>
-          <ParcelDataTable v-bind:data="this.getSentParcels()" />
+            
+          <ParcelDataTable v-bind:url="findByOriginUrl" />
         </div>
       
         <div id="undelivered" class="tab-pane fade">
-          <p>undelivered</p>
-          <ParcelDataTable v-bind:data="this.getUndeliveredParcels()"  />
+        
+          <ParcelDataTable v-bind:url="findUncollectedUrl"  />
         </div>
       </div>
     </div>
@@ -57,14 +57,19 @@ export default {
       "fetchUndeliveredParcels",
       "fetchSentParcels",
     ]),
+     
   },
   created() {
-    this.fetchUndeliveredParcels();
-    this.fetchSentParcels();
-    this.fetchIncomingParcel();
+   
   },
+  
   data() {
-    return {};
+    return {
+      incomingUrl:"incoming",
+      findByOriginUrl:"findByOrigin",
+      findUncollectedUrl:"findUncollected"
+
+    };
   },
 };
 </script>

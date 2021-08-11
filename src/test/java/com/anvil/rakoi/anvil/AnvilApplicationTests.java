@@ -4,7 +4,9 @@ import java.util.Optional;
 import java.util.Set;
 
 import com.anvil.rakoi.anvil.entities.Client;
+import com.anvil.rakoi.anvil.entities.Station;
 import com.anvil.rakoi.anvil.repos.ClientRepository;
+import com.anvil.rakoi.anvil.repos.StationRepository;
 import com.anvil.rakoi.anvil.services.ClientServiceImp;
 import com.anvil.rakoi.anvil.services.ParcelServiceImpl;
 import org.junit.jupiter.api.Test;
@@ -34,6 +36,11 @@ class AnvilApplicationTests {
 
 	@Autowired
 	ParcelServiceImpl parcelService;
+
+	@Autowired
+	StationRepository stationRepository;
+
+
 
 	@Test
 	void testGetUser() {
@@ -73,20 +80,20 @@ class AnvilApplicationTests {
 	@Test
 	void getByDestination(){
 		String station="1";
-		System.out.println(parcelService.findByDestination(station,null));
 
 	}
 
 	@Test
 	void getByOrigin(){
-		String station="1";
-		System.out.println(parcelService.findSentParcels(station,null));
+		Optional<Station> station=stationRepository.findById(1);
+		System.out.println(parcelService.findSentParcels(station.get(),null));
 	}
 
 	@Test
-	void getUndelivered(){
-		String station="1";
-		System.out.println(parcelService.findUncollected(station,null));
+	void getAllParcels(){
+		Optional<Station> station=stationRepository.findById(1);
+
+		System.out.println(station.toString());
 	}
 
 }

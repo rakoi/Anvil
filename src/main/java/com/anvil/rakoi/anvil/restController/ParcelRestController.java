@@ -1,7 +1,7 @@
 package com.anvil.rakoi.anvil.restController;
 
-import com.anvil.rakoi.anvil.entities.Client;
-import com.anvil.rakoi.anvil.entities.SaveParcelEntity;
+import com.anvil.rakoi.anvil.entities.*;
+import com.anvil.rakoi.anvil.repos.StationRepository;
 import com.anvil.rakoi.anvil.security.MyUserDetails;
 import com.anvil.rakoi.anvil.services.ClientServiceImp;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -12,8 +12,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -22,16 +21,20 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import com.anvil.rakoi.anvil.entities.Parcel;
-import com.anvil.rakoi.anvil.entities.User;
 import com.anvil.rakoi.anvil.services.ParcelServiceImpl;
 
 import java.io.DataInput;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import org.springframework.data.domain.Sort.Order;
+import java.util.Optional;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 @CrossOrigin(maxAge = 3600)
 @RestController
@@ -44,6 +47,9 @@ public class ParcelRestController {
 	ClientServiceImp clientServiceImp;
 	@Autowired
 	ParcelServiceImpl parcelService;
+
+	@Autowired
+	StationRepository stationRepository;
 
 
 	@GetMapping("/all")
@@ -71,36 +77,82 @@ public class ParcelRestController {
 		return new ResponseEntity<>("Success",HttpStatus.OK);
 	}
 	@GetMapping("/findByOrigin")
-	public ResponseEntity<?> findByOrigin(Pageable pageable) {
+	public ResponseEntity<?> findByOrigin(@RequestParam(value = "sort",defaultValue = "id") String search,
+										  @RequestParam(value = "per_page", defaultValue = "10") Integer limit,
+										  @RequestParam(value = "page", defaultValue = "0") Integer page) {
 
-		Object principal =(UserDetails) SecurityContextHolder. getContext(). getAuthentication(). getPrincipal();
+		int length=search.length();
+		PageRequest pageable=null;
+		if(length>3) {
+			String column = search.substring(0, length - 4);
+
+			 pageable =PageRequest.of(page, limit, Sort.by(column));
+		}else{
+
+
+				pageable = PageRequest.of(page, limit, Sort.by(search));
+
+		}
+
+		System.out.println(pageable);
+
 		MyUserDetails userDetails = (MyUserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		String station=String.valueOf(userDetails.getUserStation());
-
-		Page<Parcel> outgoing = parcelServiceImpl.findSentParcels(station, pageable);
+		int station_id=userDetails.getUserStation();
+		Optional<Station> station=stationRepository.findById(station_id);
+		Page<Parcel> outgoing = parcelServiceImpl.findSentParcels(station.get(), pageable);
 
 		return new ResponseEntity<>(outgoing,HttpStatus.OK);
 	}
 	@GetMapping("/findUncollected")
-	public ResponseEntity<?> findUncollected(Pageable pageable) {
+	public ResponseEntity<?> findUncollected(@RequestParam(value = "sort",defaultValue = "id") String search,
+											 @RequestParam(value = "per_page", defaultValue = "10") Integer limit,
+											 @RequestParam(value = "page", defaultValue = "0") Integer page) {
 
-		Object principal =(UserDetails) SecurityContextHolder. getContext(). getAuthentication(). getPrincipal();
+		int length=search.length();
+		PageRequest pageable=null;
+		if(length>3) {
+			String column = search.substring(0, length - 4);
+
+			pageable =PageRequest.of(page, limit, Sort.by(column));
+		}else{
+
+
+			pageable = PageRequest.of(page, limit, Sort.by(search));
+
+		}
+
+
 		MyUserDetails userDetails = (MyUserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		String station=String.valueOf(userDetails.getUserStation());
-
-		Page<Parcel> uncollected = parcelServiceImpl.findUncollected(station, pageable);
+		int station_id=userDetails.getUserStation();
+		Optional<Station> station=stationRepository.findById(station_id);
+		Page<Parcel> uncollected = parcelServiceImpl.findUncollected(station.get(), pageable);
 
 		return new ResponseEntity<>(uncollected,HttpStatus.OK);
 	}
 
 	@GetMapping("/incoming")
-	public ResponseEntity<?> getincoming(Pageable pageable) {
+	public ResponseEntity<?> getincoming(@RequestParam(value = "sort",defaultValue = "id") String search,
+										 @RequestParam(value = "per_page", defaultValue = "10") Integer limit,
+										 @RequestParam(value = "page", defaultValue = "0") Integer page) {
 
-		Object principal =(UserDetails) SecurityContextHolder. getContext(). getAuthentication(). getPrincipal();
+		int length=search.length();
+		PageRequest pageable=null;
+		if(length>3) {
+			String column = search.substring(0, length - 4);
+
+			pageable =PageRequest.of(page, limit, Sort.by(column));
+		}else{
+
+
+			pageable = PageRequest.of(page, limit, Sort.by(search));
+
+		}
+
+
 		MyUserDetails userDetails = (MyUserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		String station=String.valueOf(userDetails.getUserStation());
-
-		Page<Parcel> incoming = parcelServiceImpl.findByDestination(station, pageable);
+		int station_id=userDetails.getUserStation();
+		Optional<Station> station=stationRepository.findById(station_id);
+		Page<Parcel> incoming = parcelServiceImpl.findByDestination(station.get(), pageable);
 
 		return new ResponseEntity<>(incoming,HttpStatus.OK);
 	}
@@ -117,6 +169,7 @@ public class ParcelRestController {
 		String receiverJson=new Gson().toJson(saveParcelEntity.get("reciever"));
 		Client reciever=gson.fromJson(receiverJson,Client.class);
 
+		System.out.println(parcel);
 		if (reciever.getId()==0){
 			 reciever=	clientServiceImp.addClient(reciever);
 

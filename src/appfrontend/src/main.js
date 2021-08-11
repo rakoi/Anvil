@@ -11,10 +11,15 @@ import VueToast from 'vue-toast-notification';
 
 import 'vue-toast-notification/dist/theme-sugar.css';
 
+// import { VuejsDatatableFactory,TColumnsDefinition} from 'vuejs-datatable';
 
-import { VuejsDatatableFactory } from 'vuejs-datatable';
+import Vuetable from 'vuetable-2'
+
+
  
-Vue.use( VuejsDatatableFactory );
+Vue.use( Vuetable );
+
+
 
 
 Vue.use(Vuelidate)

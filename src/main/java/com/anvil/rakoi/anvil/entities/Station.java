@@ -3,6 +3,7 @@ package com.anvil.rakoi.anvil.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -13,6 +14,14 @@ public class Station {
 
     @OneToMany(mappedBy="station")
     private Set<User> User;
+
+    @JsonIgnore
+    @OneToMany(mappedBy= "origin",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    public Set<Parcel> parcel=new HashSet<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy= "destination",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    public Set<Parcel> destination=new HashSet<>();
 
 
     public Station() {

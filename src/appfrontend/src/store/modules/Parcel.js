@@ -19,8 +19,8 @@ const getters = {
 
 const actions = {
 
-    async fetchIncomingParcel({ commit }) {
-        await HTTP.get('/parcel/incoming').then((resp) => {
+     fetchIncomingParcel({ commit }) {
+         HTTP.get('/parcel/incoming').then((resp) => {
            
             commit('setIncomingParcel', resp.data)
         })
@@ -38,8 +38,7 @@ const actions = {
 
     async fetchUndeliveredParcels({ commit }) {
         await HTTP.get('/parcel/findUncollected').then((resp) => {
-                console.log(resp.data)
-                commit('setUncollected', resp.data)
+                 commit('setUncollected', resp.data)
         })
     },
 

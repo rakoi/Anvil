@@ -86,7 +86,6 @@
                     id="stown"
                     name="sender.town"
                     required="true"
-                    v-model="parcel.origin"
                   >
                     <option value="">Choose...</option>
                     <option value="1">Nairobi</option>
@@ -184,7 +183,7 @@
                     name="reciever.town"
                     id="rtown"
                     required="true"
-                    v-model="parcel.destination"
+                   
                   >
                     <option value="">Choose...</option>
                     <option value="1">Nairobi</option>
@@ -416,7 +415,8 @@ export default {
   },
   created() {
     this.getUser();
-    this.parcel.origin=this.getLoggedInUser().station.id
+    this.parcel.origin=this.getLoggedInUser().station
+      this.parcel.destination={id:2,name:'Mwea'}
   },
   data() {
     return {

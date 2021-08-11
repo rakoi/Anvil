@@ -1,11 +1,10 @@
 package com.anvil.rakoi.anvil.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Parcel {
@@ -28,71 +27,66 @@ public class Parcel {
 	@ManyToOne
 	@JoinColumn(name="trip_id")
 	public Trip trip;
-	public String origin;
-	public String destination;
-	public String description;
+
+
+
+	@ManyToOne
+	@JoinColumn(name="origin_id")
+	public Station origin;
+
+	@ManyToOne
+	@JoinColumn(name="destination_id")
+	public Station destination;
+
+
+
 	public String payment_method;
 	public int quantity;
 	public double amount_paid;
 	public double price;
 	public int kilograms;
 	public String timestamp;
+	public String description;
 
 	public Boolean collected;
-	
-	
-	public Parcel(int id, Client reciever_id, Trip trip, String origin, String destination, String description,
-				  String payment_method, int quantity, double amount_paid, double price, int kilograms, String timeStamp) {
-		super();
-		this.id = id;
-		this.reciever = reciever_id;
-		this.trip = trip;
-		this.origin = origin;
-		this.destination = destination;
-		this.description = description;
-		this.payment_method = payment_method;
-		this.quantity = quantity;
-		this.amount_paid = amount_paid;
-		this.price = price;
-		this.kilograms = kilograms;
-		this.timestamp = timeStamp;
 
-	}
-	
-	
-	
-	public Parcel(int id, Trip trip, String origin, String destination, String description, String payment_method,
-			int quantity, double amount_paid, double price, int kilograms, String timeStamp) {
-		super();
-		this.id = id;
-		this.trip = trip;
-		this.origin = origin;
-		this.destination = destination;
-		this.description = description;
-		this.payment_method = payment_method;
-		this.quantity = quantity;
-		this.amount_paid = amount_paid;
-		this.price = price;
-		this.kilograms = kilograms;
-		this.timestamp = timeStamp;
-	}
-
-	public Parcel(int id, Client reciever, Client sender, Trip trip, String origin, String destination, String description, String payment_method, int quantity, double amount_paid, double price, int kilograms, String timestamp, Boolean collected) {
-		this.id = id;
+	public Parcel(Client reciever, Client sender, Trip trip, Station origin, Station destination, String payment_method, int kilograms) {
 		this.reciever = reciever;
 		this.sender = sender;
 		this.trip = trip;
 		this.origin = origin;
 		this.destination = destination;
-		this.description = description;
+		this.payment_method = payment_method;
+		this.kilograms = kilograms;
+	}
+
+	public Parcel(Client reciever, Client sender, Station origin, Station destination, String payment_method, int quantity, double amount_paid, double price, int kilograms, String description) {
+		this.reciever = reciever;
+		this.sender = sender;
+		this.origin = origin;
+		this.destination = destination;
 		this.payment_method = payment_method;
 		this.quantity = quantity;
 		this.amount_paid = amount_paid;
 		this.price = price;
 		this.kilograms = kilograms;
-		this.timestamp = timestamp;
-		this.collected = collected;
+		this.description = description;
 	}
+
+	public Parcel(Client reciever, Client sender, Station origin, Station destination, String payment_method, int quantity, double amount_paid, double price, int kilograms) {
+		this.reciever = reciever;
+		this.sender = sender;
+		this.origin = origin;
+		this.destination = destination;
+		this.payment_method = payment_method;
+		this.quantity = quantity;
+		this.amount_paid = amount_paid;
+		this.price = price;
+		this.kilograms = kilograms;
+	}
+
+
+
 
 	public Boolean getCollected() {
 		return collected;
@@ -122,17 +116,7 @@ public class Parcel {
 		this.timestamp = timestamp;
 	}
 
-	public Parcel(String origin, String destination, String description, String payment_method, int quantity, double amount_paid, double price, int kilograms) {
-		this.origin = origin;
-		this.destination = destination;
-		this.description = description;
-		this.payment_method = payment_method;
-		this.quantity = quantity;
-		this.amount_paid = amount_paid;
-		this.price = price;
-		this.kilograms = kilograms;
-		this.collected=false;
-	}
+
 
 	public int getId() {
 		return id;
@@ -146,24 +130,7 @@ public class Parcel {
 	public void setTrip(Trip trip) {
 		this.trip = trip;
 	}
-	public String getOrigin() {
-		return origin;
-	}
-	public void setOrigin(String origin) {
-		this.origin = origin;
-	}
-	public String getDestination() {
-		return destination;
-	}
-	public void setDestination(String destination) {
-		this.destination = destination;
-	}
-	public String getDescription() {
-		return description;
-	}
-	public void setDescription(String description) {
-		this.description = description;
-	}
+
 	public String getPayment_method() {
 		return payment_method;
 	}
@@ -207,22 +174,6 @@ public class Parcel {
 		this.reciever = reciever;
 	}
 
-	public Parcel(Client reciever, Client sender, String origin, String destination, String description, String payment_method, int quantity, double amount_paid, double price, int kilograms, String timestamp) {
-		this.reciever = reciever;
-		this.sender = sender;
-		this.origin = origin;
-		this.destination = destination;
-		this.description = description;
-		this.payment_method = payment_method;
-		this.quantity = quantity;
-		this.amount_paid = amount_paid;
-		this.price = price;
-		this.kilograms = kilograms;
-		this.timestamp = timestamp;
-		this.collected=false;
-
-	}
-
 	@Override
 	public String toString() {
 		return "Parcel{" +
@@ -231,8 +182,7 @@ public class Parcel {
 				", sender=" + sender +
 				", trip=" + trip +
 				", origin='" + origin + '\'' +
-				", destination='" + destination + '\'' +
-				", description='" + description + '\'' +
+
 				", payment_method='" + payment_method + '\'' +
 				", quantity=" + quantity +
 				", amount_paid=" + amount_paid +
