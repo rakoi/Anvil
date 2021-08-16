@@ -1,6 +1,7 @@
 package com.anvil.rakoi.anvil.restController;
 
 import com.anvil.rakoi.anvil.entities.*;
+import com.anvil.rakoi.anvil.repos.ParcelRepository;
 import com.anvil.rakoi.anvil.repos.StationRepository;
 import com.anvil.rakoi.anvil.security.MyUserDetails;
 import com.anvil.rakoi.anvil.services.ClientServiceImp;
@@ -50,6 +51,9 @@ public class ParcelRestController {
 
 	@Autowired
 	StationRepository stationRepository;
+
+	@Autowired
+	ParcelRepository parcelRepository;
 
 
 	@GetMapping("/all")
@@ -103,6 +107,14 @@ public class ParcelRestController {
 
 		return new ResponseEntity<>(outgoing,HttpStatus.OK);
 	}
+	@GetMapping("/findAllByOrigin")
+	public ResponseEntity<?> findByOrigin() {
+		MyUserDetails userDetails = (MyUserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		int station_id=userDetails.getUserStation();
+		Optional<Station> station=stationRepository.findById(station_id);
+		System.out.println(station_id);
+		return new ResponseEntity<>(parcelRepository.findAllByOrigin(station.get()),HttpStatus.OK);
+	}
 	@GetMapping("/findUncollected")
 	public ResponseEntity<?> findUncollected(@RequestParam(value = "sort",defaultValue = "id") String search,
 											 @RequestParam(value = "per_page", defaultValue = "10") Integer limit,
@@ -128,7 +140,17 @@ public class ParcelRestController {
 		Page<Parcel> uncollected = parcelServiceImpl.findUncollected(station.get(), pageable);
 
 		return new ResponseEntity<>(uncollected,HttpStatus.OK);
+	}	@GetMapping("/findAllUncollected")
+	public ResponseEntity<?> findUncollected() {
+
+
+		MyUserDetails userDetails = (MyUserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		int station_id=userDetails.getUserStation();
+		Optional<Station> station=stationRepository.findById(station_id);
+
+		return new ResponseEntity<>(parcelRepository.findAllByCollectedFalseAndDestination(station.get()),HttpStatus.OK);
 	}
+
 
 	@GetMapping("/incoming")
 	public ResponseEntity<?> getincoming(@RequestParam(value = "sort",defaultValue = "id") String search,
@@ -156,6 +178,17 @@ public class ParcelRestController {
 
 		return new ResponseEntity<>(incoming,HttpStatus.OK);
 	}
+	@GetMapping("/allincoming")
+	public ResponseEntity<?> getincoming() {
+
+
+		MyUserDetails userDetails = (MyUserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		int station_id=userDetails.getUserStation();
+		Optional<Station> station=stationRepository.findById(station_id);
+
+		return new ResponseEntity<>(parcelRepository.findAllByDestination(station.get()),HttpStatus.OK);
+	}
+
 
 	@PostMapping("/addParcel")
 	public ResponseEntity<?> addParcel(@RequestBody JSONObject saveParcelEntity) throws JsonProcessingException {
@@ -191,5 +224,7 @@ public class ParcelRestController {
 
 		return new ResponseEntity<>(savedParcel,  HttpStatus.OK);
 	}
+
+
 
 }

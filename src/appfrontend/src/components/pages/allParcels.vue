@@ -17,17 +17,17 @@
       <div class="tab-content">
         <div id="home" class="tab-pane fade active">
             
-          <ParcelDataTable v-bind:url="incomingUrl" />
+          <ParcelDataTable v-bind:data="this.getIncomingParcels()" />
         </div>
 
           <div id="sent" class="tab-pane fade active">
             
-          <ParcelDataTable v-bind:url="findByOriginUrl" />
+          <ParcelDataTable v-bind:data="this.getSentParcels()" />
         </div>
       
         <div id="undelivered" class="tab-pane fade">
         
-          <ParcelDataTable v-bind:url="findUncollectedUrl"  />
+          <ParcelDataTable v-bind:data="this.getUndeliveredParcels()"  />
         </div>
       </div>
     </div>
@@ -60,7 +60,11 @@ export default {
      
   },
   created() {
-   
+    this.fetchIncomingParcel();
+    this.fetchUndeliveredParcels();
+    this.fetchSentParcels();
+
+   this.getIncomingParcels();
   },
   
   data() {

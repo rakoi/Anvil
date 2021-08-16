@@ -5,8 +5,7 @@ import java.util.Set;
 
 import com.anvil.rakoi.anvil.entities.Client;
 import com.anvil.rakoi.anvil.entities.Station;
-import com.anvil.rakoi.anvil.repos.ClientRepository;
-import com.anvil.rakoi.anvil.repos.StationRepository;
+import com.anvil.rakoi.anvil.repos.*;
 import com.anvil.rakoi.anvil.services.ClientServiceImp;
 import com.anvil.rakoi.anvil.services.ParcelServiceImpl;
 import org.junit.jupiter.api.Test;
@@ -15,8 +14,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.anvil.rakoi.anvil.entities.Role;
 import com.anvil.rakoi.anvil.entities.User;
-import com.anvil.rakoi.anvil.repos.RoleRepository;
-import com.anvil.rakoi.anvil.repos.UserRepository;
 import org.springframework.data.domain.Pageable;
 
 @SpringBootTest
@@ -30,6 +27,9 @@ class AnvilApplicationTests {
 
 	@Autowired
 	ClientServiceImp clientServiceImp;
+
+	@Autowired
+	ParcelRepository parcelRepository;
 
 	@Autowired
 	ClientRepository clientRepository;
@@ -96,4 +96,9 @@ class AnvilApplicationTests {
 		System.out.println(station.toString());
 	}
 
+	@Test
+	void tesGetAllIncoming(){
+		Optional<Station> station=stationRepository.findById(1);
+		System.out.println(parcelRepository.findAllByDestination(station.get()));
+	}
 }

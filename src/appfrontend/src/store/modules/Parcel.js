@@ -2,9 +2,9 @@
 import { HTTP } from '../../common/http-common'
 import Vue from 'vue'
 const state = {
-    incomingParcels: [],
-    undeliveredParcels: [],
-    sentParcels: [],
+    incomingParcels: {},
+    undeliveredParcels: {},
+    sentParcels: {},
     addParcel: {}
 }
 
@@ -20,9 +20,9 @@ const getters = {
 const actions = {
 
      fetchIncomingParcel({ commit }) {
-         HTTP.get('/parcel/incoming').then((resp) => {
-           
-            commit('setIncomingParcel', resp.data)
+         HTTP.get('/parcel/allincoming').then((resp) => {
+          
+              commit('setIncomingParcel', resp.data)
         })
     },
 
@@ -30,14 +30,14 @@ const actions = {
 
 
     async fetchSentParcels({ commit }) {
-        await HTTP.get('/parcel/findByOrigin').then((resp) => {
+        await HTTP.get('/parcel/findAllByOrigin').then((resp) => {
           
             commit('setSentParcel', resp.data)
         })
     },
 
     async fetchUndeliveredParcels({ commit }) {
-        await HTTP.get('/parcel/findUncollected').then((resp) => {
+        await HTTP.get('/parcel/findAllUncollected').then((resp) => {
                  commit('setUncollected', resp.data)
         })
     },
@@ -73,7 +73,10 @@ const actions = {
 
 const mutations = {
     setAddParcel: (state, addParcel) => (state.addParcel = addParcel),
-    setIncomingParcel: (state, incomingParcels) => (state.incomingParcels = incomingParcels),
+    setIncomingParcel: (state, incomingParcels) =>{
+        state.incomingParcels = incomingParcels;
+       
+    },
     setSentParcel:(state,sent)=>(state.sentParcels=sent),
     setUncollected:(state,undeliveredParcels)=>(state.undeliveredParcels=undeliveredParcels)
 }

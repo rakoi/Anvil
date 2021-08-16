@@ -8,19 +8,27 @@ import VueAutosuggest from "vue-autosuggest";
 import { BootstrapVue } from 'bootstrap-vue'
 import Vuelidate from 'vuelidate'
 import VueToast from 'vue-toast-notification';
+import Vuetify from 'vuetify';
+import DataTable from "@andresouzaabreu/vue-data-table";
 
-import 'vue-toast-notification/dist/theme-sugar.css';
-
-// import { VuejsDatatableFactory,TColumnsDefinition} from 'vuejs-datatable';
-
-import Vuetable from 'vuetable-2'
-
-
- 
-Vue.use( Vuetable );
+import "bootstrap/dist/css/bootstrap.min.css";
+import "@andresouzaabreu/vue-data-table/dist/DataTable.css";
 
 
 
+Vue.component("data-table", DataTable);
+
+
+
+const vuetifyOptions = { }
+
+// var $ = require( 'jquery' );
+
+//  require( 'datatables.net' )( window, $ );
+// require( 'datatables.net-bs' )( window, $ );
+
+
+Vue.use(Vuetify);
 
 Vue.use(Vuelidate)
 Vue.use(VueToast);
@@ -37,5 +45,6 @@ Vue.use(cors)
 new Vue({
   store,
   router,
+  vuetify: new Vuetify(vuetifyOptions),
   render: h => h(App),
 }).$mount('#app')
