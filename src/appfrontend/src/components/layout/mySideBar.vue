@@ -30,29 +30,30 @@
       </div>
       <!-- Nav Item - New -->
       <li class="nav-item">
-        <a class="nav-link" href="Send.html">
+        <a class="nav-link" href="/parcel/new">
           <i class="fa fa-paper-plane"></i>
           <span>Send</span></a>
       </li>
-
-
-      <!-- Nav Item - Pages Collapse Menu -->
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
-          aria-controls="collapseTwo">
-          <i class="fa fa-qrcode"></i>
-          <span>Load Parcels</span>
+       <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseParcels"
+          aria-expanded="true" aria-controls="collapseTwo">
+          <i class="fa fa-truck"></i>
+          <span>Parcels</span>
         </a>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div id="collapseParcels" class="collapse" aria-labelledby="headingParcels" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
 
-            <h6 class="collapse-header">Load</h6>
-            <a class="collapse-item" href="send.html">New parcel</a>
-            <a class="collapse-item" href="scan.html">Scan parcel</a>
+            <h6 class="collapse-header">Parcels</h6>
+            <a class="collapse-item" href="/parcel/new">New</a>
+            <a class="collapse-item" href="/parcel/all">All parcels</a>
+
 
           </div>
         </div>
       </li>
+
+
+    
 
       <!-- Nav Item - Utilities Collapse Menu -->
       <li class="nav-item">
@@ -64,17 +65,9 @@
         <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Trips:</h6>
-            <button class="btn btn-link collapse-item" data-toggle="modal" data-target="#exampleModalCenter">Start New
-              Trip</button>
-            <a class="collapse-item" href="trips.html">All Trips</a>
-            <button class="btn btn-link collapse-item" data-toggle="modal" data-target="#fuelModalCenter">Add
-              Fuel</button>
-            <button class="btn btn-link collapse-item" data-toggle="modal" data-target="#expensesModalCenter">Add new
-              Expense</button>
-            <button class="btn btn-link collapse-item" data-toggle="modal" data-target="#checkinModalCenter">Check
-              In</button>
-            <button class="btn btn-link collapse-item" data-toggle="modal" data-target="#endModalCenter">End
-              Trip</button>
+            <a class="collapse-item" href="/trip/new">New Trip</a>
+            <a class="collapse-item" href="/trip/all">All Trips</a>
+           
           </div>
         </div>
       </li>
@@ -136,23 +129,7 @@
       </div>
 
   
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseParcels"
-          aria-expanded="true" aria-controls="collapseTwo">
-          <i class="fa fa-truck"></i>
-          <span>Parcels</span>
-        </a>
-        <div id="collapseParcels" class="collapse" aria-labelledby="headingParcels" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-
-            <h6 class="collapse-header">Parcels</h6>
-            <a class="collapse-item" href="/parcel/new">New</a>
-            <a class="collapse-item" href="/parcel/all">All parcels</a>
-
-
-          </div>
-        </div>
-      </li>
+     
 
       <!-- Divider -->
       <hr class="sidebar-divider">

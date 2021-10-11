@@ -10,17 +10,21 @@ import Vuelidate from 'vuelidate'
 import VueToast from 'vue-toast-notification';
 import Vuetify from 'vuetify';
 import DataTable from "@andresouzaabreu/vue-data-table";
-
+import PrimeVue from 'primevue/config';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "@andresouzaabreu/vue-data-table/dist/DataTable.css";
 
+import "primevue/resources/themes/saga-blue/theme.css"       //theme
+import "primevue/resources/primevue.min.css"                 //core css
+import "primeicons/primeicons.css"                           //icons
 
 
 Vue.component("data-table", DataTable);
 
-
+Vue.use(PrimeVue);
 
 const vuetifyOptions = { }
+
 
 // var $ = require( 'jquery' );
 
@@ -29,6 +33,7 @@ const vuetifyOptions = { }
 
 
 Vue.use(Vuetify);
+
 
 Vue.use(Vuelidate)
 Vue.use(VueToast);
@@ -39,10 +44,13 @@ Vue.use(VueToast, {
 })
 Vue.config.productionTip = false
 
+
+
 Vue.use(VueAutosuggest);
 Vue.use(VueRouter);
 Vue.use(cors)
 new Vue({
+  
   store,
   router,
   vuetify: new Vuetify(vuetifyOptions),

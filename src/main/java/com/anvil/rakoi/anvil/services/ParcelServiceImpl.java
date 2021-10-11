@@ -9,9 +9,6 @@ import org.springframework.stereotype.Service;
 import com.anvil.rakoi.anvil.entities.Parcel;
 import com.anvil.rakoi.anvil.repos.ParcelPagingAndSortingRepository;
 
-import java.util.List;
-import java.util.Optional;
-
 @Service
 public class ParcelServiceImpl implements ParcellServiceInterface {
 

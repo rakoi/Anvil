@@ -3,6 +3,7 @@ package com.anvil.rakoi.anvil.security;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -11,7 +12,9 @@ import org.springframework.stereotype.Service;
 import com.anvil.rakoi.anvil.entities.User;
 import com.anvil.rakoi.anvil.repos.UserRepository;
 
+@ComponentScan
 @Service
+
 public class MyDetailsService implements UserDetailsService {
 
 	@Autowired

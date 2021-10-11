@@ -6,8 +6,8 @@ import org.springframework.data.domain.Pageable;
 import com.anvil.rakoi.anvil.entities.Trip;
 
 public interface TripServiceInterface {
+//
+//	Trip getTrip(int id);
+//	void deleteTrip(int id);
 
-	Trip getTrip(int id);
-	void deleteTrip(int id);
-	Page<Trip>getTrips(Pageable pageable);
 }

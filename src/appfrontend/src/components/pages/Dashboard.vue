@@ -75,10 +75,11 @@
                               <a
                                 href="parcels.html"
                                 class="card-link"
+                                style="padding-left:150%"
                                 v-if="this.user.vehicle"
                                 >{{ tripcount }}</a
                               >
-                              <a class="card-link disabled" v-else> N/A</a>
+                              <a class="card-link disabled" v-else> Nsss/A</a>
                             </div>
                           </div>
                         </div>

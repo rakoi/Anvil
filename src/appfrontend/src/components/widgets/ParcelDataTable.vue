@@ -21,6 +21,7 @@ export default {
   computed: {
     bindings() {
       return {
+  
         text: {
           paginationSearchText: "Skip to page",
         },

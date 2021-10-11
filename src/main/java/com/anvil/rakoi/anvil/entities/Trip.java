@@ -21,7 +21,7 @@ public class Trip {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	
+
 	public int id;
 	public String destination;
 	public String origin;
