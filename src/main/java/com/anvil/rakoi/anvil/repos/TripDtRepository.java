@@ -6,6 +6,6 @@ import org.springframework.data.jpa.datatables.repository.DataTablesRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
-public interface TripDtRepository extends JpaRepository<Trip,Integer> {
+public interface TripDtRepository extends PagingAndSortingRepository<Trip,Integer> {
     //DataTablesOutput<Trip> findAll(DataTablesInput i);
 }
