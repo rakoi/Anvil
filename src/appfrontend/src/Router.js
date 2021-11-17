@@ -4,7 +4,9 @@ import Dashboard from './components/pages/Dashboard.vue'
 import NewParcel from './components/pages/NewParcel.vue'
 import AllParcels from './components/pages/allParcels'
 import AllTrips from  './components/pages/Trips/AllTrips'
-
+import NewTrip from './components/pages/Trips/NewTrip'
+import ShowTrip from './components/pages/Trips/ShowTrip'
+import MyTrips from './components/pages/Trips/MyTrips'
 const router=new VueRouter({
 
     mode:'history',
@@ -33,8 +35,25 @@ const router=new VueRouter({
             path:'/trip/all',
             name:'/alltrips',
             component:AllTrips
-        }
+
+        },
+        {
+            path:'/trip/new',
+            name:'/newTrip',
+            component:NewTrip
+
+        },
         
+        {
+            path: '/trip/:id', 
+            name:'showTrip',
+            component:ShowTrip
+        },
+        {
+            path: '/user/trips', 
+            name:'mytrip',
+            component:MyTrips
+        }
     ]
 
 });

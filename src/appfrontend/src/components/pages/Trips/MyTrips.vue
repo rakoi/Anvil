@@ -9,6 +9,7 @@
 
             </div>
         </div>
+      
         <MyDatatable :columns="alltripsColumns" :values="alltripsColumnNames" :url="tripUrl" :showDelete=true :showEdit=true :showNew=true :newText="`Start New Trip`" :newUrl="`/trip/new`" :deleteUrl="'trip/delete'" :editUrl="'/trip'" @EditButtonClicked="editTrip" />
 
     </div>

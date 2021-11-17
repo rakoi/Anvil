@@ -65,6 +65,7 @@
         <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Trips:</h6>
+            <a class="collapse-item" href="/user/trips">My Trips</a>
             <a class="collapse-item" href="/trip/new">New Trip</a>
             <a class="collapse-item" href="/trip/all">All Trips</a>
            
@@ -147,7 +148,7 @@
       <li class="nav-item">
         <a class="nav-link" href="tables.html">
           <i class="fas fa-fw fa-table"></i>
-          <span >Expensess</span></a>
+          <span >Expenses</span></a>
       </li>
 
       <!-- Divider -->

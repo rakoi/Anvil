@@ -30,6 +30,7 @@ const actions = {
 
 
     async fetchSentParcels({ commit }) {
+       
         await HTTP.get('/parcel/findAllByOrigin').then((resp) => {
           
             commit('setSentParcel', resp.data)

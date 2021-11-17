@@ -1,12 +1,10 @@
 package com.anvil.rakoi.anvil.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Expense {
@@ -15,58 +13,54 @@ public class Expense {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	public int id;
 	
-	
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "trip_id")
-	public Trip trip;
 	public String description;
-	public String cost;
-	public String timestamp;
-	
-	
-	
-	public Expense() {
-		super();
+
+
+	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "Expense")
+	public Set<Expenses> expenses=new HashSet<>();
+
+	public Expense(String description, Set<Expenses> expenses) {
+		this.description = description;
+
+
+		this.expenses = expenses;
 	}
-	public Expense(int id, Trip trip, String name, String cost, String timestamp) {
-		super();
+
+	public Expense(int id, String description, Set<Expenses> expenses) {
 		this.id = id;
-		this.trip = trip;
-		this.description = name;
-		this.cost = cost;
-		this.timestamp = timestamp;
+		this.description = description;
+
+
+		this.expenses = expenses;
 	}
+
+	public Expense() {
+	}
+
 	public int getId() {
 		return id;
 	}
+
 	public void setId(int id) {
 		this.id = id;
 	}
-	public Trip getTrip() {
-		return trip;
-	}
-	public void setTrip(Trip trip) {
-		this.trip = trip;
-	}
-	public String getName() {
+
+	public String getDescription() {
 		return description;
 	}
-	public void setName(String name) {
-		this.description = name;
-	}
-	public String getCost() {
-		return cost;
-	}
-	public void setCost(String cost) {
-		this.cost = cost;
-	}
-	public String getTimestamp() {
-		return timestamp;
-	}
-	public void setTimestamp(String timestamp) {
-		this.timestamp = timestamp;
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
-	
-	
+
+
+
+	public Set<Expenses> getExpenses() {
+		return expenses;
+	}
+
+	public void setExpenses(Set<Expenses> expenses) {
+		this.expenses = expenses;
+	}
 }

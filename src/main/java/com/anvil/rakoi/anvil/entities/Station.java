@@ -15,6 +15,8 @@ public class Station {
     @OneToMany(mappedBy="station")
     private Set<User> User;
 
+
+
     @JsonIgnore
     @OneToMany(mappedBy= "origin",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     public Set<Parcel> parcel=new HashSet<>();
