@@ -26,6 +26,7 @@ public class Parcel {
 	
 	@ManyToOne
 	@JoinColumn(name="trip_id")
+	@JsonIgnore
 	public Trip trip;
 
 

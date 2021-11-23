@@ -79,4 +79,16 @@ public class Expenses {
     public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
+
+    @Override
+    public String toString() {
+        return "Expenses{" +
+                "id=" + id +
+                ", trip=" + trip +
+                ", description='" + description + '\'' +
+                ", cost='" + cost + '\'' +
+                ", timestamp='" + timestamp + '\'' +
+                ", Expense=" + Expense +
+                '}';
+    }
 }

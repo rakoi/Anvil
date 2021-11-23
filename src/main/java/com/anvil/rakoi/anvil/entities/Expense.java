@@ -12,12 +12,28 @@ public class Expense {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	public int id;
-	
+	public String name;
 	public String description;
 
 
 	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "Expense")
+
 	public Set<Expenses> expenses=new HashSet<>();
+
+	public Expense(int id, String name, String description, Set<Expenses> expenses) {
+		this.id = id;
+		this.name = name;
+		this.description = description;
+		this.expenses = expenses;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	public Expense(String description, Set<Expenses> expenses) {
 		this.description = description;

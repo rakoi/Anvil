@@ -1,7 +1,12 @@
 package com.anvil.rakoi.anvil.restController;
 
+import antlr.StringUtils;
+import com.anvil.rakoi.anvil.entities.Client;
 import com.anvil.rakoi.anvil.entities.Expenses;
 import com.anvil.rakoi.anvil.services.ExpensesImpl;
+import com.anvil.rakoi.anvil.util.StringFunctions;
+import com.google.gson.Gson;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -52,8 +57,15 @@ public class ExpensesRestController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> addExpense(Expenses expenses){
-        return new ResponseEntity<>(expensesServiceImpl.createExpense(expenses), HttpStatus.OK);
+    public ResponseEntity<?> addExpense(@RequestBody JSONObject expenses){
+
+        Gson gson = new Gson();
+        Expenses expenseObj=gson.fromJson(String.valueOf(expenses),Expenses.class);
+
+        System.out.print(expenseObj.toString());
+        expenseObj.setTimestamp(StringFunctions.getCurrentTime());
+
+          return new ResponseEntity<>(expensesServiceImpl.createExpense(expenseObj), HttpStatus.OK);
     }
 
     @PostMapping("/update")

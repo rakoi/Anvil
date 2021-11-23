@@ -15,13 +15,16 @@ import "@andresouzaabreu/vue-data-table/dist/DataTable.css";
 
 import "primevue/resources/themes/saga-blue/theme.css"       //theme
 import "primevue/resources/primevue.min.css"                 //core css
-import "primeicons/primeicons.css"   
+import "primeicons/primeicons.css"    
+import VueToast from 'vue-toast-notification';
 import 'vue-toast-notification/dist/theme-default.css';   
 import VModal from "vue-js-modal";
 
 import VueToastify from "vue-toastify";
 
 
+Vue.use(VueToast);
+Vue.use(VueToastify)
 Vue.component("data-table", DataTable);
 Vue.use(VModal);
 
@@ -30,13 +33,8 @@ Vue.use(ToastService);
 
 Vue.use(PrimeVue);
 
-
 import ConfirmationService from 'primevue/confirmationservice';
 Vue.use(ConfirmationService);
-
-Vue.use(VueToastify,{
-  position:"top-right"
-});
 
 
 const vuetifyOptions = { }

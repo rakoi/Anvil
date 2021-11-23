@@ -32,9 +32,9 @@ public class Trip {
 	public Set<Expenses> expenses=new HashSet<>();
 	
 	
-	@JsonIgnore
 	@OneToMany(mappedBy="trip",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
 	public Set<Parcel> parcel=new HashSet<>();
+
 	@JsonIgnoreProperties("trips")
 	@ManyToOne
 	@JoinColumn(name="vehicle_id")

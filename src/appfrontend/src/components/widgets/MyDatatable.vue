@@ -1,6 +1,6 @@
 <template>
 <div class="ui container">
-
+   
     <div class="row">
         <div class="col col-md-9" >
         <a :href="newUrl" 
@@ -15,9 +15,9 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row" >
         <div class="col col-md-12">
-            <table class="table table-bordered table-hover table-default">
+            <table class="table table-bordered table-hover table-default" >
                 <thead>
                     <tr>
                         <th v-for="column in columns" :key="column" scope="col">
@@ -26,22 +26,34 @@
                         <th v-if="showEdit"  >
                             Edit
                         </th>
+                         <th v-if="showDelete"  >
+                            Delete
+                        </th>
+                         <th v-if="showCustom"  >
+                            {{customButtonText}}
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="row in content" :key="row.id">
                         <td v-for="value in values" :key="value" scope="row">
-                            {{row[value]}}
+                            {{generateValue(row,value)}}
+                   
                         </td>
                         <td v-if="showEdit" >
 
                              
-                            <a class="btn btn-warning"  @click="EditButtonClicked(row)"  ><i class="fa fa-edit" aria-hidden="true"></i> Edit <span class="glyphicon glyphicon-envelope"></span> </a>
+                            <a class="btn btn-warning"  @click="EditButtonClicked(row)"  ><i class="fa fa-edit" aria-hidden="true"></i> Modify <span class="glyphicon glyphicon-envelope"></span> </a>
                         </td>
                         <td  v-if="showDelete" >
                             <button data-toggle="modal" data-target="#myModal" @click="deleteItem(row['id'])" class="btn btn-danger "> <i class="fa fa-trash" aria-hidden="true"></i> Delete</button>
                         </td>
 
+                         <td v-if="showCustom"  >
+
+                             
+                            <a class="btn btn-info"  @click="customButtonClicked(row)"   ><i class="fa fa-tasks"  aria-hidden="true"></i> {{customButtonText}} <span class="glyphicon glyphicon-envelope"></span> </a>
+                        </td>
                     <tr>
 
                     </tr>
@@ -54,7 +66,7 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row"   >
 
         <div class=" col-md-7 ">
 
@@ -100,7 +112,7 @@ export default {
     computed:{
      
     },
-    props: ['columns', 'url', 'values','showDelete','showEdit','deleteUrl','editUrl','showNew','newText','newUrl'],
+    props: ['columns', 'url', 'values','showDelete','showEdit','deleteUrl','editUrl','showNew','newText','newUrl','customButtonText','customButton','showCustom'],
     data() {
         return {
             showDeleteModal: false,
@@ -113,6 +125,16 @@ export default {
         }
     },
     methods: {
+
+        generateValue:function(row,value){
+            
+            let index= value.split(".");
+            if(index.length>1){
+                return row[index[0]][index[1]]
+            }
+            return row[value];
+        },
+
            generateEditUrl:function(itemId){
             return this.editUrl+"/"+itemId;
             
@@ -124,6 +146,10 @@ export default {
         EditButtonClicked(id){
          
             this.$emit("EditButtonClicked",id)
+        },
+        customButtonClicked(row){
+          
+                this.$emit("customButtonClicked",row)
         },
         previousClicked: function () {
 
@@ -165,12 +191,15 @@ export default {
                 header: 'Confirmation',
                 icon: 'pi pi-exclamation-triangle',
                 accept: () => {
+                       this.$vToastify.loader("Please Wait...")
                    axios.get(deletUrl).then(()=>{
                           this.getData();
-                          
+                         
+                          this.$vToastify.stopLoader()
                        this.$vToastify.success("Success","Item Deleted!");
                    }).catch((e)=>{
                        console.log(e)
+                          this.$vToastify.stopLoader()
                        this.$vToastify.error("An error occured");
                    })
                  

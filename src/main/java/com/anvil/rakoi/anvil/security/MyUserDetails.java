@@ -62,4 +62,8 @@ public class MyUserDetails implements UserDetails {
 	public int getUserStation() {
 		return user.getStation().getId();
 	}
+
+	public int getUserId(){
+		return user.getId();
+	}
 }
