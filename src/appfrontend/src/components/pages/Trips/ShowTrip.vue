@@ -193,7 +193,15 @@
                    
                    >
                     <div class="modal-dialog modal-lg" role="document">
-                        <div class="modal-content" style="color:red ; overflow-x: hidden; overflow-y: auto;">
+                        <div class="modal-content" style=" overflow-x: hidden; overflow-y: auto;">
+                        <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Add Parcel
+
+                                </h5>
+                                <button type="button" class="close" data-dismiss="modal" @click="closeNewParcelModal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
                             <div class="modal-body">
                                 <div class="row"  >
                                     <div class="col col-md-8">
@@ -204,6 +212,7 @@
 
                                 </div>
                             </div>
+                            
 
                         </div>
 
@@ -220,7 +229,7 @@
 
 <style scoped>
 .vm--modal {
-    color:red;
+   
   height: auto !important;
 }
 </style>
@@ -345,6 +354,9 @@ export default {
         },
         closeEditModal() {
             this.$modal.hide("editModal");
+        },
+        closeNewParcelModal(){
+             this.$modal.hide("newParcelModal");
         }
 
     },

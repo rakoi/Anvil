@@ -43,7 +43,7 @@ export default {
     },
     methods: {
         editTrip(data) {
-
+            
             console.log(data.id)
             this.$router.push({
                 name: 'showTrip',

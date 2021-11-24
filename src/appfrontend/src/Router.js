@@ -3,6 +3,7 @@ import Login from './components/pages/Login.vue'
 import Dashboard from './components/pages/Dashboard.vue'
 import NewParcel from './components/pages/NewParcel.vue'
 import AllParcels from './components/pages/allParcels'
+import EditParcel from './components/pages/EditParcel'
 import AllTrips from  './components/pages/Trips/AllTrips'
 import NewTrip from './components/pages/Trips/NewTrip'
 import ShowTrip from './components/pages/Trips/ShowTrip'
@@ -25,6 +26,11 @@ const router=new VueRouter({
             path:'/parcel/new',
             name:'/newparcel',
             component:NewParcel
+        },
+        {
+            path:'/parcel/edit/:id',
+            name:'EditParcel',
+            component:EditParcel
         },
         {
             path:'/parcel/all',

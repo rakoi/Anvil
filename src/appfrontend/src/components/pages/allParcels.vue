@@ -17,17 +17,36 @@
       <div class="tab-content">
         <div id="home" class="tab-pane fade show active">
             
-          <ParcelDataTable v-bind:data="this.getIncomingParcels()" />
+          <MyDatatable 
+          :columns="parcelColumns"
+           :values="parcelColumnsNames"
+            :url="'parcel/allincoming'" 
+            :showEdit=true  
+             :editUrl="'/trip'" 
+             @EditButtonClicked="editParcel" />
         </div>
 
           <div id="sent" class="tab-pane fade ">
-            
-          <ParcelDataTable v-bind:data="this.getSentParcels()" />
+             <MyDatatable 
+          :columns="parcelColumns"
+           :values="parcelColumnsNames"
+            :url="'parcel/findAllByOrigin'" 
+            :showEdit=true  
+             :editUrl="'/trip'" 
+             @EditButtonClicked="editParcel" />
+       
         </div>
       
         <div id="undelivered" class="tab-pane fade">
         
-          <ParcelDataTable v-bind:data="this.getUndeliveredParcels()"  />
+            <MyDatatable 
+          :columns="parcelColumns"
+           :values="parcelColumnsNames"
+            :url="'parcel/findAllUncollected'" 
+            :showEdit=true  
+             :editUrl="'/trip'" 
+             @EditButtonClicked="editParcel" />
+         
         </div>
       </div>
     </div>
@@ -52,36 +71,47 @@ a {
 
 <script>
 import appLayout from "../layout/appLayout.vue";
-import ParcelDataTable from "../widgets/ParcelDataTable.vue";
-import { mapActions, mapGetters } from "vuex";
+import MyDatatable from '../widgets/MyDatatable.vue'
 export default {
-  components: { appLayout, ParcelDataTable },
-  methods: {
-    ...mapGetters([
-      "getIncomingParcels",
-      "getUndeliveredParcels",
-      "getSentParcels",
-    ]),
-    ...mapActions([
-      "fetchIncomingParcel",
-      "fetchUndeliveredParcels",
-      "fetchSentParcels",
-    ]),
-     
+  components: { appLayout ,MyDatatable},
+  methods:{
+     editParcel(data) {
+
+            
+             this.$router.push({
+                 name: 'EditParcel',
+                 params: {
+                     id: data.id
+                 }
+             });
+        }
   },
   created() {
-    this.fetchIncomingParcel();
-    this.fetchUndeliveredParcels();
-    this.fetchSentParcels();
-
-   this.getIncomingParcels();
+    
   },
   
   data() {
     return {
-      incomingUrl:"incoming",
-      findByOriginUrl:"findByOrigin",
-      findUncollectedUrl:"findUncollected"
+      parcelColumns:[
+        "id",
+        "receiver",
+        "sender",
+        "sender phone",
+        "destination",
+        "price",
+        "kilograms",
+        "collected"
+      ],
+      parcelColumnsNames:[
+        "id",
+        "reciever.first_name",
+        "sender.first_name",
+        "sender.phone",
+        "destination.name",
+        "price",
+        "kilograms",
+        "collected"
+      ]
 
     };
   },

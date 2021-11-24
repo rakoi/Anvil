@@ -12,9 +12,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ParcelRepository extends PagingAndSortingRepository<Parcel,Integer> {
-    List<Parcel> findAllByOrigin(Station origin);
-    List<Parcel>  findAllByDestination(Station origin);
-    List<Parcel> findAllByCollectedFalseAndDestination(Station destination);
+    Page<Parcel> findAllByOrigin(Station origin, Pageable pageable);
+    Page<Parcel>  findAllByDestination(Station origin, Pageable pageable);
+    Page<Parcel> findAllByCollectedFalseAndDestination(Station destination, Pageable pageable);
     Page<Parcel> findAllByTrip(Trip trip, Pageable pageable);
 
 }

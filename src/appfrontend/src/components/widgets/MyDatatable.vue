@@ -24,7 +24,7 @@
                             {{ column.toUpperCase()}}
                         </th>
                         <th v-if="showEdit"  >
-                            Edit
+                            EDIT
                         </th>
                          <th v-if="showDelete"  >
                             Delete
@@ -116,11 +116,13 @@ export default {
     data() {
         return {
             showDeleteModal: false,
+            showDeleteModalCounter:0,
             content: [],
             search: '',
             currentPage: '',
             pageCount: '',
             PageUrl: '',
+       
             deleteItemId: null
         }
     },
@@ -181,12 +183,16 @@ export default {
 
         },
         deleteItem: function (itemId) {
-            
+            this.showDeleteModalCounter++;
+            this.showDelete=true;
             let deletUrl=process.env.VUE_APP_SERVICE_URL + this.deleteUrl+'/'+itemId;
-
+            
+           
            
             this.showDeleteModal = true;
-            this.$confirm.require({
+
+            if(this.showDeleteModal){
+                     this.$confirm.require({
                 message: 'Are you sure you Delete?',
                 header: 'Confirmation',
                 icon: 'pi pi-exclamation-triangle',
@@ -194,12 +200,14 @@ export default {
                        this.$vToastify.loader("Please Wait...")
                    axios.get(deletUrl).then(()=>{
                           this.getData();
+                          this.showDeleteModal=false;
                          
                           this.$vToastify.stopLoader()
                        this.$vToastify.success("Success","Item Deleted!");
                    }).catch((e)=>{
                        console.log(e)
                           this.$vToastify.stopLoader()
+                             this.showDeleteModal=false;
                        this.$vToastify.error("An error occured");
                    })
                  
@@ -208,6 +216,9 @@ export default {
                    
                 }
             });
+             }
+             this.showDeleteModal=false;
+       
         },
         getData: function () {
 

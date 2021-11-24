@@ -74,6 +74,22 @@ public class Parcel {
 		this.description = description;
 	}
 
+	public Parcel(Client reciever, Client sender, Trip trip, Station origin, Station destination, String payment_method, int quantity, double amount_paid, double price, int kilograms, String timestamp, String description, Boolean collected) {
+		this.reciever = reciever;
+		this.sender = sender;
+		this.trip = trip;
+		this.origin = origin;
+		this.destination = destination;
+		this.payment_method = payment_method;
+		this.quantity = quantity;
+		this.amount_paid = amount_paid;
+		this.price = price;
+		this.kilograms = kilograms;
+		this.timestamp = timestamp;
+		this.description = description;
+		this.collected = collected;
+	}
+
 	public Parcel(Client reciever, Client sender, Station origin, Station destination, String payment_method, int quantity, double amount_paid, double price, int kilograms) {
 		this.reciever = reciever;
 		this.sender = sender;
@@ -87,7 +103,22 @@ public class Parcel {
 	}
 
 
-
+	public Parcel(int id, Client reciever, Client sender, Trip trip, Station origin, Station destination, String payment_method, int quantity, double amount_paid, double price, int kilograms, String timestamp, String description, Boolean collected) {
+		this.id = id;
+		this.reciever = reciever;
+		this.sender = sender;
+		this.trip = trip;
+		this.origin = origin;
+		this.destination = destination;
+		this.payment_method = payment_method;
+		this.quantity = quantity;
+		this.amount_paid = amount_paid;
+		this.price = price;
+		this.kilograms = kilograms;
+		this.timestamp = timestamp;
+		this.description = description;
+		this.collected = collected;
+	}
 
 	public Boolean getCollected() {
 		return collected;
@@ -175,6 +206,30 @@ public class Parcel {
 		this.reciever = reciever;
 	}
 
+	public Station getOrigin() {
+		return origin;
+	}
+
+	public void setOrigin(Station origin) {
+		this.origin = origin;
+	}
+
+	public Station getDestination() {
+		return destination;
+	}
+
+	public void setDestination(Station destination) {
+		this.destination = destination;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 	@Override
 	public String toString() {
 		return "Parcel{" +
@@ -182,14 +237,16 @@ public class Parcel {
 				", reciever=" + reciever +
 				", sender=" + sender +
 				", trip=" + trip +
-				", origin='" + origin + '\'' +
-
+				", origin=" + origin +
+				", destination=" + destination +
 				", payment_method='" + payment_method + '\'' +
 				", quantity=" + quantity +
 				", amount_paid=" + amount_paid +
 				", price=" + price +
 				", kilograms=" + kilograms +
 				", timestamp='" + timestamp + '\'' +
+				", description='" + description + '\'' +
+				", collected=" + collected +
 				'}';
 	}
 }

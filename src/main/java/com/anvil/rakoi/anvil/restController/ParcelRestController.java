@@ -95,30 +95,17 @@ public class ParcelRestController {
 		return new ResponseEntity<>(outgoing,HttpStatus.OK);
 	}
 	@GetMapping("/findAllByOrigin")
-	public ResponseEntity<?> findByOrigin() {
+	public ResponseEntity<?> findByOrigin(Pageable pageable) {
 		MyUserDetails userDetails = (MyUserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		int station_id=userDetails.getUserStation();
 		Optional<Station> station=stationRepository.findById(station_id);
 		System.out.println(station_id);
-		return new ResponseEntity<>(parcelRepository.findAllByOrigin(station.get()),HttpStatus.OK);
+		return new ResponseEntity<>(parcelRepository.findAllByOrigin(station.get(),pageable),HttpStatus.OK);
 	}
 	@GetMapping("/findUncollected")
-	public ResponseEntity<?> findUncollected(@RequestParam(value = "sort",defaultValue = "id") String search,
-											 @RequestParam(value = "per_page", defaultValue = "10") Integer limit,
-											 @RequestParam(value = "page", defaultValue = "0") Integer page) {
-
-		int length=search.length();
-		PageRequest pageable=null;
-		if(length>3) {
-			String column = search.substring(0, length - 4);
-
-			pageable =PageRequest.of(page, limit, Sort.by(column));
-		}else{
+	public ResponseEntity<?> findMyUncollected( Pageable pageable) {
 
 
-			pageable = PageRequest.of(page, limit, Sort.by(search));
-
-		}
 
 
 		MyUserDetails userDetails = (MyUserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -128,34 +115,21 @@ public class ParcelRestController {
 
 		return new ResponseEntity<>(uncollected,HttpStatus.OK);
 	}	@GetMapping("/findAllUncollected")
-	public ResponseEntity<?> findUncollected() {
+	public ResponseEntity<?> findUncollected(Pageable pageable) {
 
 
 		MyUserDetails userDetails = (MyUserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		int station_id=userDetails.getUserStation();
 		Optional<Station> station=stationRepository.findById(station_id);
 
-		return new ResponseEntity<>(parcelRepository.findAllByCollectedFalseAndDestination(station.get()),HttpStatus.OK);
+		return new ResponseEntity<>(parcelRepository.findAllByCollectedFalseAndDestination(station.get(),pageable),HttpStatus.OK);
 	}
 
 
 	@GetMapping("/incoming")
-	public ResponseEntity<?> getincoming(@RequestParam(value = "sort",defaultValue = "id") String search,
-										 @RequestParam(value = "per_page", defaultValue = "10") Integer limit,
-										 @RequestParam(value = "page", defaultValue = "0") Integer page) {
-
-		int length=search.length();
-		PageRequest pageable=null;
-		if(length>3) {
-			String column = search.substring(0, length - 4);
-
-			pageable =PageRequest.of(page, limit, Sort.by(column));
-		}else{
+	public ResponseEntity<?> getMyincoming(Pageable pageable) {
 
 
-			pageable = PageRequest.of(page, limit, Sort.by(search));
-
-		}
 
 
 		MyUserDetails userDetails = (MyUserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -166,14 +140,14 @@ public class ParcelRestController {
 		return new ResponseEntity<>(incoming,HttpStatus.OK);
 	}
 	@GetMapping("/allincoming")
-	public ResponseEntity<?> getincoming() {
+	public ResponseEntity<?> getincoming(Pageable pageable) {
 
 
 		MyUserDetails userDetails = (MyUserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		int station_id=userDetails.getUserStation();
 		Optional<Station> station=stationRepository.findById(station_id);
 
-		return new ResponseEntity<>(parcelRepository.findAllByDestination(station.get()),HttpStatus.OK);
+		return new ResponseEntity<>(parcelRepository.findAllByDestination(station.get(),pageable),HttpStatus.OK);
 	}
 
 
@@ -189,14 +163,14 @@ public class ParcelRestController {
 		String receiverJson=new Gson().toJson(saveParcelEntity.get("reciever"));
 		Client reciever=gson.fromJson(receiverJson,Client.class);
 
+		System.out.println(reciever);
 		System.out.println(parcel);
-		if (reciever.getId()==0){
+
 			 reciever=	clientServiceImp.addClient(reciever);
 
-		}
-		if(sender.getId()==0){
+
 			sender=clientServiceImp.addClient(sender);
-		}
+
 
 		parcel.setSender(sender);
 		parcel.setReciever(reciever);
