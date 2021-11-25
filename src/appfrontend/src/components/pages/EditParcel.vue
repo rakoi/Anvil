@@ -45,10 +45,10 @@
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="town">Town</label>
-                              
+
                                 <select class="form-control" required="true" name="parcel.origin" v-model="parcel.origin">
                                     <option value="">Select Origin</option>
-                                    <option v-for="station in stations" v-bind:value="station"  :key="station.id">
+                                    <option v-for="station in stations" v-bind:value="station" :key="station.id">
                                         {{station.name}}
                                     </option>
                                 </select>
@@ -99,11 +99,10 @@
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="rtown">Town</label>
-                                   
-                           
+
                                 <select class="form-control" required="true" name="parcel.destination" v-model="parcel.destination">
                                     <option value="">Select Destination</option>
-                                    <option v-for="station in stations" v-bind:value="station"  :key="station.id">
+                                    <option v-for="station in stations" v-bind:value="station" :key="station.id">
                                         {{station.name}}
                                     </option>
                                 </select>
@@ -152,130 +151,78 @@
                                 <input type="number" class="form-control" id="price" name="price" required="true" maxlength="5" v-model="parcel.amount_paid" />
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label for="collected" >Collected </label>
-                            
-                                <select name="parcel.collected" v-model="parcel.collected" class="form-control" >
-                                    <option value="true" >Collected</option>
-                                    <option  value="false" >Not Collected</option>
+                                <label for="collected">Collected </label>
+
+                                <select name="parcel.collected" v-model="parcel.collected" class="form-control">
+                                    <option value="true">Collected</option>
+                                    <option value="false">Not Collected</option>
                                 </select>
-                                </div>
-              </div>
+                            </div>
+                        </div>
 
-              <hr class="mb-4" />
+                        <hr class="mb-4" />
 
-              <h4 class="mb-3">Payment</h4>
+                        <h4 class="mb-3">Payment</h4>
 
-              <div class="d-block my-3">
-                <div class="custom-control custom-radio">
-                  <input
-                    id="credit"
-                    name="payment"
-                    type="radio"
-                    value="M-PESA"
-                    class="custom-control-input"
-                      v-model="parcel.payment_method"
-                    required
-                    v-b-modal.modal-1
-                    @change="onChange($event)"
-                  />
-                  <label class="custom-control-label" for="credit">Mpesa</label>
+                        <div class="d-block my-3">
+                            <div class="custom-control custom-radio">
+                                <input id="credit" name="payment" type="radio" value="M-PESA" class="custom-control-input" v-model="parcel.payment_method" required v-b-modal.modal-1 @change="onChange($event)" />
+                                <label class="custom-control-label" for="credit">Mpesa</label>
+                            </div>
+                            <div class="custom-control custom-radio">
+                                <input id="debit" name="payment" value="cash" type="radio" v-model="parcel.payment_method" class="custom-control-input" required @change="onChange($event)" />
+                                <label class="custom-control-label" for="debit">Cash</label>
+                            </div>
+                            <div class="custom-control custom-radio">
+                                <input id="paypal" name="payment" type="radio" value="C.O.D" v-model="parcel.payment_method" class="custom-control-input" required @change="onChange($event)" />
+                                <label class="custom-control-label" for="paypal">Paid On Delivery</label>
+                            </div>
+                            <div class="custom-control custom-radio">
+                                <input id="invoice" name="payment" type="radio" value="invoice" class="custom-control-input" required v-model="parcel.payment_method" @change="onChange($event)" />
+                                <label class="custom-control-label" for="invoice">Invoice</label>
+                            </div>
+                        </div>
+
+                        <hr class="mb-4" />
+                        <center>
+                            <div id="loader"></div>
+                        </center>
+                        <div>
+                            <center>
+                                <p class="danger" id="warn"></p>
+                            </center>
+                        </div>
+
+                        <div class="alert-danger" v-if="errors.length">
+                            <ul>
+                                <li v-for="error in errors" v-bind:key="error">{{ error }}</li>
+                            </ul>
+                        </div>
+                        <button class="btn btn-primary btn-lg btn-block" id="submit" type="submit" @click="saveParcel">
+                            Update Parcel
+                        </button>
+                    </form>
+                    <br /><br />
                 </div>
-                <div class="custom-control custom-radio">
-                  <input
-                    id="debit"
-                    name="payment"
-                    value="cash"
-                    type="radio"
-                    v-model="parcel.payment_method"
-                    class="custom-control-input"
-                    required
-                    @change="onChange($event)"
-                  />
-                  <label class="custom-control-label" for="debit">Cash</label>
-                </div>
-                <div class="custom-control custom-radio">
-                  <input
-                    id="paypal"
-                    name="payment"
-                    type="radio"
-                    value="C.O.D"
-                      v-model="parcel.payment_method"
-                    class="custom-control-input"
-                    required
-                    @change="onChange($event)"
-                  />
-                  <label class="custom-control-label" for="paypal"
-                    >Paid On Delivery</label
-                  >
-                </div>
-                <div class="custom-control custom-radio">
-                  <input
-                    id="invoice"
-                    name="payment"
-                    type="radio"
-                    value="invoice"
-                    class="custom-control-input"
-                    required
-                      v-model="parcel.payment_method"
-                    @change="onChange($event)"
-                  />
-                  <label class="custom-control-label" for="invoice"
-                    >Invoice</label
-                  >
-                </div>
-              </div>
-
-              <hr class="mb-4" />
-              <center><div id="loader"></div></center>
-              <div>
-                <center>
-                  <p class="danger" id="warn"></p>
-                </center>
-              </div>
-
-               <div class="alert-danger" v-if="errors.length">
-                  <ul>
-                   <li v-for="error in errors" v-bind:key="error" >{{ error }}</li>
-                  </ul>
-                  </div>
-              <button
-                class="btn btn-primary btn-lg btn-block"
-                id="submit"
-                type="submit"
-                @click="saveParcel"
-              >
-                Update Parcel
-              </button>
-            </form>
-            <br /><br />
-          </div>
-        </div>
-        <div>
-          <b-modal
-            id="modal-1"
-            ok-only
-            ok-variant="secondary"
-            ok-title="Cancel"
-            title="M-PESA"
-          >
-            <label>Phone Number</label>
-            <input class="form-control" v-model="sender.phone" />
-            <label>Mpesa Code</label>
-            <input class="form-control" />
-            <div class="row">
-              <div class="col-md-6">
-                <b-button class="mt-3 btn-block" @click="sendPush()"
-                  >Send Push</b-button
-                >
-              </div>
             </div>
-          </b-modal>
+            <div>
+                <b-modal id="modal-1" ok-only ok-variant="secondary" ok-title="Cancel" title="M-PESA">
+                    <label>Phone Number</label>
+                    <input class="form-control" v-model="sender.phone" />
+                    <label>Mpesa Code</label>
+                    <input class="form-control" />
+                    <div class="row">
+                        <div class="col-md-6">
+                            <b-button class="mt-3 btn-block" @click="sendPush()">Send Push</b-button>
+                        </div>
+                    </div>
+                </b-modal>
+            </div>
         </div>
-      </div>
 
-      <!-- /.container-fluid -->
+        <!-- /.container-fluid -->
     </appLayout>
-  </div>
+</div>
 </template>
 
 <script>
@@ -317,7 +264,7 @@ export default {
         };
     },
     methods: {
-        ...mapGetters(["getLoggedInUser"]),
+        ...mapGetters(["getLoggedInUser", "getAddedParcel"]),
         ...mapActions(["addParcel", "getUser"]),
         onChange(event) {
 
@@ -382,7 +329,17 @@ export default {
                 this.parcel.payment_method === "" || !this.parcel.payment_method) {
                 this.errors.push("enter payment_method");
             } else {
-                this.addParcel(newParcel);
+                this.addParcel(newParcel).then(() => {
+                    let parcel = this.getAddedParcel();
+
+                    this.$router.push({
+                        name: 'ShowParcel',
+                        params: {
+                            id: parcel.id
+                        }
+                    });
+                });
+
             }
         },
     },

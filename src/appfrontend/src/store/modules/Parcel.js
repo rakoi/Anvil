@@ -12,7 +12,8 @@ const getters = {
     getIncomingParcels: (state) => state.incomingParcels,
     getUndeliveredParcels: (state) => state.undeliveredParcels,
     getDeliveredParcels: (state) => state.deliveredParcels,
-    getSentParcels: (state) => state.sentParcels
+    getSentParcels: (state) => state.sentParcels,
+    getAddedParcel:(state)=>state.addParcel
 
 }
 
@@ -51,7 +52,7 @@ const actions = {
 
         await HTTP.post('/parcel/addParcel', parcel)
             .then((resp) => {
-                console.log(resp.data)
+             
 
                 Vue.$toast.open({
                     message: `Parcel ${resp.data.id} has been saved`,
@@ -59,6 +60,7 @@ const actions = {
                     // all of other options may go here
                 });
                 commit('setAddParcel', resp.data);
+                
             }).catch((e) => {
                 console.log(e);
                 Vue.$toast.open({
