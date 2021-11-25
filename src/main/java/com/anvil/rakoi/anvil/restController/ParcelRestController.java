@@ -7,6 +7,11 @@ import com.anvil.rakoi.anvil.security.MyUserDetails;
 import com.anvil.rakoi.anvil.services.ClientServiceImp;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.gson.Gson;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.oned.EAN13Writer;
+import com.google.zxing.qrcode.QRCodeWriter;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
@@ -17,12 +22,16 @@ import org.springframework.web.bind.annotation.*;
 
 import com.anvil.rakoi.anvil.services.ParcelServiceImpl;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
+import javax.servlet.ServletContext;
 
 @CrossOrigin(maxAge = 3600)
 @RestController
@@ -41,6 +50,10 @@ public class ParcelRestController {
 
 	@Autowired
 	ParcelRepository parcelRepository;
+
+
+	@Autowired
+	public ServletContext context;
 
 
 	@GetMapping("/all")
@@ -181,6 +194,17 @@ public class ParcelRestController {
 
 		Parcel savedParcel =parcelService.SaveParcel(parcel);
 
+
+		try{
+
+			System.out.println("generating image");
+			QRCodeWriter barcodeWriter = new QRCodeWriter();
+			String path=context.getRealPath("/WEB-INF/resources/labels/")+parcel.getId()+".png";
+			BitMatrix bitMatrix =barcodeWriter.encode(String.valueOf(parcel.getId()), BarcodeFormat.QR_CODE, 200, 200);
+			MatrixToImageWriter.writeToStream(bitMatrix, "png", new FileOutputStream(new File(path)));
+		}catch (Exception e){
+			System.out.println(e);
+		}
 
 
 		return new ResponseEntity<>(savedParcel,  HttpStatus.OK);

@@ -35,7 +35,7 @@
                                     <small>Anvil</small><br>
                                     <div class="row">
                                         <div class="col col-12 col-md-12">
-                                            <img src='/resources/reciepts/${parcel.id}.PNG' alt="Qrcode" width="100" height="50" class="img-thumbnail">
+                                            <img :src="labelUrl"  alt="Qrcode" width="250" height="250" class="img-thumbnail">
                                         </div>
 
                       
@@ -162,6 +162,8 @@ export default {
     },
     created() {
         let url = '/parcel/getParcel/' + this.$route.params.id;
+        this.labelUrl=process.env.VUE_APP_SERVER_URL+'/label/'+this.$route.params.id+'.png';
+   
         HTTP.get('stations/all').then((resp) => {
             this.stations = resp.data;
         })
@@ -183,11 +185,21 @@ export default {
             reciever: {},
             parcel: {},
             payment_method: "",
-            stations: []
+            stations: [],
+            labelUrl:'',
         };
     },
     methods: {
-       
+       editParcel:function(){
+            let parcelId= this.$route.params.id;
+                
+             this.$router.push({
+                 name: 'EditParcel',
+                 params: {
+                     id: parcelId
+                 }
+             });
+       }
        
         
     },

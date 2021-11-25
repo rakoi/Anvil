@@ -1,6 +1,7 @@
 package com.anvil.rakoi.anvil.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -50,6 +51,8 @@ public class Parcel {
 	public String description;
 
 	public Boolean collected;
+
+
 
 	public Parcel(Client reciever, Client sender, Trip trip, Station origin, Station destination, String payment_method, int kilograms) {
 		this.reciever = reciever;
@@ -249,4 +252,6 @@ public class Parcel {
 				", collected=" + collected +
 				'}';
 	}
+
+
 }
