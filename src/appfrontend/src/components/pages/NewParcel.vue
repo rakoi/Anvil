@@ -428,7 +428,7 @@ export default {
     };
   },
   methods: {
-    ...mapGetters(["getLoggedInUser"]),
+    ...mapGetters(["getLoggedInUser","getAddedParcel"]),
     ...mapActions(["addParcel","getUser"]),
     onChange(event) {
       
@@ -493,7 +493,17 @@ export default {
         this.parcel.payment_method === "" || !this.parcel.payment_method) {
         this.errors.push("enter payment_method");
       } else {
-        this.addParcel(newParcel);
+        this.addParcel(newParcel).then(()=>{
+
+          let parcel = this.getAddedParcel();
+
+          this.$router.push({
+                        name: 'ShowParcel',
+                        params: {
+                            id: parcel.id
+                        }
+                    });
+        });
       }
     },
   },

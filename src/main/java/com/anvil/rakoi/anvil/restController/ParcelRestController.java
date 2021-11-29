@@ -1,10 +1,13 @@
 package com.anvil.rakoi.anvil.restController;
 
+import antlr.StringUtils;
 import com.anvil.rakoi.anvil.entities.*;
 import com.anvil.rakoi.anvil.repos.ParcelRepository;
 import com.anvil.rakoi.anvil.repos.StationRepository;
 import com.anvil.rakoi.anvil.security.MyUserDetails;
 import com.anvil.rakoi.anvil.services.ClientServiceImp;
+import com.anvil.rakoi.anvil.services.SmsSender;
+import com.anvil.rakoi.anvil.util.StringFunctions;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.gson.Gson;
 import com.google.zxing.BarcodeFormat;
@@ -52,8 +55,13 @@ public class ParcelRestController {
 	ParcelRepository parcelRepository;
 
 
+
+
 	@Autowired
 	public ServletContext context;
+
+	@Autowired
+	public SmsSender smsService;
 
 
 	@GetMapping("/all")
@@ -176,8 +184,6 @@ public class ParcelRestController {
 		String receiverJson=new Gson().toJson(saveParcelEntity.get("reciever"));
 		Client reciever=gson.fromJson(receiverJson,Client.class);
 
-		System.out.println(reciever);
-		System.out.println(parcel);
 
 			 reciever=	clientServiceImp.addClient(reciever);
 
@@ -191,6 +197,16 @@ public class ParcelRestController {
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 		LocalDateTime now = LocalDateTime.now();
 		parcel.setTimestamp(dtf.format(now));
+
+
+		if(String.valueOf(parcel.getId())!=null){
+			System.out.println("Sending message");
+			String SenderTextMessage="Your Parcel has been sent to "+parcel.getDestination().name +" from "+parcel.getOrigin().getName();
+			String RecieverMessage="A  Parcel has been sent to you by "+parcel.getSender().getNames() +" from "+parcel.getOrigin().getName()+" You will be notified once it arrives";
+			smsService.sendMessage(sender.getPhone(),SenderTextMessage);
+			smsService.sendMessage(reciever.getPhone(),RecieverMessage);
+		}
+
 
 		Parcel savedParcel =parcelService.SaveParcel(parcel);
 
@@ -211,5 +227,9 @@ public class ParcelRestController {
 	}
 
 
+	@GetMapping("/sendSmS")
+	public ResponseEntity<?> sendSms(){
+		return  new ResponseEntity<>(smsService.sendMessage("+254702164611","hello"),HttpStatus.OK);
+	}
 
 }

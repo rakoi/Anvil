@@ -27,4 +27,8 @@ public class StringFunctions {
        return dtf.format(now);
 
     }
+
+    public static String generateTrackingNumber(String id){
+        return "AVL"+id;
+    }
 }

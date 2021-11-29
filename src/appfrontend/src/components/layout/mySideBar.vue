@@ -79,56 +79,7 @@
 
      
 
-      <div class="modal fade" id="checkinModalCenter" tabindex="-1" role="dialog"
-        aria-labelledby="checkinModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="checkinModalLongTitle">Check In Office/Drop-off</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <form>
-
-                <div class="form-group row">
-                  <label for="PaidBy" class="col-sm-2 col-form-label">Office</label>
-                  <div class="col-sm-10">
-                    <select id="PaidBY" name="paidby" class="form-control">
-                      <option value="1">Nairobi- Ngara</option>
-                      <option value="2">Nairobi -Kamukunji</option>
-                      <option value="3">Nairobi - Cross Roads</option>
-                      <option value="4">Nairobi- Eastliegh</option>
-                      <option value="5">Mwea</option>
-                      <option value="5">Embu</option>
-                      <option value="5">Runyenjes</option>
-                      <option value="5">Chuka</option>
-                      <option value="5">Nkubu</option>
-                      <option value="5">Meru</option>
-                      <option value="5">Kianjai</option>
-                      <option value="5">Maua</option>
-                      <option value="5">Isiolo</option>
-                      <option value="5">Nanyuki</option>
-                      <option value="5">Nyeri</option>
-                      <option value="5">Kerugoya</option>
-
-                    </select>
-                  </div>
-                </div>
-                <div class="form-group row">
-                  <button type="submit" class="btn btn-primary" data-dismiss="modal">Submit</button>
-                </div>
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-
-            </div>
-          </div>
-        </div>
-      </div>
-
+   
   
      
 
@@ -140,15 +91,53 @@
       <!-- Nav Item - Charts -->
       <li class="nav-item">
         <a class="nav-link" href="charts.html">
-          <i class="fas fa-fw fa-chart-area"></i>
-          <span>Fuel</span></a>
+          <i class="fas fa-fw fa-flag"></i>
+          <span>Reports</span></a>
       </li>
 
-      <!-- Nav Item - Tables -->
+
+
+     
+      <!-- Nav Item - Charts -->
+            <!-- Nav Item - Utilities Collapse Menu -->
       <li class="nav-item">
-        <a class="nav-link" href="tables.html">
-          <i class="fas fa-fw fa-table"></i>
-          <span >Expenses</span></a>
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#accountsdiv"
+          aria-expanded="true" aria-controls="accountsdiv">
+          <i class="fa fa-money"></i>
+          <span>Accounts</span>
+        </a>
+        <div id="accountsdiv" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Accounts :</h6>
+            <a class="collapse-item" href="/user/trips">Trial Balance</a>
+            <a class="collapse-item" href="/trip/new">Balance Sheet</a>
+            <a class="collapse-item" href="/trip/all">Debit & Aging Report</a>
+          
+           
+          </div>
+        </div>
+      </li>
+
+
+       <!-- Nav Item - Utilities Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseParameters"
+          aria-expanded="true" aria-controls="collapseParameters">
+          <i class="fa fa-cog"></i>
+          <span>Parameters</span>
+        </a>
+        <div id="collapseParameters" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">System Parameters:</h6>
+            <a class="collapse-item" href="/user/trips">Users</a>
+            <a class="collapse-item" href="/trip/new">Vehicles</a>
+            <a class="collapse-item" href="/trip/all">Stations</a>
+             <a class="collapse-item" href="/trip/all">Roles</a>
+             <a class="collapse-item" href="/trip/all">Clients</a>
+              <a class="collapse-item" href="/trip/all">Access Logs</a>
+           
+          </div>
+        </div>
       </li>
 
       <!-- Divider -->

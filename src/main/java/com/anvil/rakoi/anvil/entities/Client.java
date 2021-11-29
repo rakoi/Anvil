@@ -103,6 +103,9 @@ public class Client {
 		this.parcel = parcel;
 	}
 
+	public String getNames(){
+		return this.first_name+" "+this.last_name;
+	}
 	@Override
 	public String toString() {
 		return "Client{" +
