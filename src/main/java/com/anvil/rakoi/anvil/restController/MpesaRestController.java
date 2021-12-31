@@ -1,6 +1,8 @@
 package com.anvil.rakoi.anvil.restController;
 
 import com.anvil.rakoi.anvil.entities.Pojos.*;
+import com.anvil.rakoi.anvil.entities.mpesatransactions;
+import com.anvil.rakoi.anvil.repos.MpesaTransactionsRepository;
 import com.anvil.rakoi.anvil.services.DarajaImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -20,6 +22,8 @@ import java.io.IOException;
 public class MpesaRestController  {
 
 
+    @Autowired
+    MpesaTransactionsRepository mpesaTransactionsRepository;
 
 
 
@@ -61,6 +65,38 @@ public class MpesaRestController  {
             System.out.println("this is a callback");
         System.out.println(stkPushAsyncResponse.toString());
 
+        mpesatransactions transaction=new mpesatransactions();
+        double amount;
+        String phoneNumber;
+        String receiptNumber;
+        String merchantRequestid;
+        String date;
+
+        if(stkPushAsyncResponse.getBody().getStkCallback().getResultCode().equals("0")){
+
+            transaction.setMerchantRequestID(stkPushAsyncResponse.getBody().getStkCallback().getMerchantRequestID());
+            for(ItemItem item : stkPushAsyncResponse.getBody().getStkCallback().getCallbackMetaData().getItem()){
+                if(item.getName().equals("Amount")){
+                    transaction.setAmount(Double.parseDouble(item.getValue()));
+
+                }
+                if(item.getName().equals("MpesaReceiptNumber")){
+                    transaction.setMpesaReceiptNumber(item.getValue());
+                }
+
+                if(item.getName().equals("PhoneNumber")){
+                    transaction.setPhoneNumber(item.getValue());
+                }
+
+                if(item.getName().equals("TransactionDate")){
+                    transaction.setDate(item.getValue());
+                }
+            }
+
+            System.out.println(transaction.toString());
+            mpesaTransactionsRepository.save(transaction);
+
+        }
 
 
        // System.out.println(stkPushAsyncResponse.getBody().getStkCallback().toString());

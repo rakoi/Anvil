@@ -2,8 +2,6 @@ package com.anvil.rakoi.anvil.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -31,6 +29,11 @@ public class Parcel {
 	@JoinColumn(name="trip_id")
 	@JsonIgnore
 	public Trip trip;
+
+
+
+	@OneToMany(mappedBy="parcel",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+	public Set<mpesatransactions> mpesaTransactions=new HashSet<>();
 
 
 
@@ -121,6 +124,25 @@ public class Parcel {
 		this.trip = trip;
 		this.origin = origin;
 		this.destination = destination;
+		this.payment_method = payment_method;
+		this.quantity = quantity;
+		this.amount_paid = amount_paid;
+		this.price = price;
+		this.kilograms = kilograms;
+		this.timestamp = timestamp;
+		this.description = description;
+		this.collected = collected;
+	}
+
+	public Parcel(int id, Client reciever, Client sender, Trip trip, Set<mpesatransactions> mpesaTransactions, Station origin, Station destination, Set<Journal> journalEntry, String payment_method, int quantity, double amount_paid, double price, int kilograms, String timestamp, String description, Boolean collected) {
+		this.id = id;
+		this.reciever = reciever;
+		this.sender = sender;
+		this.trip = trip;
+		this.mpesaTransactions = mpesaTransactions;
+		this.origin = origin;
+		this.destination = destination;
+		this.journalEntry = journalEntry;
 		this.payment_method = payment_method;
 		this.quantity = quantity;
 		this.amount_paid = amount_paid;
@@ -287,5 +309,11 @@ public class Parcel {
 				'}';
 	}
 
+	public Set<mpesatransactions> getMpesaTransactions() {
+		return mpesaTransactions;
+	}
 
+	public void setMpesaTransactions(Set<mpesatransactions> mpesaTransactions) {
+		this.mpesaTransactions = mpesaTransactions;
+	}
 }

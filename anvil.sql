@@ -178,29 +178,34 @@ INSERT INTO `journal` VALUES (2,1,100,0,26,NULL);
 UNLOCK TABLES;
 
 --
--- Table structure for table `mpesaTransactions`
+-- Table structure for table `mpesatransactions`
 --
 
-DROP TABLE IF EXISTS `mpesaTransactions`;
+DROP TABLE IF EXISTS `mpesatransactions`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `mpesaTransactions` (
+CREATE TABLE `mpesatransactions` (
   `id` int NOT NULL AUTO_INCREMENT,
   `amount` double DEFAULT NULL,
-  `phoneNumber` varchar(25) DEFAULT NULL,
-  `MpesaReceiptNumber` varchar(55) DEFAULT NULL,
-  `MerchantRequestID` varchar(55) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `phone_number` varchar(25) DEFAULT NULL,
+  `mpesa_receipt_number` varchar(55) DEFAULT NULL,
+  `merchant_requestid` varchar(55) DEFAULT NULL,
+  `parcel_id` int DEFAULT NULL,
+  `date` varchar(25) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `parcel_id` (`parcel_id`),
+  CONSTRAINT `mpesatransactions_ibfk_1` FOREIGN KEY (`parcel_id`) REFERENCES `parcel` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `mpesaTransactions`
+-- Dumping data for table `mpesatransactions`
 --
 
-LOCK TABLES `mpesaTransactions` WRITE;
-/*!40000 ALTER TABLE `mpesaTransactions` DISABLE KEYS */;
-/*!40000 ALTER TABLE `mpesaTransactions` ENABLE KEYS */;
+LOCK TABLES `mpesatransactions` WRITE;
+/*!40000 ALTER TABLE `mpesatransactions` DISABLE KEYS */;
+INSERT INTO `mpesatransactions` VALUES (1,1,'254702164611','PLV3XGQI9B','15321-40079386-1',NULL,'20211231173427');
+/*!40000 ALTER TABLE `mpesatransactions` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -447,4 +452,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-12-31 16:35:01
+-- Dump completed on 2021-12-31 17:35:16
