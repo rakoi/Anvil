@@ -1,8 +1,7 @@
 package com.anvil.rakoi.anvil.services;
 
-import com.anvil.rakoi.anvil.entities.Pojos.MpesaAccessToken;
-import com.anvil.rakoi.anvil.entities.Pojos.RegisterMpesaUrlRequest;
-import com.anvil.rakoi.anvil.entities.Pojos.RegisterUrlResponse;
+import com.anvil.rakoi.anvil.entities.Pojos.*;
+import com.anvil.rakoi.anvil.util.StringFunctions;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
@@ -54,36 +53,118 @@ public class DarajaImpl implements DarajaInterface{
     }
 
     @Override
-    public RegisterUrlResponse registerUrl() throws JsonProcessingException {
+    public RegisterUrlResponse registerUrl() throws IOException {
         MpesaAccessToken accessTokenResponse = getAccessToken();
 
         RegisterMpesaUrlRequest mpesaRequest=new RegisterMpesaUrlRequest();
-        mpesaRequest.setShortCode(env.getProperty("SHORT_CODE"));
+        mpesaRequest.setShortCode(Integer.parseInt(env.getProperty("SHORT_CODE")));
         mpesaRequest.setValidationURL(env.getProperty("VALIDATION_URL"));
         mpesaRequest.setConfirmationURL(env.getProperty("CONFIRMATION_URL"));
         mpesaRequest.setResponseType(env.getProperty("RESPONSE_TYPE"));
 
+        System.out.println(mpesaRequest.toJson());
+        OkHttpClient client = new OkHttpClient().newBuilder().build();
+        MediaType mediaType = MediaType.parse("application/json");
+        RequestBody body = null;
+         body = RequestBody.create(mediaType,mpesaRequest.toJson());
+        Request request = new Request.Builder()
+                .url(env.getProperty("REGISTER_URL"))
+                .method("POST", body)
+                .addHeader("Content-Type", "application/json")
+                .addHeader("Authorization", accessTokenResponse.getBearer())
+                .build();
+        Response response = client.newCall(request).execute();
 
 
+
+        return null;
+
+
+
+    }
+
+    @Override
+    public SimulateTransactionResponse simulatec2BTransaction(SimulateTransactionRequest simulateTransactionRequest) throws IOException {
+
+        MpesaAccessToken accessTokenResponse = getAccessToken();
 
         MediaType mediaType = MediaType.parse("application/json");
+        RequestBody body = null;
+        body = RequestBody.create(mediaType,simulateTransactionRequest.toJson());
 
-       RequestBody body = RequestBody.create(mediaType,
-                mpesaRequest.toJson()
-        );
+        Request request = new Request.Builder()
+                .url(env.getProperty("SIMULATE_URL"))
+                .method("POST", body)
+                .addHeader("Content-Type", "application/json")
+                .addHeader("Authorization", accessTokenResponse.getBearer())
+                .build();
 
-    System.out.println(mpesaRequest.toJson());
-       Request request=new Request.Builder().url("https://sandbox.safaricom.co.ke/mpesa/c2b/v1/registerurl").post(body).addHeader("Authorization",accessTokenResponse.getBearer()).build();
-        System.out.println(accessTokenResponse.getBearer());
+        OkHttpClient client = new OkHttpClient().newBuilder().build();
+
+        Response response = client.newCall(request).execute();
+
+        return gson.fromJson(response.body().string(),SimulateTransactionResponse.class);
+
+
+    }
+
+    @Override
+    public StkPushSyncResp performStkPushTransaction(IntenalPushRequest intenalPushRequest) throws JsonProcessingException {
+
+        System.out.println("pushing");
+        ExternalStkPushRequest externalStkPushReq=new ExternalStkPushRequest();
+        String timeStamp=StringFunctions.getCurrentTimestamp();
+        System.out.println("timestamp is"+timeStamp);
+        externalStkPushReq.setBusinessShortCode(Integer.parseInt(env.getProperty("STKPUSH_SHORTCODE")));
+        externalStkPushReq.setPassword(StringFunctions.getStkPushPassword(env.getProperty("STKPUSH_SHORTCODE"),env.getProperty("STKPUSH_PASSKEY"),timeStamp));
+        externalStkPushReq.setTimestamp(timeStamp);
+        externalStkPushReq.setTransactionType("CustomerPayBillOnline");
+        externalStkPushReq.setAmount(intenalPushRequest.getAmount());
+        externalStkPushReq.setPartyA(Long.valueOf(intenalPushRequest.getPhoneNumber()));
+        externalStkPushReq.setPartyB(174379);
+        externalStkPushReq.setPhoneNumber(intenalPushRequest.getPhoneNumber());
+        externalStkPushReq.setCallBackURL(env.getProperty("STK_PUSH_REQUESTCALLBACK"));
+        externalStkPushReq.setAccountReference(StringFunctions.getTransactionUniqueNo());
+        externalStkPushReq.setTransactionDesc("ANVIL");
+
+        System.out.println("callback url is "+externalStkPushReq.getCallBackURL());
+
+
+        MpesaAccessToken accessTokenResponse = getAccessToken();
+
+        MediaType mediaType = MediaType.parse("application/json");
+        RequestBody body = null;
+        body = RequestBody.create(mediaType,externalStkPushReq.toJson());
+
+
+        Request request = new Request.Builder()
+                .url(env.getProperty("STKPUSH_REQUESTURL"))
+                .method("POST", body)
+                .addHeader("Content-Type", "application/json")
+                .addHeader("Authorization", accessTokenResponse.getBearer())
+                .build();
+
+
+        OkHttpClient client = new OkHttpClient().newBuilder().build();
+
+        Response response = null;
         try {
-            Response response=okHttpClient.newCall(request).execute();
-            System.out.println(response);
-            return null;
-            //return gson.fromJson(response.body().string(),RegisterUrlResponse.class);
+            response = client.newCall(request).execute();
+
+
+            //return null;
+             return gson.fromJson(response.body().string(),StkPushSyncResp.class);
+
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
+            System.out.println(e.toString());
+            System.out.println("could not perform push");
+            return  null;
         }
+
+
+
+
 
     }
 }

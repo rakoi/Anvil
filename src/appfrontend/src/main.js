@@ -24,7 +24,7 @@ import VueToastify from "vue-toastify";
 
 
 Vue.use(VueToast);
-Vue.use(VueToastify)
+
 Vue.component("data-table", DataTable);
 Vue.use(VModal);
 
@@ -59,6 +59,9 @@ Vue.config.productionTip = false
 
 
 
+Vue.use(VueToastify,{
+  position:"top-right"
+});
 
 
 Vue.use(VueAutosuggest);

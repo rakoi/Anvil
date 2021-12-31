@@ -1,13 +1,15 @@
 package com.anvil.rakoi.anvil.restController;
 
-import com.anvil.rakoi.anvil.entities.Pojos.MpesaAccessToken;
-import com.anvil.rakoi.anvil.entities.Pojos.RegisterUrlResponse;
+import com.anvil.rakoi.anvil.entities.Pojos.*;
 import com.anvil.rakoi.anvil.services.DarajaImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.io.IOException;
 
@@ -15,12 +17,15 @@ import java.io.IOException;
 @CrossOrigin(maxAge = 3600)
 @RestController
 @RequestMapping("/api/payment")
-public class MpesaRestController {
+public class MpesaRestController  {
+
+
+
+
 
     @Autowired
     DarajaImpl darajaImpl;
     @GetMapping("/token")
-
     public MpesaAccessToken initiate() throws IOException {
 
     return darajaImpl.getAccessToken();
@@ -30,5 +35,47 @@ public class MpesaRestController {
     public RegisterUrlResponse regUrl() throws IOException {
 
         return darajaImpl.registerUrl();
+    }
+
+    @PostMapping(value = "/validation",produces = "application/json")
+    public ResponseEntity<?> validation(@RequestBody MpesaValidationResponse mpesaValidationResponse) throws IOException {
+        System.out.println("called validation");
+        System.out.println(mpesaValidationResponse.toString());
+        return ResponseEntity.ok("success");
+    }
+    @PostMapping(value = "/simulateCustomer2Business",produces = "application/json")
+    public SimulateTransactionResponse simulateCustomerTransaction(@RequestBody SimulateTransactionRequest simulateTransactionRequest)  {
+
+
+        try {
+            return darajaImpl.simulatec2BTransaction(simulateTransactionRequest);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @PostMapping(value = "/transactionResults",produces = "application/json")
+    public ResponseEntity<String> acknowledgeStkPushResp(@RequestBody StkPushAsyncResponse stkPushAsyncResponse)  {
+
+            System.out.println("this is a callback");
+        System.out.println(stkPushAsyncResponse.toString());
+
+
+
+       // System.out.println(stkPushAsyncResponse.getBody().getStkCallback().toString());
+            return ResponseEntity.ok("Success");
+
+    }
+    @PostMapping(value = "/initiatePushRequest",produces = "application/json")
+    public ResponseEntity<StkPushSyncResp> performStkPushTransaction(@RequestBody IntenalPushRequest intenalPushRequest)  {
+
+
+        try {
+            return ResponseEntity.ok( darajaImpl.performStkPushTransaction(intenalPushRequest));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

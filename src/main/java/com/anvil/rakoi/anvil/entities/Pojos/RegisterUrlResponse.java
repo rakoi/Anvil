@@ -1,14 +1,14 @@
 package com.anvil.rakoi.anvil.entities.Pojos;
 
 public class RegisterUrlResponse {
-    public String confirmationId;
-    public String responseDescription;
-    public String originatorConversionId;
+    public String OriginatorCoversationID;
+    public String ResponseDescription;
+    public String ResponseCode;
 
 
     public RegisterUrlResponse(String confirmationId, String responseDescription, String originatorConversionId) {
-        this.confirmationId = confirmationId;
-        this.responseDescription = responseDescription;
-        this.originatorConversionId = originatorConversionId;
+        this.OriginatorCoversationID = confirmationId;
+        this.ResponseDescription = responseDescription;
+        this.ResponseCode = originatorConversionId;
     }
 }

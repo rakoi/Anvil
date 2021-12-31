@@ -20,6 +20,12 @@ public class Expense {
 
 	public Set<Expenses> expenses=new HashSet<>();
 
+
+	@OneToMany(mappedBy="expense")
+	@JsonIgnoreProperties("journalEntry")
+	private Set<Journal> journalEntry;
+
+
 	public Expense(int id, String name, String description, Set<Expenses> expenses) {
 		this.id = id;
 		this.name = name;
@@ -78,5 +84,13 @@ public class Expense {
 
 	public void setExpenses(Set<Expenses> expenses) {
 		this.expenses = expenses;
+	}
+
+	public Set<Journal> getJournalEntry() {
+		return journalEntry;
+	}
+
+	public void setJournalEntry(Set<Journal> journalEntry) {
+		this.journalEntry = journalEntry;
 	}
 }

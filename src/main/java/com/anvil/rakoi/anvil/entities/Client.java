@@ -18,6 +18,7 @@ public class Client {
 	public String email;
 	public String id_number;
 	public String phone;
+	public int type;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy= "reciever",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
@@ -58,6 +59,17 @@ public class Client {
 		this.email = email;
 		this.id_number = id_number;
 		this.phone = phone;
+	}
+
+	public Client(String first_name, String last_name, String email, String id_number, String phone, int type, Set<Parcel> parcel, Set<Parcel> sentparcel) {
+		this.first_name = first_name;
+		this.last_name = last_name;
+		this.email = email;
+		this.id_number = id_number;
+		this.phone = phone;
+		this.type = type;
+		this.parcel = parcel;
+		this.sentparcel = sentparcel;
 	}
 
 	public int getId() {
@@ -103,9 +115,18 @@ public class Client {
 		this.parcel = parcel;
 	}
 
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
+	}
+
 	public String getNames(){
 		return this.first_name+" "+this.last_name;
 	}
+
 	@Override
 	public String toString() {
 		return "Client{" +
@@ -115,7 +136,7 @@ public class Client {
 				", email='" + email + '\'' +
 				", id_number='" + id_number + '\'' +
 				", phone='" + phone + '\'' +
-				", parcel is messed" + null +
+				", type=" + type +
 				'}';
 	}
 }

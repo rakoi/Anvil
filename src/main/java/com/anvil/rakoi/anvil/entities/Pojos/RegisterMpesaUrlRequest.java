@@ -3,7 +3,6 @@ package com.anvil.rakoi.anvil.entities.Pojos;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
@@ -11,11 +10,11 @@ import org.springframework.core.env.Environment;
 public class RegisterMpesaUrlRequest {
 
 
-    public String shortCode;
-    public String validationURL;
-    public String confirmationURL;
+    public Integer ShortCode;
+    public String ResponseType;
+    public String ConfirmationURL;
+    public String ValidationURL;
 
-    public String responseType;
     @Autowired
     private Environment environment;
 
@@ -23,43 +22,43 @@ public class RegisterMpesaUrlRequest {
     public RegisterMpesaUrlRequest() {
     }
 
-    public RegisterMpesaUrlRequest(String shortCode, String validationURL, String confirmationURL, String responseType) {
-        this.shortCode = shortCode;
-        this.validationURL = validationURL;
-        this.confirmationURL = confirmationURL;
-        this.responseType = responseType;
+    public RegisterMpesaUrlRequest(Integer shortCode, String validationURL, String confirmationURL, String responseType) {
+        this.ShortCode = shortCode;
+        this.ValidationURL = validationURL;
+        this.ConfirmationURL = confirmationURL;
+        this.ResponseType = responseType;
     }
 
-    public String getShortCode() {
-        return shortCode;
+    public Integer getShortCode() {
+        return ShortCode;
     }
 
-    public void setShortCode(String shortCode) {
-        this.shortCode = shortCode;
+    public void setShortCode(Integer shortCode) {
+        this.ShortCode = shortCode;
     }
 
     public String getValidationURL() {
-        return validationURL;
+        return ValidationURL;
     }
 
     public void setValidationURL(String validationURL) {
-        this.validationURL = validationURL;
+        this.ValidationURL = validationURL;
     }
 
     public String getConfirmationURL() {
-        return confirmationURL;
+        return ConfirmationURL;
     }
 
     public void setConfirmationURL(String confirmationURL) {
-        this.confirmationURL = confirmationURL;
+        this.ConfirmationURL = confirmationURL;
     }
 
     public String getResponseType() {
-        return responseType;
+        return ResponseType;
     }
 
     public void setResponseType(String responseType) {
-        this.responseType = responseType;
+        this.ResponseType = responseType;
     }
 
     public String toJson() throws JsonProcessingException {
@@ -70,10 +69,10 @@ public class RegisterMpesaUrlRequest {
     @Override
     public String toString() {
         return "RegisterMpesaUrlRequest{" +
-                "shortCode='" + shortCode + '\'' +
-                ", validationURL='" + validationURL + '\'' +
-                ", confirmationURL='" + confirmationURL + '\'' +
-                ", responseType='" + responseType + '\'' +
+                "shortCode='" + ShortCode + '\'' +
+                ", validationURL='" + ValidationURL + '\'' +
+                ", confirmationURL='" + ConfirmationURL + '\'' +
+                ", responseType='" + ResponseType + '\'' +
                 '}';
     }
 

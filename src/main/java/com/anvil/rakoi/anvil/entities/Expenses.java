@@ -80,6 +80,14 @@ public class Expenses {
         this.timestamp = timestamp;
     }
 
+    public com.anvil.rakoi.anvil.entities.Expense getExpense() {
+        return Expense;
+    }
+
+    public void setExpense(com.anvil.rakoi.anvil.entities.Expense expense) {
+        Expense = expense;
+    }
+
     @Override
     public String toString() {
         return "Expenses{" +

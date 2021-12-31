@@ -106,8 +106,6 @@ public class ParcelRestController {
 
 		}
 
-		System.out.println(pageable);
-
 		MyUserDetails userDetails = (MyUserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		int station_id=userDetails.getUserStation();
 		Optional<Station> station=stationRepository.findById(station_id);
@@ -181,6 +179,8 @@ public class ParcelRestController {
 		String senderJson=new Gson().toJson(saveParcelEntity.get("sender"));
 		Client sender=gson.fromJson(senderJson,Client.class);
 
+		System.out.println(sender.toString());
+
 		String receiverJson=new Gson().toJson(saveParcelEntity.get("reciever"));
 		Client reciever=gson.fromJson(receiverJson,Client.class);
 
@@ -200,7 +200,7 @@ public class ParcelRestController {
 
 
 		if(String.valueOf(parcel.getId())!=null){
-			System.out.println("Sending message");
+
 			String SenderTextMessage="Your Parcel has been sent to "+parcel.getDestination().name +" from "+parcel.getOrigin().getName();
 			String RecieverMessage="A  Parcel has been sent to you by "+parcel.getSender().getNames() +" from "+parcel.getOrigin().getName()+" You will be notified once it arrives";
 			smsService.sendMessage(sender.getPhone(),SenderTextMessage);
@@ -213,7 +213,7 @@ public class ParcelRestController {
 
 		try{
 
-			System.out.println("generating image");
+
 			QRCodeWriter barcodeWriter = new QRCodeWriter();
 			String path=context.getRealPath("/WEB-INF/resources/labels/")+parcel.getId()+".png";
 			BitMatrix bitMatrix =barcodeWriter.encode(String.valueOf(parcel.getId()), BarcodeFormat.QR_CODE, 200, 200);

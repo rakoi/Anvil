@@ -46,7 +46,7 @@ export default {
     console.log(value.target.value);
       this.client.phone=this.number;
        this.$emit('childToParent', this.client)
-      console.log(this.client)
+   
 
     },
     selectHandler(item) {
