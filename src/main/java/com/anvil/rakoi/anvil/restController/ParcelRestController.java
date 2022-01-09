@@ -2,6 +2,7 @@ package com.anvil.rakoi.anvil.restController;
 
 import antlr.StringUtils;
 import com.anvil.rakoi.anvil.entities.*;
+import com.anvil.rakoi.anvil.entities.Pojos.IntenalPushRequest;
 import com.anvil.rakoi.anvil.repos.ParcelRepository;
 import com.anvil.rakoi.anvil.repos.StationRepository;
 import com.anvil.rakoi.anvil.security.MyUserDetails;
@@ -178,6 +179,13 @@ public class ParcelRestController {
 
 		String senderJson=new Gson().toJson(saveParcelEntity.get("sender"));
 		Client sender=gson.fromJson(senderJson,Client.class);
+
+		String mpesaTransaction=new Gson().toJson(saveParcelEntity.get("mpesaData"));
+		IntenalPushRequest mpesaData=gson.fromJson(mpesaTransaction,IntenalPushRequest.class);
+
+
+		System.out.println(mpesaData.toString());
+
 
 		System.out.println(sender.toString());
 

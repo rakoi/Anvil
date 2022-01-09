@@ -289,9 +289,15 @@
             title="M-PESA"
           >
             <label>Phone Number</label>
-            <input class="form-control" v-model="sender.phone" />
+            <input class="form-control" v-model="mpesaData.phoneNumber" />
+
+            <label>Amount</label>
+            <input class="form-control"   v-model="mpesaData.amount" />
+
+
             <label>Mpesa Code</label>
-            <input class="form-control" />
+         
+            <input class="form-control"  v-model="mpesaData.MpesaReceiptNumber" />
             <div class="row">
               <div class="col-md-6">
                 <b-button class="mt-3 btn-block" @click="sendPush()"
@@ -310,6 +316,8 @@
 
 <script>
 import appLayout from "../layout/appLayout";
+import { HTTP } from '../../common/http-common'
+import Vue from 'vue'
 import AutoComplete from "../widgets/AutoComplete.vue";
 import {
     mapActions,
@@ -325,6 +333,7 @@ export default {
         this.sender.type = 1;
         this.sendertype = 1;
         this.receivertype = 1;
+        this.mpesaData.phoneNumber=254702164611;
 
         this.parcel.origin = this.getLoggedInUser().station
         this.parcel.destination = {
@@ -333,6 +342,7 @@ export default {
         }
     },
     watch: {
+       
         receivertype: function (reciever) {
             this.receiver.type = reciever;
         },
@@ -353,20 +363,67 @@ export default {
             }
         }
     },
+    
     data() {
         return {
             sender: {},
+            mpesaData:{},
             errors: [],
             receiver: {},
             parcel: {},
             payment_method: "",
             sendertype: "",
-            receivertype: ""
+            receivertype: "",
+            fetchMpesaData:false
         };
     },
     methods: {
         ...mapGetters(["getLoggedInUser", "getAddedParcel"]),
         ...mapActions(["addParcel", "getUser"]),
+         sendPush:function(){
+                let mpesaData=this.mpesaData;
+
+                //phoneNumber
+                console.log(mpesaData)
+                HTTP.post('payment/initiatePushRequest',{
+                    phoneNumber:mpesaData.phoneNumber,
+                    amount:mpesaData.amount
+                }).then((resp)=>{
+                    console.log(resp)
+                }).catch(()=>{
+                    Vue.$toast.open({
+                    message: 'Error calling push request',
+                    type: 'error',
+                    // all of other options may go here
+                });
+                })
+
+                setTimeout(this.fetchMpesaTransaction,2000);
+        },
+        fetchMpesaTransaction(){
+            let mpesaData=this.mpesaData;
+            console.log(mpesaData);
+              HTTP.post('payment/getTransactionDetails',{
+                    phoneNumber:mpesaData.phoneNumber,
+                    amount:mpesaData.amount
+                }).then((resp)=>{
+                    console.log('*****************')
+                    this.mpesaData.amount=parseInt(mpesaData.amount)+0;
+                    this.mpesaData.MpesaReceiptNumber=resp.data.MpesaReceiptNumber;
+                    console.log(resp.data.MpesaReceiptNumber)
+                    console.log('this receipt number is '+this.mpesaData.MpesaReceiptNumber)
+                    console.log(resp.data)
+                    console.log('*****************')
+                }).catch(()=>{
+                    Vue.$toast.open({
+                    message: 'Error Fetching transaction details',
+                    type: 'error',
+                    // all of other options may go here
+                });
+                })
+
+            
+        },
         onChange(event) {
 
             var data = event.target.value;
@@ -397,6 +454,7 @@ export default {
                 sender: this.sender,
                 reciever: this.receiver,
                 parcel: this.parcel,
+                mpesaData:this.mpesaData
             };
 
             //validation

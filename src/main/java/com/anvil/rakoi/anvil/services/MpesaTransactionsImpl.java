@@ -6,7 +6,9 @@ import com.anvil.rakoi.anvil.repos.MpesaTransactionsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
+@Service
 public class MpesaTransactionsImpl  implements MpesaTransactionsInt{
 
 
@@ -31,5 +33,10 @@ public class MpesaTransactionsImpl  implements MpesaTransactionsInt{
     @Override
     public Page<mpesatransactions> getParcelTransaction(Parcel Parcel, Pageable pageable) {
         return mpesaTransactionsRepository.findAllByParcel(Parcel,pageable);
+    }
+
+    public mpesatransactions getTransaction(String phoneNumber,String amount){
+
+        return mpesaTransactionsRepository.fetchTransaction(phoneNumber,amount);
     }
 }

@@ -4,6 +4,8 @@ import com.anvil.rakoi.anvil.entities.Pojos.*;
 import com.anvil.rakoi.anvil.entities.mpesatransactions;
 import com.anvil.rakoi.anvil.repos.MpesaTransactionsRepository;
 import com.anvil.rakoi.anvil.services.DarajaImpl;
+import com.anvil.rakoi.anvil.services.MpesaTransactionsImpl;
+import com.anvil.rakoi.anvil.services.MpesaTransactionsInt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -23,7 +25,7 @@ public class MpesaRestController  {
 
 
     @Autowired
-    MpesaTransactionsRepository mpesaTransactionsRepository;
+    MpesaTransactionsImpl mpesaTransactionsImpl;
 
 
 
@@ -94,7 +96,7 @@ public class MpesaRestController  {
             }
 
             System.out.println(transaction.toString());
-            mpesaTransactionsRepository.save(transaction);
+            mpesaTransactionsImpl.saveTransaction(transaction);
 
         }
 
@@ -113,5 +115,16 @@ public class MpesaRestController  {
             e.printStackTrace();
             return null;
         }
+    }
+
+
+    @PostMapping(value = "/getTransactionDetails",produces = "application/json")
+    public ResponseEntity<mpesatransactions> getMpesaTransaction(@RequestBody IntenalPushRequest intenalPushRequest)  {
+
+        System.out.println("*********Transaction is *********");
+        System.out.println(intenalPushRequest.toString());
+        return ResponseEntity.ok( mpesaTransactionsImpl.getTransaction(intenalPushRequest.getPhoneNumber(),intenalPushRequest.getAmount()));
+
+
     }
 }
