@@ -2,7 +2,7 @@ package com.anvil.rakoi.anvil.entities.Pojos;
 
 public class IntenalPushRequest {
 
-    public String amount;
+     public String amount;
     public String phoneNumber;
     public String mpesaCode;
     public IntenalPushRequest() {

@@ -15,8 +15,11 @@ public interface MpesaTransactionsRepository extends PagingAndSortingRepository<
 
     mpesatransactions getById(int id);
 
-    @Query(value="select max(id), id,parcel_id,date,amount,phone_number,mpesa_receipt_number,merchant_requestid, DATE_FORMAT(date, '%Y-%m-%d')  from mpesatransactions where amount=:amount and date=curdate() and phone_number=:phoneNumber group by id",nativeQuery = true)
+    @Query(value="select id,parcel_id,date,amount,phone_number,mpesa_receipt_number,merchant_requestid, DATE_FORMAT(date, '%Y-%m-%d')  from mpesatransactions where amount=:amount and date_format(date, '%Y%m%d%H')=date_format(now(), '%Y%m%d%H') and phone_number=:phoneNumber order by id desc limit 0,1",nativeQuery = true)
     mpesatransactions fetchTransaction(String phoneNumber, String amount);
+
+    @Query(value="select * from mpesatransactions where mpesa_receipt_number=:receiptNumber",nativeQuery = true)
+    mpesatransactions findByMpesaReceiptNumber(String receiptNumber);
     Page<mpesatransactions> findAll(Pageable pageable);
     Page<mpesatransactions>  findAllByParcel(Parcel parcel, Pageable pageable);
 

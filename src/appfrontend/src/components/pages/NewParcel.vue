@@ -297,7 +297,7 @@
 
             <label>Mpesa Code</label>
          
-            <input class="form-control"  v-model="mpesaData.MpesaReceiptNumber" />
+            <input class="form-control"  v-model="mpesaData.mpesaCode" />
             <div class="row">
               <div class="col-md-6">
                 <b-button class="mt-3 btn-block" @click="sendPush()"
@@ -390,6 +390,7 @@ export default {
                     amount:mpesaData.amount
                 }).then((resp)=>{
                     console.log(resp)
+                     setTimeout(this.fetchMpesaTransaction,10000);
                 }).catch(()=>{
                     Vue.$toast.open({
                     message: 'Error calling push request',
@@ -398,7 +399,7 @@ export default {
                 });
                 })
 
-                setTimeout(this.fetchMpesaTransaction,2000);
+               
         },
         fetchMpesaTransaction(){
             let mpesaData=this.mpesaData;
@@ -409,11 +410,9 @@ export default {
                 }).then((resp)=>{
                     console.log('*****************')
                     this.mpesaData.amount=parseInt(mpesaData.amount)+0;
-                    this.mpesaData.MpesaReceiptNumber=resp.data.MpesaReceiptNumber;
-                    console.log(resp.data.MpesaReceiptNumber)
-                    console.log('this receipt number is '+this.mpesaData.MpesaReceiptNumber)
+                    this.mpesaData.mpesaCode=resp.data.MpesaReceiptNumber;
+                 
                     console.log(resp.data)
-                    console.log('*****************')
                 }).catch(()=>{
                     Vue.$toast.open({
                     message: 'Error Fetching transaction details',

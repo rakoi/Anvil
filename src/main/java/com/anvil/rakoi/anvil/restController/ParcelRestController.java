@@ -7,6 +7,7 @@ import com.anvil.rakoi.anvil.repos.ParcelRepository;
 import com.anvil.rakoi.anvil.repos.StationRepository;
 import com.anvil.rakoi.anvil.security.MyUserDetails;
 import com.anvil.rakoi.anvil.services.ClientServiceImp;
+import com.anvil.rakoi.anvil.services.MpesaTransactionsImpl;
 import com.anvil.rakoi.anvil.services.SmsSender;
 import com.anvil.rakoi.anvil.util.StringFunctions;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -54,6 +55,9 @@ public class ParcelRestController {
 
 	@Autowired
 	ParcelRepository parcelRepository;
+
+	@Autowired
+	MpesaTransactionsImpl mpesaTransactionsRepository;
 
 
 
@@ -177,6 +181,8 @@ public class ParcelRestController {
 		String parcelJson=new Gson().toJson(saveParcelEntity.get("parcel"));
 		Parcel parcel=gson.fromJson(parcelJson,Parcel.class);
 
+
+
 		String senderJson=new Gson().toJson(saveParcelEntity.get("sender"));
 		Client sender=gson.fromJson(senderJson,Client.class);
 
@@ -184,10 +190,8 @@ public class ParcelRestController {
 		IntenalPushRequest mpesaData=gson.fromJson(mpesaTransaction,IntenalPushRequest.class);
 
 
-		System.out.println(mpesaData.toString());
 
 
-		System.out.println(sender.toString());
 
 		String receiverJson=new Gson().toJson(saveParcelEntity.get("reciever"));
 		Client reciever=gson.fromJson(receiverJson,Client.class);
@@ -217,6 +221,39 @@ public class ParcelRestController {
 
 
 		Parcel savedParcel =parcelService.SaveParcel(parcel);
+		if(mpesaData!=null && parcel.getPayment_method().toString().equals("M-PESA") ){
+			mpesatransactions transaction=new mpesatransactions();
+			transaction.setParcel(savedParcel);
+			System.out.println("Mpesa data is present");
+			//check if  transaction is in callbacks
+
+			System.out.println("fetching by receipt number"+mpesaData.getMpesaCode());
+			System.out.println(mpesaTransactionsRepository.findByMpesaReceiptNumber(mpesaData.getMpesaCode()));
+
+			if(mpesaTransactionsRepository.findByMpesaReceiptNumber(mpesaData.getMpesaCode())==null) {
+				System.out.println("WILL SAVE");
+				transaction.setAmount(Float.parseFloat(mpesaData.getAmount()));
+				transaction.setDate(StringFunctions.getCurrentTimestamp());
+				transaction.setPhoneNumber(mpesaData.getPhoneNumber());
+				transaction.setParcel(savedParcel);
+				transaction.setMpesaReceiptNumber(mpesaData.getMpesaCode());
+				mpesaTransactionsRepository.saveTransaction(transaction);
+
+			}else{
+				mpesatransactions mpesatransaction= mpesaTransactionsRepository.findByMpesaReceiptNumber(mpesaData.getMpesaCode());
+				mpesatransaction.setParcel(savedParcel);
+				mpesaTransactionsRepository.saveTransaction(mpesatransaction);
+
+			}
+		}
+
+		System.out.println("_------------------");
+		System.out.println(mpesaData.toString());
+		System.out.println("_------------------");
+
+
+		System.out.println(sender.toString());
+
 
 
 		try{

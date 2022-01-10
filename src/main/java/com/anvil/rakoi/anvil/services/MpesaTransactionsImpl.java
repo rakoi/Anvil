@@ -39,4 +39,8 @@ public class MpesaTransactionsImpl  implements MpesaTransactionsInt{
 
         return mpesaTransactionsRepository.fetchTransaction(phoneNumber,amount);
     }
+    public mpesatransactions findByMpesaReceiptNumber(String receiptNo){
+
+        return mpesaTransactionsRepository.findByMpesaReceiptNumber(receiptNo);
+    }
 }
