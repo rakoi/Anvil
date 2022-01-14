@@ -214,14 +214,13 @@ public class ParcelRestController {
 		parcel.setTimestamp(dtf.format(now));
 
 
-	/*	if(String.valueOf(parcel.getId())!=null){
+		if(String.valueOf(parcel.getId())!=null){
 
 			String SenderTextMessage="Your Parcel has been sent to "+parcel.getDestination().name +" from "+parcel.getOrigin().getName();
 			String RecieverMessage="A  Parcel has been sent to you by "+parcel.getSender().getNames() +" from "+parcel.getOrigin().getName()+" You will be notified once it arrives";
 			smsService.sendMessage(sender.getPhone(),SenderTextMessage);
 			//smsService.sendMessage(reciever.getPhone(),RecieverMessage);
 		}
-*/
 
 		Parcel savedParcel =parcelService.SaveParcel(parcel);
 		if(gson.fromJson(parcelJson,Parcel.class).getId()==0 && mpesaData!=null && parcel.getPayment_method().toString().equals("M-PESA") ){
