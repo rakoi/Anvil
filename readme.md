@@ -17,8 +17,7 @@ Invoices
 
 Drivers Module allows driver to start a trip setting the destination and origin.
 This is done via a mobile app or the web application.
-<img src="https://github.com/rakoi/Anvil/blob/master/screenshots/startTrip.png
-">
+<img src="https://github.com/rakoi/Anvil/blob/master/screenshots/startTrip.png">
 
 
 The admin will be able to view the location of the driver on the view trip page.
