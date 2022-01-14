@@ -144,6 +144,34 @@ LOCK TABLES `expenses` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `invoice`
+--
+
+DROP TABLE IF EXISTS `invoice`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `invoice` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `parcel_id` int DEFAULT NULL,
+  `date` varchar(23) DEFAULT NULL,
+  `status` varchar(24) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `parcel_id` (`parcel_id`),
+  CONSTRAINT `invoice_ibfk_1` FOREIGN KEY (`parcel_id`) REFERENCES `parcel` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `invoice`
+--
+
+LOCK TABLES `invoice` WRITE;
+/*!40000 ALTER TABLE `invoice` DISABLE KEYS */;
+INSERT INTO `invoice` VALUES (1,38,'now()','NOT PAID'),(2,54,'20220114112114','Not Paid'),(3,55,'20220114112446','Not Paid'),(4,59,'20220114115457','Not Paid');
+/*!40000 ALTER TABLE `invoice` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `journal`
 --
 
@@ -195,7 +223,7 @@ CREATE TABLE `mpesatransactions` (
   PRIMARY KEY (`id`),
   KEY `parcel_id` (`parcel_id`),
   CONSTRAINT `mpesatransactions_ibfk_1` FOREIGN KEY (`parcel_id`) REFERENCES `parcel` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -204,7 +232,7 @@ CREATE TABLE `mpesatransactions` (
 
 LOCK TABLES `mpesatransactions` WRITE;
 /*!40000 ALTER TABLE `mpesatransactions` DISABLE KEYS */;
-INSERT INTO `mpesatransactions` VALUES (1,1,'254702164611','PLV3XGQI9B','15321-40079386-1',NULL,'20211231173427');
+INSERT INTO `mpesatransactions` VALUES (1,1,'254702164611','PLV3XGQI9B','15321-40079386-1',NULL,'20211231173427'),(2,1,'254702164611','QA90DBO6B0','10462-6200498-1',NULL,'20220109'),(3,1,'254702164611','QA91DCIEZ9','101307-42662256-1',NULL,'20220109180804'),(4,2,'254702164611','QAA2EAULRU','33601-3141581-1',40,'20220110120832'),(5,1,'254702164611','QAA4ECJT1Y','51695-44801637-1',NULL,'20220110113753'),(6,1,'254702164611','QAA0ECMSNG','3521-33032581-1',NULL,'20220110113908'),(9,0,NULL,NULL,NULL,38,NULL),(10,1,'254702164611',NULL,NULL,43,'20220110125338'),(11,12,'0702164611','testrec','test',NULL,NULL),(12,12,'0702164611','testrec','test',NULL,NULL),(13,1,'254702164611','QAE4KY98AI','16830-3031676-1',NULL,'20220114105954'),(14,1,'254702164611','QAE0KYYV6U','10481-17252539-1',NULL,'20220114111229'),(15,1,'254702164611','QUALSU12',NULL,NULL,'20220114112114');
 /*!40000 ALTER TABLE `mpesatransactions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -235,7 +263,7 @@ CREATE TABLE `parcel` (
   KEY `client_id` (`reciever`),
   KEY `trip_id` (`trip_id`),
   KEY `sender_id` (`sender`)
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -244,7 +272,7 @@ CREATE TABLE `parcel` (
 
 LOCK TABLES `parcel` WRITE;
 /*!40000 ALTER TABLE `parcel` DISABLE KEYS */;
-INSERT INTO `parcel` VALUES (8,15,NULL,'1','3','TECHNO MOBILE PHONE',1,500,500,'invoice',1,_binary '0','2021/11/26 11:06:34',NULL,2),(9,15,NULL,'3','1','test',1,200,1000,'cash',1,_binary '0','2021/07/12 07:53:39',NULL,1),(11,15,NULL,'3','1','ONE MOBILE PHONE',1,200,479,'cash',11,_binary '0','2021/07/12 07:57:15',NULL,1),(13,15,NULL,'1','3','ONE MOBILE PHONE',1,200,479,'cash',11,_binary '1','2021/11/25 17:13:56',NULL,1),(14,15,NULL,'1','3','ONE MOBILE PHONE',1,500,500,'cash',1,_binary '0','2021/07/07 08:34:56',NULL,2),(15,15,NULL,'3','1','ONE MOBILE PHONE',1,200,479,'cash',11,_binary '0','2021/07/12 07:56:04',NULL,1),(16,15,NULL,'3','1','ONE MOBILE PHONE',1,200,479,'cash',11,_binary '0','2021/07/12 07:56:04',NULL,1),(17,15,NULL,'3','1','test',1,200,1000,'cash',1,_binary '0','2021/07/12 07:53:39',NULL,1),(19,15,NULL,'3','1','ONE MOBILE PHONE',1,200,479,'cash',11,_binary '0','2021/07/12 07:56:04',NULL,1),(21,15,NULL,'3','1','test',1,200,1000,'cash',1,_binary '0','2021/07/12 07:53:39',NULL,1),(23,15,NULL,'2','1','Candles',1,300,300,'invoice',1,NULL,'2021/11/24 16:20:54',NULL,1),(24,24,NULL,'2','1','Chrismas tree',1,300,300,'cash',2,NULL,'2021/11/26 12:43:30',NULL,1),(25,24,NULL,'2','1','Chrismas tree',1,500,500,'cash',2,NULL,'2021/11/26 12:53:18',NULL,1),(26,25,NULL,'2','1','Protein Suppliments',1,100,100,'cash',12,NULL,'2021/12/13 12:50:41',NULL,26),(27,27,NULL,'2','1','Sweets',2,2400,2400,'cash',12,NULL,'2021/12/13 12:56:58',NULL,28),(28,29,NULL,'2','1','Sweets',1,1,21,'cash',1,NULL,'2021/12/13 13:02:29',NULL,30),(29,31,NULL,'2','1','Sweets',1,1,1,'cash',1,NULL,'2021/12/13 13:07:59',NULL,32),(30,1,NULL,'2','1','121',1,100,100,'cash',12,NULL,'2021/12/13 13:13:15',NULL,33),(31,1,NULL,'2','1','12',12,12,12,'cash',22,NULL,'2021/12/13 13:17:04',NULL,34),(32,35,NULL,'2','1','12',12,12,12,'cash',12,NULL,'2021/12/13 13:21:31',NULL,36);
+INSERT INTO `parcel` VALUES (8,15,NULL,'1','3','TECHNO MOBILE PHONE',1,500,500,'invoice',1,_binary '0','2021/11/26 11:06:34',NULL,2),(9,15,NULL,'3','1','test',1,200,1000,'cash',1,_binary '0','2021/07/12 07:53:39',NULL,1),(11,15,NULL,'3','1','ONE MOBILE PHONE',1,200,479,'cash',11,_binary '0','2021/07/12 07:57:15',NULL,1),(13,15,NULL,'1','3','ONE MOBILE PHONE',1,200,479,'cash',11,_binary '1','2021/11/25 17:13:56',NULL,1),(14,15,NULL,'1','3','ONE MOBILE PHONE',1,500,500,'cash',1,_binary '0','2021/07/07 08:34:56',NULL,2),(15,15,NULL,'3','1','ONE MOBILE PHONE',1,200,479,'cash',11,_binary '0','2021/07/12 07:56:04',NULL,1),(16,15,NULL,'3','1','ONE MOBILE PHONE',1,200,479,'cash',11,_binary '0','2021/07/12 07:56:04',NULL,1),(17,15,NULL,'3','1','test',1,200,1000,'cash',1,_binary '0','2021/07/12 07:53:39',NULL,1),(19,15,NULL,'3','1','ONE MOBILE PHONE',1,200,479,'cash',11,_binary '0','2021/07/12 07:56:04',NULL,1),(21,15,NULL,'3','1','test',1,200,1000,'cash',1,_binary '0','2021/07/12 07:53:39',NULL,1),(23,15,NULL,'2','1','Candles',1,300,300,'invoice',1,NULL,'2021/11/24 16:20:54',NULL,1),(24,24,NULL,'2','1','Chrismas tree',1,300,300,'cash',2,NULL,'2021/11/26 12:43:30',NULL,1),(25,24,NULL,'2','1','Chrismas tree',1,500,500,'cash',2,NULL,'2021/11/26 12:53:18',NULL,1),(26,25,NULL,'2','1','Protein Suppliments',1,100,100,'cash',12,NULL,'2021/12/13 12:50:41',NULL,26),(27,27,NULL,'2','1','Sweets',2,2400,2400,'cash',12,NULL,'2021/12/13 12:56:58',NULL,28),(28,29,NULL,'2','1','Sweets',1,1,21,'cash',1,NULL,'2021/12/13 13:02:29',NULL,30),(29,31,NULL,'2','1','Sweets',1,1,1,'cash',1,NULL,'2021/12/13 13:07:59',NULL,32),(30,1,NULL,'2','1','121',1,100,100,'cash',12,NULL,'2021/12/13 13:13:15',NULL,33),(31,1,NULL,'2','1','12',12,12,12,'cash',22,NULL,'2021/12/13 13:17:04',NULL,34),(32,35,NULL,'2','1','12',12,12,12,'cash',12,NULL,'2021/12/13 13:21:31',NULL,36),(33,1,NULL,'2','1','description',1,200,200,'M-PESA',1,NULL,'2022/01/10 11:46:13',NULL,15),(34,15,NULL,'2','1','wwesd',23,23,23,'M-PESA',1,NULL,'2022/01/10 11:49:04',NULL,1),(35,15,NULL,'2','1','12',1,1,1,'M-PESA',112,NULL,'2022/01/10 12:13:23',NULL,1),(36,15,NULL,'2','1','test',12,12,12,'M-PESA',12,NULL,'2022/01/10 12:29:26',NULL,1),(37,15,NULL,'2','1','ds',1,1,1,'M-PESA',1,NULL,'2022/01/10 12:34:39',NULL,1),(38,15,NULL,'2','1','sesd',12,12,12,'M-PESA',12,NULL,'2022/01/10 12:39:24',NULL,1),(39,1,NULL,'2','1','dssdd',1,1,1,'M-PESA',1,NULL,'2022/01/10 12:41:27',NULL,15),(40,1,NULL,'2','1','dssd',23,23,12,'M-PESA',12,NULL,'2022/01/10 12:46:47',NULL,15),(41,15,NULL,'2','1','DFDFD',1,1,1,'M-PESA',1,NULL,'2022/01/10 12:48:48',NULL,1),(42,15,NULL,'2','1','sdsd',12,12,12,'M-PESA',12,NULL,'2022/01/10 12:51:44',NULL,1),(43,15,NULL,'2','1','ewew',1,1,1,'M-PESA',1,NULL,'2022/01/10 12:53:36',NULL,1),(44,15,NULL,'2','1','sds',1,1,1200,'cash',1,NULL,'2022/01/10 12:55:05',NULL,1),(45,1,NULL,'2','1','Sweets',1,1,1,'M-PESA',1,NULL,'2022/01/14 10:49:39',NULL,15),(46,1,NULL,'2','1','test',2,1,1,'M-PESA',1,NULL,'2022/01/14 10:53:22',NULL,1),(47,15,NULL,'2','1','dsjns',1,1,1,'M-PESA',1,NULL,'2022/01/14 11:00:58',NULL,1),(48,15,NULL,'2','1','dsjns',1,1,1,'M-PESA',1,NULL,'2022/01/14 11:00:49',NULL,1),(49,15,NULL,'2','1','12',1,1,1,'M-PESA',1,NULL,'2022/01/14 11:07:02',NULL,1),(50,1,NULL,'2','1','1',1,1,1,'M-PESA',1,NULL,'2022/01/14 11:09:40',NULL,15),(51,15,NULL,'2','1','1',1,1,1,'M-PESA',1,NULL,'2022/01/14 11:13:23',NULL,1),(52,15,7,'2','1','edsd',2,1,1,'M-PESA',1,NULL,'2022/01/14 11:16:24',NULL,1),(53,15,NULL,'2','1','snjsnd',1,1,1,'M-PESA',1,NULL,'2022/01/14 11:18:05',NULL,1),(54,15,NULL,'2','1','dsdsdsd',1,1,1,'M-PESA',1,NULL,'2022/01/14 11:21:14',NULL,1),(55,15,NULL,'2','1','test saving',1,1,1,'M-PESA',11,NULL,'2022/01/14 11:48:58',NULL,1),(56,15,NULL,'2','1','dssd',1,1,1,'invoice',1,NULL,'2022/01/14 11:50:15',NULL,1),(57,15,NULL,'2','1','ddsndsk',1,1,1,'invoice',1,NULL,'2022/01/14 11:52:35',NULL,1),(58,15,NULL,'2','1','test',1,1,1,'cash',1,NULL,'2022/01/14 11:53:46',NULL,1),(59,15,NULL,'2','1','test',1,1,1,'invoice',1,NULL,'2022/01/14 11:54:57',NULL,1);
 /*!40000 ALTER TABLE `parcel` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -452,4 +480,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-12-31 17:35:16
+-- Dump completed on 2022-01-14 12:40:14
