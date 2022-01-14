@@ -30,6 +30,13 @@ public class Parcel {
 	@JsonIgnore
 	public Trip trip;
 
+/*
+
+	@OneToOne(mappedBy = "parcel")
+	@JsonIgnoreProperties("parcel")
+	public Invoice invoice;
+*/
+
 
 
 	@OneToMany(mappedBy="parcel",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
@@ -50,6 +57,7 @@ public class Parcel {
 	@OneToMany(mappedBy="parcel")
 	@JsonIgnoreProperties("parcel")
 	private Set<Journal> journalEntry;
+
 
 
 
@@ -170,6 +178,28 @@ public class Parcel {
 		this.description = description;
 		this.collected = collected;
 	}
+
+/*
+	public Parcel(int id, Client reciever, Client sender, Trip trip, Invoice invoice, Set<mpesatransactions> mpesaTransactions, Station origin, Station destination, Set<Journal> journalEntry, String payment_method, int quantity, double amount_paid, double price, int kilograms, String timestamp, String description, Boolean collected) {
+		this.id = id;
+		this.reciever = reciever;
+		this.sender = sender;
+		this.trip = trip;
+		this.invoice = invoice;
+		this.mpesaTransactions = mpesaTransactions;
+		this.origin = origin;
+		this.destination = destination;
+		this.journalEntry = journalEntry;
+		this.payment_method = payment_method;
+		this.quantity = quantity;
+		this.amount_paid = amount_paid;
+		this.price = price;
+		this.kilograms = kilograms;
+		this.timestamp = timestamp;
+		this.description = description;
+		this.collected = collected;
+	}
+*/
 
 	public Boolean getCollected() {
 		return collected;
@@ -316,4 +346,14 @@ public class Parcel {
 	public void setMpesaTransactions(Set<mpesatransactions> mpesaTransactions) {
 		this.mpesaTransactions = mpesaTransactions;
 	}
+
+/*
+	public Invoice getInvoice() {
+		return invoice;
+	}
+
+	public void setInvoice(Invoice invoice) {
+		this.invoice = invoice;
+	}
+*/
 }

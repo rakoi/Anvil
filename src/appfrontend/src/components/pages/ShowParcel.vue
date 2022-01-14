@@ -162,8 +162,8 @@ export default {
     },
     created() {
         let url = '/parcel/getParcel/' + this.$route.params.id;
-        this.labelUrl=process.env.VUE_APP_SERVER_URL+'/label/'+this.$route.params.id+'.png';
-   
+        this.labelUrl=process.env.VUE_APP_SERVICE_URB+'label/'+this.$route.params.id+'.png';
+
         HTTP.get('stations/all').then((resp) => {
             this.stations = resp.data;
         })

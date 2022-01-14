@@ -6,9 +6,7 @@ import com.anvil.rakoi.anvil.entities.Pojos.IntenalPushRequest;
 import com.anvil.rakoi.anvil.repos.ParcelRepository;
 import com.anvil.rakoi.anvil.repos.StationRepository;
 import com.anvil.rakoi.anvil.security.MyUserDetails;
-import com.anvil.rakoi.anvil.services.ClientServiceImp;
-import com.anvil.rakoi.anvil.services.MpesaTransactionsImpl;
-import com.anvil.rakoi.anvil.services.SmsSender;
+import com.anvil.rakoi.anvil.services.*;
 import com.anvil.rakoi.anvil.util.StringFunctions;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.gson.Gson;
@@ -24,8 +22,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
-import com.anvil.rakoi.anvil.services.ParcelServiceImpl;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -59,6 +55,8 @@ public class ParcelRestController {
 	@Autowired
 	MpesaTransactionsImpl mpesaTransactionsRepository;
 
+	@Autowired
+	InvoiceServiceInterfaceImpl invoiceService;
 
 
 
@@ -183,6 +181,7 @@ public class ParcelRestController {
 
 
 
+
 		String senderJson=new Gson().toJson(saveParcelEntity.get("sender"));
 		Client sender=gson.fromJson(senderJson,Client.class);
 
@@ -191,7 +190,11 @@ public class ParcelRestController {
 
 
 
+		System.out.println("-----");
+		System.out.println("Parcel id is "+parcel.getId());
+		System.out.println(parcel.getId()==0);
 
+		System.out.println("-----");
 
 		String receiverJson=new Gson().toJson(saveParcelEntity.get("reciever"));
 		Client reciever=gson.fromJson(receiverJson,Client.class);
@@ -211,17 +214,17 @@ public class ParcelRestController {
 		parcel.setTimestamp(dtf.format(now));
 
 
-		if(String.valueOf(parcel.getId())!=null){
+	/*	if(String.valueOf(parcel.getId())!=null){
 
 			String SenderTextMessage="Your Parcel has been sent to "+parcel.getDestination().name +" from "+parcel.getOrigin().getName();
 			String RecieverMessage="A  Parcel has been sent to you by "+parcel.getSender().getNames() +" from "+parcel.getOrigin().getName()+" You will be notified once it arrives";
 			smsService.sendMessage(sender.getPhone(),SenderTextMessage);
-			smsService.sendMessage(reciever.getPhone(),RecieverMessage);
+			//smsService.sendMessage(reciever.getPhone(),RecieverMessage);
 		}
-
+*/
 
 		Parcel savedParcel =parcelService.SaveParcel(parcel);
-		if(mpesaData!=null && parcel.getPayment_method().toString().equals("M-PESA") ){
+		if(gson.fromJson(parcelJson,Parcel.class).getId()==0 && mpesaData!=null && parcel.getPayment_method().toString().equals("M-PESA") ){
 			mpesatransactions transaction=new mpesatransactions();
 			transaction.setParcel(savedParcel);
 			System.out.println("Mpesa data is present");
@@ -247,12 +250,15 @@ public class ParcelRestController {
 			}
 		}
 
-		System.out.println("_------------------");
-		System.out.println(mpesaData.toString());
-		System.out.println("_------------------");
+		if(gson.fromJson(parcelJson,Parcel.class).getId()==0&&parcel.getPayment_method().toString().equals("invoice") ){
+			System.out.println("Saving invoice");
+			Invoice invoice=new Invoice();
+			invoice.setParcel(parcel);
+			invoice.setStatus("Not Paid");
+			invoice.setDate(StringFunctions.getCurrentTimestamp());
+			invoiceService.saveInvoice(invoice);
+		}
 
-
-		System.out.println(sender.toString());
 
 
 
@@ -274,7 +280,8 @@ public class ParcelRestController {
 
 	@GetMapping("/sendSmS")
 	public ResponseEntity<?> sendSms(){
-		return  new ResponseEntity<>(smsService.sendMessage("+254702164611","hello"),HttpStatus.OK);
+			return  new ResponseEntity<>(smsService.sendMessage("+254702164611","hello"),HttpStatus.OK);
+
 	}
 
 }

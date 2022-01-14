@@ -300,9 +300,11 @@
             <input class="form-control"  v-model="mpesaData.mpesaCode" />
             <div class="row">
               <div class="col-md-6">
+               <b-button class="mt-3 btn-block" @click="fetchMpesaTransaction()"
+                  >Fetch Code</b-button>
                 <b-button class="mt-3 btn-block" @click="sendPush()"
-                  >Send Push</b-button
-                >
+                  >Send Push</b-button>
+                
               </div>
             </div>
           </b-modal>
@@ -408,6 +410,8 @@ export default {
                     phoneNumber:mpesaData.phoneNumber,
                     amount:mpesaData.amount
                 }).then((resp)=>{
+                    console.log('*****************')
+                    console.log(resp.data.MpesaReceiptNumber);
                     console.log('*****************')
                     this.mpesaData.amount=parseInt(mpesaData.amount)+0;
                     this.mpesaData.mpesaCode=resp.data.MpesaReceiptNumber;
