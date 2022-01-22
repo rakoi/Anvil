@@ -8,7 +8,6 @@ import org.springframework.data.domain.Pageable;
 public interface InvoiceServiceInterface {
 
     Page<Invoice> findAll( Pageable pageable);
-    Page<Invoice> findByParcel(Parcel parcel, Pageable pageable);
     Invoice findById(Integer id);
     Invoice saveInvoice(Invoice invoice);
 }

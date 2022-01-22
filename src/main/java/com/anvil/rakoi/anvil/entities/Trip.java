@@ -166,20 +166,5 @@ public class Trip {
 		this.expenses = expenses;
 	}
 
-	@Override
-	public String toString() {
-		return "Trip{" +
-				"id=" + id +
-				", destination='" + destination + '\'' +
-				", origin='" + origin + '\'' +
-				", depature='" + depature + '\'' +
-				", arrival='" + arrival + '\'' +
-				", timestamp='" + timestamp + '\'' +
-				", completed='" + completed + '\'' +
-				", tripExpense=" + tripExpense +
-				", expenses=" + expenses +
-				", parcel=" + parcel +
-				", vehicle=" + vehicle +
-				'}';
-	}
+
 }

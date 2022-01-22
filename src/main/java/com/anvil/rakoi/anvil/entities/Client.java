@@ -29,19 +29,33 @@ public class Client {
 	public Set<Parcel> sentparcel=new HashSet<>();
 
 
+	@JsonIgnore
+	@OneToMany(mappedBy= "client",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+	public Set<Invoice> invoices=new HashSet<>();
 
-	
-	
-	
-	
+
+
+
+
+
+
 	public Client() {
 		super();
 	}
 
 
-
-
-
+	public Client(int id, String first_name, String last_name, String email, String id_number, String phone, int type, Set<Parcel> parcel, Set<Parcel> sentparcel, Set<Invoice> invoices) {
+		this.id = id;
+		this.first_name = first_name;
+		this.last_name = last_name;
+		this.email = email;
+		this.id_number = id_number;
+		this.phone = phone;
+		this.type = type;
+		this.parcel = parcel;
+		this.sentparcel = sentparcel;
+		this.invoices = invoices;
+	}
 
 	public Client(int id, String first_name, String last_name, String email, String id_number, String phone) {
 		super();
@@ -125,6 +139,22 @@ public class Client {
 
 	public String getNames(){
 		return this.first_name+" "+this.last_name;
+	}
+
+	public Set<Parcel> getSentparcel() {
+		return sentparcel;
+	}
+
+	public void setSentparcel(Set<Parcel> sentparcel) {
+		this.sentparcel = sentparcel;
+	}
+
+	public Set<Invoice> getInvoices() {
+		return invoices;
+	}
+
+	public void setInvoices(Set<Invoice> invoices) {
+		this.invoices = invoices;
 	}
 
 	@Override

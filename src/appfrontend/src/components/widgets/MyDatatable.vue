@@ -132,8 +132,17 @@ export default {
             
             let index= value.split(".");
             if(index.length>1){
+
+                if(index.length==2){
+                    return row[index[0]][index[1]];
+                }else if(index.length==3){
+                   // return index[2]
+                  return row[index[0]][index[1]][index[2]]
+                }  
+
                 return row[index[0]][index[1]]
             }
+
             return row[value];
         },
 

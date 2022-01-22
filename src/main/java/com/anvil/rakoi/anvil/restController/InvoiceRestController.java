@@ -2,6 +2,7 @@ package com.anvil.rakoi.anvil.restController;
 
 import com.anvil.rakoi.anvil.entities.Invoice;
 import com.anvil.rakoi.anvil.entities.Parcel;
+import com.anvil.rakoi.anvil.repos.ParcelRepository;
 import com.anvil.rakoi.anvil.services.InvoiceServiceInterfaceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,6 +21,9 @@ public class InvoiceRestController {
     @Autowired
     InvoiceServiceInterfaceImpl invoiceService;
 
+    @Autowired
+    ParcelRepository parcelRepository;
+
     @GetMapping("/all")
     public Page<Invoice> getAll(Pageable pageable) {
 
@@ -30,6 +34,20 @@ public class InvoiceRestController {
 
         try {
           Invoice invoice= invoiceService.findById(id);
+            return ResponseEntity.ok().body(invoice);
+        }catch(Exception e) {
+
+            return ResponseEntity.notFound().build();
+        }
+
+    }
+    @GetMapping("/changePaidStatus/{id}")
+    public ResponseEntity<Invoice> changePaidStatus(@PathVariable("id") int id) {
+
+        try {
+            Invoice invoice= invoiceService.findById(id);
+            invoice.setStatus(!invoice.status);
+            invoiceService.saveInvoice(invoice);
             return ResponseEntity.ok().body(invoice);
         }catch(Exception e) {
 

@@ -9,6 +9,9 @@ import AllTrips from  './components/pages/Trips/AllTrips'
 import NewTrip from './components/pages/Trips/NewTrip'
 import ShowTrip from './components/pages/Trips/ShowTrip'
 import MyTrips from './components/pages/Trips/MyTrips'
+import Invoice from './components/pages/Invoice/index'
+import ShowInvoice from './components/pages/Invoice/show'
+
 const router=new VueRouter({
 
     mode:'history',
@@ -66,6 +69,16 @@ const router=new VueRouter({
             path: '/user/trips', 
             name:'mytrip',
             component:MyTrips
+        },
+        {
+            path: '/invoice', 
+            name:'invoice',
+            component:Invoice
+        },
+        {
+            path: '/invoice/:id', 
+            name:'showInvoice',
+            component:ShowInvoice
         }
     ]
 

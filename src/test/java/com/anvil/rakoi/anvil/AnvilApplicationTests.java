@@ -2,7 +2,10 @@ package com.anvil.rakoi.anvil;
 
 import com.anvil.rakoi.anvil.entities.mpesatransactions;
 import com.anvil.rakoi.anvil.repos.MpesaTransactionsRepository;
+import com.anvil.rakoi.anvil.repos.ParcelPagingAndSortingRepository;
+import com.anvil.rakoi.anvil.repos.ParcelRepository;
 import com.anvil.rakoi.anvil.repos.TripRepository;
+import com.anvil.rakoi.anvil.services.InvoiceServiceInterfaceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,6 +19,17 @@ class AnvilApplicationTests {
 	@Autowired
 	MpesaTransactionsRepository mpesaTransactionsRepository;
 
+	@Autowired
+	ParcelPagingAndSortingRepository parcelPagingAndSortingRepository;
+	@Autowired
+	ParcelRepository parcelRepository;
+	@Autowired
+	InvoiceServiceInterfaceImpl invoiceService;
+
+	@Test
+	void getParcel(){
+		System.out.println(parcelPagingAndSortingRepository.findById(23));
+	}
 
 	@Test
 	void testSaveMpesaTransaction(){
@@ -34,8 +48,8 @@ class AnvilApplicationTests {
 	}
 
 	@Test
-	void getOrigin() {
-
+	void generateInvoices() {
+		invoiceService.generateInvoices();
 
 	}
 

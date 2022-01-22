@@ -38,6 +38,9 @@ Once the driver reaches the destination and finishes the trip the parcels will b
 
 
 <h3><hr>Accounting Module<hr></h3> (WIP)
+execute
+ SET sql_mode = '' ;
+ in mysql to enable invoice generation;
 The  module shows trial balances,balance sheets and also generates invoices for each client.
 The debting and aging report will also show the debtors since invoices are generated.
 The balance sheets will also be generated for each financial period specified.

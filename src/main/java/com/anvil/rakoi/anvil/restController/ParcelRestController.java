@@ -75,14 +75,12 @@ public class ParcelRestController {
 
 	@GetMapping("/getParcel/{id}")
 	public ResponseEntity<Parcel> getParcel(@PathVariable("id") int id) {
-		
-		try {
-			Parcel parcel= parcelServiceImpl.getParcelById(id);
-			return ResponseEntity.ok().body(parcel);
-		}catch(Exception e) {
 
-			return ResponseEntity.notFound().build();
-		}
+
+			Parcel parcel= parcelServiceImpl.getParcelById(id);
+			System.out.println(parcel);
+			return ResponseEntity.ok().body(parcel);
+
 		
 	}
 
@@ -222,6 +220,14 @@ public class ParcelRestController {
 			//smsService.sendMessage(reciever.getPhone(),RecieverMessage);
 		}
 
+		if(gson.fromJson(parcelJson,Parcel.class).getId()==0&&parcel.getPayment_method().toString().equals("invoice") ){
+			System.out.println("Saving invoice");
+			Invoice invoice=new Invoice();
+			invoice.setStatus(false);
+			invoice.setDate(StringFunctions.getCurrentTimestamp());
+
+			//parcel.setInvoice(invoiceService.saveInvoice(invoice));
+		}
 		Parcel savedParcel =parcelService.SaveParcel(parcel);
 		if(gson.fromJson(parcelJson,Parcel.class).getId()==0 && mpesaData!=null && parcel.getPayment_method().toString().equals("M-PESA") ){
 			mpesatransactions transaction=new mpesatransactions();
@@ -249,14 +255,7 @@ public class ParcelRestController {
 			}
 		}
 
-		if(gson.fromJson(parcelJson,Parcel.class).getId()==0&&parcel.getPayment_method().toString().equals("invoice") ){
-			System.out.println("Saving invoice");
-			Invoice invoice=new Invoice();
-			invoice.setParcel(parcel);
-			invoice.setStatus("Not Paid");
-			invoice.setDate(StringFunctions.getCurrentTimestamp());
-			invoiceService.saveInvoice(invoice);
-		}
+
 
 
 

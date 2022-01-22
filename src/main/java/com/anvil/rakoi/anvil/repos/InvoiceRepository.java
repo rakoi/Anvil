@@ -10,7 +10,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 public interface InvoiceRepository  extends PagingAndSortingRepository<Invoice,Integer> {
 
-    Page<Invoice> findAllByParcel(Parcel parcel, Pageable pageable);
+
     Invoice findById(int  id);
     Page<Invoice> findAll( Pageable pageable);
     Invoice save(Invoice invoice);

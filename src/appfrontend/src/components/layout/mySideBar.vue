@@ -73,29 +73,20 @@
         </div>
       </li>
 
-     
-
-      
-
-     
-
-   
-  
-     
 
       <!-- Divider -->
       <hr class="sidebar-divider">
 
 
-    
-      <!-- Nav Item - Charts -->
-      <li class="nav-item">
-        <a class="nav-link" href="charts.html">
+       <li class="nav-item">
+        <a class="nav-link" href="/invoice">
           <i class="fas fa-fw fa-flag"></i>
-          <span>Reports</span></a>
+          <span>Invoices</span></a>
       </li>
 
 
+    
+     
 
      
       <!-- Nav Item - Charts -->
@@ -117,6 +108,15 @@
           </div>
         </div>
       </li>
+
+       <!-- Nav Item - Charts -->
+      <li class="nav-item">
+        <a class="nav-link" href="charts.html">
+          <i class="fas fa-fw fa-flag"></i>
+          <span>Reports</span></a>
+      </li>
+
+
 
 
        <!-- Nav Item - Utilities Collapse Menu -->

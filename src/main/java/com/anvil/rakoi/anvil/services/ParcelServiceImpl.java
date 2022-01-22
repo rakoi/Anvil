@@ -14,6 +14,7 @@ public class ParcelServiceImpl implements ParcellServiceInterface {
 
 	@Autowired
 	ParcelPagingAndSortingRepository parcelPagingAndSortingRepository;
+	@Autowired
 	ParcelRepository parcelRepository;
 
 
@@ -24,8 +25,9 @@ public class ParcelServiceImpl implements ParcellServiceInterface {
 
 	@Override
 	public Parcel getParcelById(int id) {
-	
-		return parcelPagingAndSortingRepository.findById(id).get();
+		System.out.println("getting parcel by id"+id);
+
+		return parcelRepository.findById(id).get();
 	}
 
 	@Override

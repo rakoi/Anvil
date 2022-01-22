@@ -22,6 +22,7 @@
     "primevue": "^2.6.0",
     "vue": "^2.6.14",
     "vue-autosuggest": "^2.2.0",
+    "vue-html-to-paper": "^1.4.4",
     "vue-js-modal": "^2.0.1",
     "vue-router": "^3.5.1",
     "vue-table-pagination": "^1.1.3",

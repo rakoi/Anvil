@@ -21,9 +21,27 @@ import 'vue-toast-notification/dist/theme-default.css';
 import VModal from "vue-js-modal";
 
 import VueToastify from "vue-toastify";
+import VueHtmlToPaper from 'vue-html-to-paper';
 
+
+const options = {
+  name: '_blank',
+  specs: [
+    'fullscreen=yes',
+    'titlebar=yes',
+    'scrollbars=yes'
+  ],
+  styles: [
+    'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css',
+    'https://unpkg.com/kidlat-css/css/kidlat.css',
+    'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css'
+  ]
+}
+
+Vue.use(VueHtmlToPaper,options);
 
 Vue.use(VueToast);
+
 
 Vue.component("data-table", DataTable);
 Vue.use(VModal);
